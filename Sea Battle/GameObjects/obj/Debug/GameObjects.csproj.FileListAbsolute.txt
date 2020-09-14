@@ -1,0 +1,6 @@
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\bin\Debug\GameObjects.exe.config
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\bin\Debug\GameObjects.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\bin\Debug\GameObjects.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\obj\Debug\GameObjects.csprojResolveAssemblyReference.cache
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\obj\Debug\GameObjects.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\obj\Debug\GameObjects.pdb
