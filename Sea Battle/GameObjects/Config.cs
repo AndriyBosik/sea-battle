@@ -16,7 +16,14 @@ namespace GameObjects
 	public class Config
 	{
 		public static string PROJECT_DIRECTORY = Environment.CurrentDirectory + "../../../";
-		public static string EMPTY_CELL = "empty";
+		public static string EMPTY_CELL = "water";
 		public static string SHIP_CELL = "ship";
+		
+		public static string VERTICAL_ORIENTATION = "Vertical";
+		public static string HORIZONTAL_ORIENTATION = "Horizontal";
+		public static string ONE_DECK_SHIP = "ship";
+		
+		public static int CELL_SIZE = 35;
+		public static int DEFAULT_SHIP_SIZE = 1;
 	}
 }

@@ -10,6 +10,7 @@
 using GameObjects;
 using System;
 using System.Windows.Media;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace GameParts
@@ -19,11 +20,11 @@ namespace GameParts
 	/// </summary>
 	public class Cell
 	{
-		private Point point;
-		private string icon;
-		private ImageBrush image;
+		protected Point point;
+		protected string icon;
+		protected Label image;
 		
-		public ImageBrush Image
+		public Label Image
 		{
 			get
 			{
@@ -31,18 +32,36 @@ namespace GameParts
 			}
 		}
 		
-		public Cell(int x, int y)
-		{
-			point.X = x;
-			point.Y = y;
-			icon = Config.EMPTY_CELL;
-			image = GetImage();
-		}
-		
-		public Cell(int x, int y, string icon): this(x, y)
+		public Cell()
 		{
 			
+		}
+		
+		public Cell(int x, int y)
+		{
+			Init(x, y, Config.EMPTY_CELL);
+		}
+		
+		public Cell(int x, int y, string icon)
+		{
+			Init(x, y, icon);
+		}
+		
+		protected void Init(int x, int y, string icon)
+		{
+			point = new Point(x, y);
 			this.icon = icon;
+			image = GetLabel();
+		}
+		
+		private Label GetLabel()
+		{
+			Label label = new Label();
+			//label.MouseLeftButtonUp = SomeMethod;
+			label.Background = GetImage();
+			//label.Name = SomeName;
+			label.LayoutTransform = new RotateTransform(0);
+			return label;
 		}
 		
 		private ImageBrush GetImage()
@@ -52,7 +71,6 @@ namespace GameParts
 			btm.BeginInit();
 			btm.UriSource = new Uri(path, UriKind.Relative);
 			btm.EndInit();
-			btm.Rotation = Rotation.Rotate90;
 			return new ImageBrush(btm);
 		}
 	}

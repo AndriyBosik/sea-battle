@@ -7,7 +7,10 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
  
+using GameParts;
+
 using GameObjects;
+
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -139,14 +142,14 @@ namespace SeaBattle
 		private void InitGrid(Grid mainGrid)
 		{
 			// Adding grid for field
-			for (int i = 0; i < rows; i++)
-			{
-				mainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(CELL_SIZE) });
-			}
-			for (int j = 0; j < columns; j++)
-			{
-				mainGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(CELL_SIZE) });
-			}
+//			for (int i = 0; i < rows; i++)
+//			{
+//				mainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(CELL_SIZE) });
+//			}
+//			for (int j = 0; j < columns; j++)
+//			{
+//				mainGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(CELL_SIZE) });
+//			}
 			
 			// Adding additional column for radioButtons(Vertical/Horizontal)
 			mainGrid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -157,30 +160,30 @@ namespace SeaBattle
 		
 		private void SetGrid()
 		{
-			
-			Grid mainGrid = new Grid();
-			mainGrid.Margin = new Thickness(MARGIN);
-			
+			Grid mainGrid = new Field(rows, columns);
+//			Grid mainGrid = new Grid();
+//			mainGrid.Margin = new Thickness(MARGIN);
+//			
 			InitGrid(mainGrid);
-			
-			for (int i = 0; i < rows; i++)
-			{
-				for (int j = 0; j < columns; j++)
-				{
-					Label water = new Label();
-					water.MouseLeftButtonUp += PasteShip;
-					water.Background = GetBackground("water");
-					water.Name = preffix + i + separator + j;
-					water.LayoutTransform = new RotateTransform(0);
-					
-					Grid.SetRow(water, i);
-					Grid.SetColumn(water, j);
-					mainGrid.Children.Add(water);
-					
-					field[i][j] = water;
-					status[i][j] = CellStatus.EMPTY;
-				}
-			}
+//			
+//			for (int i = 0; i < rows; i++)
+//			{
+//				for (int j = 0; j < columns; j++)
+//				{
+//					Label water = new Label();
+//					water.MouseLeftButtonUp += PasteShip;
+//					water.Background = GetBackground("water");
+//					water.Name = preffix + i + separator + j;
+//					water.LayoutTransform = new RotateTransform(0);
+//					
+//					Grid.SetRow(water, i);
+//					Grid.SetColumn(water, j);
+//					mainGrid.Children.Add(water);
+//					
+//					field[i][j] = water;
+//					status[i][j] = CellStatus.EMPTY;
+//				}
+//			}
 			
 			RadioButton rbHor = new RadioButton()
 			{
@@ -248,19 +251,6 @@ namespace SeaBattle
 			{
 				field[x][y].Background = GetBackground("ship");
 				status[x][y] = CellStatus.SHIP;
-			} else if (status[x][y] == CellStatus.SHIP)
-			{
-				Label temp = field[x][y];
-				RotateTransform rotation = (RotateTransform)temp.LayoutTransform;
-				int newAngle;
-				if (rotation == null)
-				{
-					newAngle = 0;
-				} else {
-					newAngle = (int)(rotation.Angle + 90) % 360;
-				}
-				temp.LayoutTransform = new RotateTransform(newAngle);
-				//field[x][y] = temp;
 			}
 		}
 		
