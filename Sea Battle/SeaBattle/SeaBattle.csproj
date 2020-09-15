@@ -100,6 +100,10 @@
       <Project>{ae342253-ebbb-43b0-8bd6-53e35a2173f2}</Project>
       <Name>GameObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameParts\GameParts.csproj">
+      <Project>{2e77eefa-99d2-41f4-8370-b2580c4ae84f}</Project>
+      <Name>GameParts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -171,6 +171,7 @@ namespace SeaBattle
 					water.MouseLeftButtonUp += PasteShip;
 					water.Background = GetBackground("water");
 					water.Name = preffix + i + separator + j;
+					water.LayoutTransform = new RotateTransform(0);
 					
 					Grid.SetRow(water, i);
 					Grid.SetColumn(water, j);
@@ -247,6 +248,19 @@ namespace SeaBattle
 			{
 				field[x][y].Background = GetBackground("ship");
 				status[x][y] = CellStatus.SHIP;
+			} else if (status[x][y] == CellStatus.SHIP)
+			{
+				Label temp = field[x][y];
+				RotateTransform rotation = (RotateTransform)temp.LayoutTransform;
+				int newAngle;
+				if (rotation == null)
+				{
+					newAngle = 0;
+				} else {
+					newAngle = (int)(rotation.Angle + 90) % 360;
+				}
+				temp.LayoutTransform = new RotateTransform(newAngle);
+				//field[x][y] = temp;
 			}
 		}
 		
