@@ -135,7 +135,7 @@ namespace SeaBattle
 		{
 			this.SizeToContent = SizeToContent.WidthAndHeight;
 			
-			//this.ResizeMode = ResizeMode.NoResize;
+			this.ResizeMode = ResizeMode.NoResize;
 		}
 		
 		// Adds grid
@@ -151,17 +151,23 @@ namespace SeaBattle
 		
 		private void SetGrid()
 		{
-			Grid mainGrid = new Field(rows, columns);
-
-			InitGrid(mainGrid);
+			SizeToContent = SizeToContent.WidthAndHeight;
+			DockPanel content = new DockPanel();
+			StackPanel fieldWithSizeRadios = new StackPanel();
+			fieldWithSizeRadios.Orientation = Orientation.Vertical;
 			
-			RadioButton rbHor = new RadioButton()
+			Field mainGrid = new Field(rows, columns);
+			
+			StackPanel sizeRadios = new SizeRadios(maxSizeShip, mainGrid);
+			StackPanel orientationGroup = new OrientationGroup(mainGrid);
+			
+			/*RadioButton rbHor = new RadioButton()
 			{
 				Content = HORIZONTAL,
 				GroupName = ORIENTATION_GROUP,
 				IsChecked = true
 			};
-			//rbHor.Checked += ChangeOrientation;
+//			rbHor.Checked += ChangeOrientation;
 			rbHor.Margin = new Thickness(10, 0, 0, 0);
 			
 			RadioButton rbVer = new RadioButton()
@@ -169,10 +175,13 @@ namespace SeaBattle
 				GroupName = ORIENTATION_GROUP,
 				Content = VERTICAL
 			};
-			//rbVer.Checked += ChangeOrientation;
-			rbVer.Margin = new Thickness(10, 0, 0, 0);
+//			rbVer.Checked += ChangeOrientation;
+			rbVer.Margin = new Thickness(10, 0, 0, 0);*/
+			fieldWithSizeRadios.Children.Add(mainGrid);
+			fieldWithSizeRadios.Children.Add(sizeRadios);
+			//DockPanel.SetDock(rbVer, Dock.Right);
 			
-			Grid.SetRow(rbHor, 0);
+			/*Grid.SetRow(rbHor, 0);
 			Grid.SetColumn(rbHor, columns);
 			mainGrid.Children.Add(rbHor);
 			
@@ -180,10 +189,13 @@ namespace SeaBattle
 			Grid.SetColumn(rbVer, columns);
 			mainGrid.Children.Add(rbVer);
 			
-			AddSizeRadios(mainGrid);
+			AddSizeRadios(mainGrid);*/
 			
 			//this.Content = mainGrid;
-			this.Content = mainGrid;
+			DockPanel.SetDock(fieldWithSizeRadios, Dock.Left);
+			content.Children.Add(fieldWithSizeRadios);
+			content.Children.Add(orientationGroup);
+			Content = content;
 		}
 		
 		// Adds radio buttons to change the size of a ship

@@ -20,25 +20,56 @@ namespace GameParts
 	/// </summary>
 	public class Field: Grid
 	{
-		private Label first;
 		private const int MARGIN = 10;
+		
+		private Label first;
+		private string orientation;
+		private int size;
+		
+		public string Orientation
+		{
+			get
+			{
+				return orientation;
+			}
+			set
+			{
+				orientation = value;
+			}
+		}
+		
+		public int Size
+		{
+			get
+			{
+				return size;
+			}
+			set
+			{
+				size = value;
+			}
+		}
 		
 		public Field(int rows, int columns)
 		{
+			this.orientation = Config.HORIZONTAL_ORIENTATION;
+			this.size = 1;
 			this.Margin = new Thickness(10);
 			
 			InitializeGrid(rows, columns);
 			InitializeCells(rows, columns);
 			
-			MouseLeftButtonUp += Change;
+			MouseLeftButtonUp += PasteShip;
 		}
 		
-		private void Change(object sender, MouseButtonEventArgs e)
+		private void PasteShip(object sender, MouseButtonEventArgs e)
 		{
 			var element = (UIElement)e.Source;
 			int row = Grid.GetRow(element);
 			int column = Grid.GetColumn(element);
-			first.Content = row + " " + column;
+			
+			// Here we must paste ship
+			
 		}
 		
 		private void InitializeGrid(int rows, int columns)
@@ -70,6 +101,6 @@ namespace GameParts
 					}
 				}
 			}
-		}
+		} 
 	}
 }
