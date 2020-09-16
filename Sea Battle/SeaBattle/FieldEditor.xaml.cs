@@ -135,21 +135,12 @@ namespace SeaBattle
 		{
 			this.SizeToContent = SizeToContent.WidthAndHeight;
 			
-			this.ResizeMode = ResizeMode.NoResize;
+			//this.ResizeMode = ResizeMode.NoResize;
 		}
 		
 		// Adds grid
 		private void InitGrid(Grid mainGrid)
 		{
-			// Adding grid for field
-//			for (int i = 0; i < rows; i++)
-//			{
-//				mainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(CELL_SIZE) });
-//			}
-//			for (int j = 0; j < columns; j++)
-//			{
-//				mainGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(CELL_SIZE) });
-//			}
 			
 			// Adding additional column for radioButtons(Vertical/Horizontal)
 			mainGrid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -161,29 +152,8 @@ namespace SeaBattle
 		private void SetGrid()
 		{
 			Grid mainGrid = new Field(rows, columns);
-//			Grid mainGrid = new Grid();
-//			mainGrid.Margin = new Thickness(MARGIN);
-//			
+
 			InitGrid(mainGrid);
-//			
-//			for (int i = 0; i < rows; i++)
-//			{
-//				for (int j = 0; j < columns; j++)
-//				{
-//					Label water = new Label();
-//					water.MouseLeftButtonUp += PasteShip;
-//					water.Background = GetBackground("water");
-//					water.Name = preffix + i + separator + j;
-//					water.LayoutTransform = new RotateTransform(0);
-//					
-//					Grid.SetRow(water, i);
-//					Grid.SetColumn(water, j);
-//					mainGrid.Children.Add(water);
-//					
-//					field[i][j] = water;
-//					status[i][j] = CellStatus.EMPTY;
-//				}
-//			}
 			
 			RadioButton rbHor = new RadioButton()
 			{
@@ -191,7 +161,7 @@ namespace SeaBattle
 				GroupName = ORIENTATION_GROUP,
 				IsChecked = true
 			};
-			rbHor.Checked += ChangeOrientation;
+			//rbHor.Checked += ChangeOrientation;
 			rbHor.Margin = new Thickness(10, 0, 0, 0);
 			
 			RadioButton rbVer = new RadioButton()
@@ -199,7 +169,7 @@ namespace SeaBattle
 				GroupName = ORIENTATION_GROUP,
 				Content = VERTICAL
 			};
-			rbVer.Checked += ChangeOrientation;
+			//rbVer.Checked += ChangeOrientation;
 			rbVer.Margin = new Thickness(10, 0, 0, 0);
 			
 			Grid.SetRow(rbHor, 0);
@@ -212,6 +182,7 @@ namespace SeaBattle
 			
 			AddSizeRadios(mainGrid);
 			
+			//this.Content = mainGrid;
 			this.Content = mainGrid;
 		}
 		
@@ -233,66 +204,6 @@ namespace SeaBattle
 			}
 		}
 		
-		// Changes the orientation of the next pasted ship
-		private void ChangeOrientation(object sender, RoutedEventArgs e)
-		{
-			orientation = (string)((RadioButton)sender).Content;
-		}
-		
-		// Puts the ship
-		private void PasteShip(object sender, RoutedEventArgs e)
-		{
-			Label current = (Label)sender;
-			string name = current.Name;
-			int x, y;
-			GetCoords(name, out x, out y);
-			
-			if (status[x][y] == CellStatus.EMPTY && hasNoNeighbours(x, y))
-			{
-				field[x][y].Background = GetBackground("ship");
-				status[x][y] = CellStatus.SHIP;
-			}
-		}
-		
-		private bool hasNoNeighbours(int x, int y)
-		{
-			for (int i = 0; i < xi.Length; i++)
-			{
-				if (insideField(x + xi[i], y + yi[i]) && status[x + xi[i]][y + yi[i]] != CellStatus.EMPTY)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		
-		private bool insideField(int x, int y)
-		{
-			return x >= 0 && x < rows && y >= 0 && y < columns;
-		}
-		
-		private void GetCoords(string name, out int x, out int y)
-		{
-			string coordsWithSeparator = name.Substring(preffix.Length);
-			string[] coords = coordsWithSeparator.Split(separator);
-			x = Int32.Parse(coords[0]);
-			y = Int32.Parse(coords[1]);
-		}
-		
-		// Sets background to the ship
-		private ImageBrush GetBackground(string filename)
-		{
-			string path = Config.projectDirectory + "Icons/" + filename + ".png";
-			BitmapImage btm = new BitmapImage();
-			btm.BeginInit();
-			if (orientation.Equals(VERTICAL))
-			{
-				btm.Rotation = Rotation.Rotate90;
-			}
-			btm.UriSource = new Uri(path, UriKind.Relative);
-			btm.EndInit();
-			return new ImageBrush(btm);
-		}
-		
 	}
+
 }

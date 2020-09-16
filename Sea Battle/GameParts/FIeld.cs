@@ -10,6 +10,7 @@
 using GameObjects;
 using System;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Controls;
 
 namespace GameParts
@@ -18,11 +19,26 @@ namespace GameParts
 	/// Description of FIeld.
 	/// </summary>
 	public class Field: Grid
-	{	
+	{
+		private Label first;
+		private const int MARGIN = 10;
+		
 		public Field(int rows, int columns)
 		{
+			this.Margin = new Thickness(10);
+			
 			InitializeGrid(rows, columns);
 			InitializeCells(rows, columns);
+			
+			MouseLeftButtonUp += Change;
+		}
+		
+		private void Change(object sender, MouseButtonEventArgs e)
+		{
+			var element = (UIElement)e.Source;
+			int row = Grid.GetRow(element);
+			int column = Grid.GetColumn(element);
+			first.Content = row + " " + column;
 		}
 		
 		private void InitializeGrid(int rows, int columns)
@@ -48,6 +64,10 @@ namespace GameParts
 					Grid.SetRow(cell.Image, i);
 					Grid.SetColumn(cell.Image, j);
 					Children.Add(cell.Image);
+					if (i + j == 0)
+					{
+						first = cell.Image;
+					}
 				}
 			}
 		}

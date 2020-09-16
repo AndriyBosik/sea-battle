@@ -82,11 +82,16 @@
       <SubType>Code</SubType>
       <DependentUpon>StartMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="FieldEditor.xaml" />
     <Page Include="FieldSizeWindow.xaml" />
     <Page Include="StartMenu.xaml" />
+    <Page Include="Window1.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
