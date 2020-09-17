@@ -63,6 +63,10 @@
     <ApplicationDefinition Include="App.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
@@ -84,6 +88,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="About.xaml" />
     <Page Include="FieldEditor.xaml" />
     <Page Include="FieldSizeWindow.xaml" />
     <Page Include="StartMenu.xaml" />

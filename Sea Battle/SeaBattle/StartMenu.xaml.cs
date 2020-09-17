@@ -56,5 +56,11 @@ namespace SeaBattle
 			this.Close();
 		}
 		
+		private void ShowAbout(object sender, RoutedEventArgs e)
+		{
+			About about = new About();
+			about.Show();
+		}
+		
 	}
 }

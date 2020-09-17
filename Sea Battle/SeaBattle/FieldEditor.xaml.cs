@@ -137,18 +137,7 @@ namespace SeaBattle
 			
 			this.ResizeMode = ResizeMode.NoResize;
 		}
-		
-		// Adds grid
-		private void InitGrid(Grid mainGrid)
-		{
-			
-			// Adding additional column for radioButtons(Vertical/Horizontal)
-			mainGrid.ColumnDefinitions.Add(new ColumnDefinition());
-			
-			//Adding additional row for radioButtons(the count of decks on next ship)
-			mainGrid.RowDefinitions.Add(new RowDefinition());
-		}
-		
+
 		private void SetGrid()
 		{
 			SizeToContent = SizeToContent.WidthAndHeight;
@@ -160,60 +149,14 @@ namespace SeaBattle
 			
 			StackPanel sizeRadios = new SizeRadios(maxSizeShip, mainGrid);
 			StackPanel orientationGroup = new OrientationGroup(mainGrid);
-			
-			/*RadioButton rbHor = new RadioButton()
-			{
-				Content = HORIZONTAL,
-				GroupName = ORIENTATION_GROUP,
-				IsChecked = true
-			};
-//			rbHor.Checked += ChangeOrientation;
-			rbHor.Margin = new Thickness(10, 0, 0, 0);
-			
-			RadioButton rbVer = new RadioButton()
-			{
-				GroupName = ORIENTATION_GROUP,
-				Content = VERTICAL
-			};
-//			rbVer.Checked += ChangeOrientation;
-			rbVer.Margin = new Thickness(10, 0, 0, 0);*/
+
 			fieldWithSizeRadios.Children.Add(mainGrid);
 			fieldWithSizeRadios.Children.Add(sizeRadios);
-			//DockPanel.SetDock(rbVer, Dock.Right);
-			
-			/*Grid.SetRow(rbHor, 0);
-			Grid.SetColumn(rbHor, columns);
-			mainGrid.Children.Add(rbHor);
-			
-			Grid.SetRow(rbVer, 1);
-			Grid.SetColumn(rbVer, columns);
-			mainGrid.Children.Add(rbVer);
-			
-			AddSizeRadios(mainGrid);*/
-			
-			//this.Content = mainGrid;
+
 			DockPanel.SetDock(fieldWithSizeRadios, Dock.Left);
 			content.Children.Add(fieldWithSizeRadios);
 			content.Children.Add(orientationGroup);
 			Content = content;
-		}
-		
-		// Adds radio buttons to change the size of a ship
-		private void AddSizeRadios(Grid mainGrid)
-		{
-			for (int i = 1; i <= maxSizeShip; i++)
-			{
-				RadioButton rb = new RadioButton()
-				{
-					Content = i.ToString(),
-					GroupName = SIZE_GROUP,
-					IsChecked = i == 1
-				};
-				rb.Margin = new Thickness(10, 0, 0, 0);
-				Grid.SetRow(rb, rows);
-				Grid.SetColumn(rb, i - 1);
-				mainGrid.Children.Add(rb);
-			}
 		}
 		
 	}
