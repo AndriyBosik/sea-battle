@@ -149,14 +149,41 @@ namespace SeaBattle
 			
 			StackPanel sizeRadios = new SizeRadios(maxSizeShip, mainGrid);
 			StackPanel orientationGroup = new OrientationGroup(mainGrid);
-
+			orientationGroup.MinHeight = mainGrid.ActualHeight;
+			
+			StackPanel withBackButton = new StackPanel();
+			withBackButton.Orientation = Orientation.Vertical;
+			withBackButton.Margin = new Thickness(0, 0, 10, 0);
+			
+			Button next = new Button();
+			next.Content = "Next";
+			next.IsEnabled = false;
+			//next.PreviewMouseLeftButtonUp += SomeMethod;
+			
+			Button goBack = new Button();
+			goBack.Content = "Go back";
+			goBack.PreviewMouseLeftButtonDown += ShowMainWindow;
+			
+			withBackButton.Children.Add(orientationGroup);
+			withBackButton.Children.Add(next);
+			withBackButton.Children.Add(goBack);
+			
 			fieldWithSizeRadios.Children.Add(mainGrid);
 			fieldWithSizeRadios.Children.Add(sizeRadios);
 
 			DockPanel.SetDock(fieldWithSizeRadios, Dock.Left);
+			DockPanel.SetDock(withBackButton, Dock.Right);
 			content.Children.Add(fieldWithSizeRadios);
-			content.Children.Add(orientationGroup);
+			content.Children.Add(withBackButton);
 			Content = content;
+		}
+		
+		private void ShowMainWindow(object sender, RoutedEventArgs e)
+		{
+			this.Title = "123";
+			StartMenu start = new StartMenu();
+			start.Show();
+			this.Close();
 		}
 		
 	}

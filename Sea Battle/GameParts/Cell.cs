@@ -22,14 +22,31 @@ namespace GameParts
 	public class Cell
 	{
 		protected Point point;
-		protected string icon;
+		public string icon;
 		protected Label image;
+		protected CellStatus status;
 		
 		public Label Image
 		{
 			get
 			{
 				return image;
+			}
+			set
+			{
+				image = value;
+			}
+		}
+		
+		public CellStatus Status
+		{
+			get
+			{
+				return status;
+			}
+			set
+			{
+				status = value;
 			}
 		}
 		
@@ -50,6 +67,7 @@ namespace GameParts
 		
 		protected void Init(int x, int y, string icon)
 		{
+			status = CellStatus.EMPTY;
 			point = new Point(x, y);
 			this.icon = icon;
 			image = GetLabel();
@@ -58,9 +76,7 @@ namespace GameParts
 		private Label GetLabel()
 		{
 			Label label = new Label();
-			//label.MouseLeftButtonUp = SomeMethod;
 			label.Background = GetImage();
-			//label.Name = SomeName;
 			label.LayoutTransform = new RotateTransform(0);
 			return label;
 		}

@@ -68,6 +68,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Cell.cs" />
+    <Compile Include="Deck.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="OrientationGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

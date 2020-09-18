@@ -16,7 +16,7 @@ namespace SeaBattle
 	public class Config
 	{
 		
-		public static string projectDirectory = Environment.CurrentDirectory + "../../../";
+		public static string projectDirectory = Environment.CurrentDirectory + "/../../";
 		public static string EMPTY_CELL = "empty";
 		public static string SHIP_CELL = "ship";
 		

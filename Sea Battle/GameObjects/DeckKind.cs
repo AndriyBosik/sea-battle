@@ -1,8 +1,8 @@
 ﻿/*
  * Created by SharpDevelop.
  * User: Andriy
- * Date: 09/13/2020
- * Time: 16:00
+ * Date: 09/17/2020
+ * Time: 23:57
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
@@ -11,12 +11,13 @@ using System;
 namespace GameObjects
 {
 	/// <summary>
-	/// Description of Class1.
+	/// Description of DeckKind.
 	/// </summary>
-	public enum CellStatus
+	public enum DeckKind
 	{
-		DECK,
-		EMPTY,
-		DESTROYED_DECK
+		BEGIN,
+		INTERNAL,
+		END,
+		ONE_DECK
 	}
 }
