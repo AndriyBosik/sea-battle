@@ -1,0 +1,6 @@
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Processors\obj\Debug\Processors.csprojResolveAssemblyReference.cache
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Processors\bin\Debug\Processors.exe.config
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Processors\bin\Debug\Processors.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Processors\bin\Debug\Processors.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Processors\obj\Debug\Processors.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Processors\obj\Debug\Processors.pdb

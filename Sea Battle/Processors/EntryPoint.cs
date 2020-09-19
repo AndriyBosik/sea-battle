@@ -1,24 +1,23 @@
 ﻿/*
  * Created by SharpDevelop.
  * User: Andriy
- * Date: 09/13/2020
- * Time: 16:00
+ * Date: 09/19/2020
+ * Time: 22:11
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
 
-namespace GameObjects
+namespace Processors
 {
 	/// <summary>
-	/// Description of Class1.
+	/// Description of EntryPoint.
 	/// </summary>
-	public enum CellStatus
+	public class EntryPoint
 	{
-		DECK,
-		EMPTY,
-		BOMB,
-		OPENED,
-		DESTROYED_DECK
+		public static void Main(string[] args)
+		{
+			
+		}
 	}
 }

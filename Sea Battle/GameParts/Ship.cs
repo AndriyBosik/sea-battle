@@ -23,9 +23,11 @@ namespace GameParts
 		protected int size;
 		protected string orientation;
 		private List<Deck> ship;
+		private bool isDestroyed;
 		
 		public Ship(int x, int y, int size, string orientation)
 		{
+			this.isDestroyed = false;
 			ship = new List<Deck>();
 			this.orientation = orientation;
 			this.size = size;

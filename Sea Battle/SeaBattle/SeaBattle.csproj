@@ -71,7 +71,6 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Config.cs" />
     <Compile Include="FieldEditor.xaml.cs">
       <DependentUpon>FieldEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -108,6 +107,10 @@
     <ProjectReference Include="..\GameParts\GameParts.csproj">
       <Project>{2e77eefa-99d2-41f4-8370-b2580c4ae84f}</Project>
       <Name>GameParts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Processors\Processors.csproj">
+      <Project>{e0a28059-5430-41ed-b008-031003979e2f}</Project>
+      <Name>Processors</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -91,6 +91,10 @@
       <Project>{ae342253-ebbb-43b0-8bd6-53e35a2173f2}</Project>
       <Name>GameObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Processors\Processors.csproj">
+      <Project>{e0a28059-5430-41ed-b008-031003979e2f}</Project>
+      <Name>Processors</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

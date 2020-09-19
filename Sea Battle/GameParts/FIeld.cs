@@ -8,13 +8,13 @@
  */
 
 using GameObjects;
+
+using Processors;
+
 using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
-
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 using System.Collections.Generic;
 
@@ -32,9 +32,8 @@ namespace GameParts
 		private string orientation;
 		private int size;
 		private Cell[][] cells;
-		private List<Ship> ships;
-		
-		private Deck readyDeck;
+		private List<Ship>[] ships;
+		private int maxShipSize;
 		
 		public string Orientation
 		{
@@ -60,16 +59,15 @@ namespace GameParts
 			}
 		}
 		
-		public Field(int rows, int columns)
+		public Field(int rows, int columns, int maxShipSize)
 		{
-			readyDeck = new Deck(0, 0, DeckKind.ONE_DECK, Config.HORIZONTAL_ORIENTATION);
-			
 			this.orientation = Config.HORIZONTAL_ORIENTATION;
 			this.size = 1;
 			this.Margin = new Thickness(10);
 			this.rows = rows;
 			this.columns = columns;
-			this.ships = new List<Ship>();
+			this.maxShipSize = maxShipSize;
+			this.ships = new List<Ship>[maxShipSize + 1];
 			
 			InitializeGrid(rows, columns);
 			InitializeCells(rows, columns);
@@ -96,14 +94,14 @@ namespace GameParts
 			{
 				if (orientation.Equals(Config.VERTICAL_ORIENTATION))
 				{
-					if (!IsInsideField(row + i, column) || !CheckAround(row + i, column))
+					if (!IsInsideField(row + i, column) || !CheckAroundOneDeck(row + i, column))
 					{
 						return false;
 					}
 				}
 				else
 				{
-					if (!IsInsideField(row, column + i) || !CheckAround(row, column + i))
+					if (!IsInsideField(row, column + i) || !CheckAroundOneDeck(row, column + i))
 					{
 						return false;
 					}
@@ -112,7 +110,7 @@ namespace GameParts
 			return true;
 		}
 		
-		private bool CheckAround(int row, int column)
+		private bool CheckAroundOneDeck(int row, int column)
 		{
 			for (int i = -1; i <= 1; i++)
 			{
@@ -142,10 +140,13 @@ namespace GameParts
 		
 		private void Paste(int row, int column)
 		{
+			if (ships[size] != null && !ShipProcessor.CanPasteShip(size, ships[size].Count, maxShipSize))
+			{
+				return;
+			}
+			
 			Ship ship = new Ship(row, column, size, orientation);
 			
-			//cells[0][0].Image = readyDeck.Image;
-			//cells[5][3].Image = GetLabel();
 			for (int i = 0; i < size; i++)
 			{
 				int currentRow = row + i;
@@ -162,32 +163,14 @@ namespace GameParts
 				Grid.SetColumn(deck.Image, currentColumn);
 				Children.Add(deck.Image);
 			}
-			ships.Add(ship);
+			
+			int index = ship.GetSize();
+			if (ships[index] == null)
+			{
+				ships[index] = new List<Ship>();
+			}
+			ships[size].Add(ship);
 		}
-		
-		private Label GetLabel()
-		{
-			Label label = new Label();
-			//label.MouseLeftButtonUp = SomeMethod;
-			label.Background = GetImage();
-			//label.Name = SomeName;
-			label.LayoutTransform = new RotateTransform(0);
-			return label;
-		}
-		
-		private ImageBrush GetImage()
-		{
-			string path = Config.PROJECT_DIRECTORY + "Icons/background.png";
-			BitmapImage btm = new BitmapImage();
-			btm.BeginInit();
-			btm.UriSource = new Uri(path, UriKind.Relative);
-			btm.EndInit();
-			return new ImageBrush(btm);
-		}
-		
-		
-		
-		
 		
 		private void InitializeGrid(int rows, int columns)
 		{

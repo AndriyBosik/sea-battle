@@ -26,7 +26,7 @@ namespace SeaBattle
 		{
 			InitializeComponent();
 			
-			string path = Config.projectDirectory + "Icons/background.png";
+			string path = Config.PROJECT_DIRECTORY + "Icons/background.png";
 			BitmapImage btm = new BitmapImage();
 			btm.BeginInit();
 			btm.UriSource = new Uri(path, UriKind.Relative);
