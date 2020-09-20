@@ -35,6 +35,10 @@ namespace GameParts
 		private List<Ship>[] ships;
 		private int maxShipSize;
 		
+		private SizeRadios sizeRadios;
+		private OrientationGroup orientationGroup;
+		private Button next;
+		
 		public string Orientation
 		{
 			get
@@ -59,8 +63,24 @@ namespace GameParts
 			}
 		}
 		
-		public Field(int rows, int columns, int maxShipSize)
+		public OrientationGroup OrientationGroup
 		{
+			get
+			{
+				return orientationGroup;
+			}
+		}
+		
+		public SizeRadios SizeRadios
+		{
+			get
+			{
+				return sizeRadios;
+			}
+		}
+		
+		public Field(int rows, int columns, int maxShipSize, Button next)
+		{	
 			this.orientation = Config.HORIZONTAL_ORIENTATION;
 			this.size = 1;
 			this.Margin = new Thickness(10);
@@ -68,6 +88,10 @@ namespace GameParts
 			this.columns = columns;
 			this.maxShipSize = maxShipSize;
 			this.ships = new List<Ship>[maxShipSize + 1];
+			
+			this.orientationGroup = new OrientationGroup(this);
+			this.sizeRadios = new SizeRadios(maxShipSize, this);
+			this.next = next;
 			
 			InitializeGrid(rows, columns);
 			InitializeCells(rows, columns);
@@ -170,6 +194,14 @@ namespace GameParts
 				ships[index] = new List<Ship>();
 			}
 			ships[size].Add(ship);
+			if (!ShipProcessor.CanPasteShip(size, ships[size].Count, maxShipSize))
+			{
+				sizeRadios.MakeDisabled(size);
+				if (sizeRadios.AllPasted)
+				{
+					next.IsEnabled = true;
+				}
+			}
 		}
 		
 		private void InitializeGrid(int rows, int columns)

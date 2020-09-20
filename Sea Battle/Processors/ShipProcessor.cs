@@ -17,6 +17,10 @@ namespace Processors
 	{
 		public static int GetMaxShipSize(int rows, int columns)
 		{
+			if (rows*columns < 5)
+			{
+				return 1;
+			}
 			int l = 0;
 			int r = Math.Max(rows, columns);
 			while (r > l + 1)

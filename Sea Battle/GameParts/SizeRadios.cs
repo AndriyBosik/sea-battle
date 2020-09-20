@@ -20,28 +20,41 @@ namespace GameParts
 		private const string GROUP_NAME = "Size";
 		
 		private Field field;
+		private RadioButton[] rbs;
+		private bool allPasted;
+		
+		public bool AllPasted
+		{
+			get
+			{
+				return allPasted;
+			}
+		}
 		
 		public SizeRadios(int count, Field field)
 		{
+			rbs = new RadioButton[count];
 			Init();
 			
 			this.field = field;
 			for (int i = 1; i <= count; i++)
 			{
-				RadioButton rb = new RadioButton()
+				int index = i - 1;
+				rbs[index] = new RadioButton()
 				{
 					Content = i.ToString(),
 					GroupName = GROUP_NAME,
 					IsChecked = i == 1
 				};
-				rb.Margin = new Thickness(10, 0, 0, 0);
-				rb.Checked += ChangeSize;
-				this.Children.Add(rb);
+				rbs[index].Margin = new Thickness(10, 0, 0, 0);
+				rbs[index].Checked += ChangeSize;
+				this.Children.Add(rbs[index]);
 			}
 		}
 		
 		private void Init()
 		{
+			this.allPasted = false;
 			this.Orientation = Orientation.Horizontal;
 			this.Margin = new Thickness(0, 0, 0, 10);
 		}
@@ -51,6 +64,29 @@ namespace GameParts
 			RadioButton sender = (RadioButton)obj;
 			string sSize = (string)sender.Content;
 			field.Size = Int32.Parse(sSize);
+		}
+		
+		public void MakeDisabled(int number)
+		{
+			int index = number - 1;
+			rbs[index].IsEnabled = false;
+			for (int i = index + 1; i < rbs.Length; i++)
+			{
+				if (rbs[i].IsEnabled)
+				{
+					rbs[i].IsChecked = true;
+					return;
+				}
+			}
+			for (int i = 0; i < index; i++)
+			{
+				if (rbs[i].IsEnabled)
+				{
+					rbs[i].IsChecked = true;
+					return;
+				}
+			}
+			allPasted = true;
 		}
 	}
 }

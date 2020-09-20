@@ -30,6 +30,8 @@ namespace SeaBattle
 		public StartMenu()
 		{
 			InitializeComponent();
+			
+			//this.Background = 
 		}
 		
 		private void ExitApplication(object sender, RoutedEventArgs e)
@@ -37,7 +39,7 @@ namespace SeaBattle
 			Application.Current.Shutdown();
 		}
 		
-		private void AskSize(object sender, RoutedEventArgs e)
+		private void AskSizeForTwoPlayersMode(object sender, RoutedEventArgs r)
 		{
 			FieldSizeWindow fieldSizeWindow = new FieldSizeWindow();
 			if (fieldSizeWindow.ShowDialog() == true)
@@ -47,6 +49,11 @@ namespace SeaBattle
 				
 				OpenFieldEditor();
 			}
+		}
+		
+		private void AskSizeForSingleMode(object sender, RoutedEventArgs e)
+		{
+			AskSizeForTwoPlayersMode(sender, e);
 		}
 		
 		private void OpenFieldEditor()

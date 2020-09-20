@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Window
 	x:Class="SeaBattle.StartMenu" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	Title="Sea Battle"
@@ -7,43 +7,51 @@
 	<DockPanel>
 		<Menu
 			DockPanel.Dock="Top">
-			<MenuItem Header="_New">
-				<MenuItem Header="Start Game">
-					<MenuItem Header="Single Mode" Click="AskSize" />
-					<MenuItem Header="Two Players Mode" />
+			<MenuItem
+				Header="_New">
+				<MenuItem
+					Header="Start Game">
+					<MenuItem
+						Header="Single Mode"
+						Click="AskSizeForSingleMode" />
+					<MenuItem
+						Header="Two Players Mode"
+						Click="AskSizeForTwoPlayersMode" />
 				</MenuItem>
 				<Separator />
-				<MenuItem Header="_Exit" Click="ExitApplication" />
+				<MenuItem
+					Header="_Exit"
+					Click="ExitApplication" />
 			</MenuItem>
-			<MenuItem Header="Help">
-				<MenuItem Header="About" Click="ShowAbout" />
+			<MenuItem
+				Header="Help">
+				<MenuItem
+					Header="About"
+					Click="ShowAbout" />
 			</MenuItem>
 		</Menu>
-		<Grid
-			DockPanel.Dock="Bottom">
+		<StackPanel
+			DockPanel.Dock="Bottom"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center">
 			<Button
-				Content="Start game"
-				Width="220"
-				Height="51"
-				Grid.Column="0"
-				Grid.Row="0"
-				HorizontalAlignment="Left"
-				VerticalAlignment="Top"
-				Margin="185,197.5,0,0"
+				Content="Single Mode"
 				FontSize="30"
-				x:Name="bStart"
-				Click="AskSize" />
+				x:Name="bSingleMode"
+				Click="AskSizeForSingleMode"
+				Margin="0, 0, 0, 10" />
 			<Button
-				Content="EXIT :("
-				Width="131"
-				Height="34"
-				Grid.Column="0"
-				Grid.Row="0"
-				HorizontalAlignment="Left"
-				VerticalAlignment="Top"
-				Margin="451,426,0,0"
+				Content="Two Players Mode"
+				FontSize="30"
+				x:Name="bTwoPlayersMode"
+				Click="AskSizeForTwoPlayersMode"
+				Margin="0, 0, 0, 10" />
+			<Button
+				Content="Exit :("
+				FontSize="30"
 				x:Name="bExit"
-				Click="ExitApplication" />
-		</Grid>
+				Click="ExitApplication"
+				Margin="0, 0, 0, 10" />
+		</StackPanel>
 	</DockPanel>
 </Window>

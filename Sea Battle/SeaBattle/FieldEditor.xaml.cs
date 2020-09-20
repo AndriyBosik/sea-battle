@@ -78,25 +78,25 @@ namespace SeaBattle
 
 		private void SetGrid()
 		{
+			Button next = new Button();
+			next.Content = "Next";
+			next.IsEnabled = false;
+			next.PreviewMouseLeftButtonUp += CreateAnotherGrid;
+			
+			Field mainGrid = new Field(rows, columns, maxShipSize, next);
+			
 			SizeToContent = SizeToContent.WidthAndHeight;
 			DockPanel content = new DockPanel();
 			StackPanel fieldWithSizeRadios = new StackPanel();
 			fieldWithSizeRadios.Orientation = Orientation.Vertical;
 			
-			Field mainGrid = new Field(rows, columns, maxShipSize);
-			
-			StackPanel sizeRadios = new SizeRadios(maxShipSize, mainGrid);
-			StackPanel orientationGroup = new OrientationGroup(mainGrid);
+			StackPanel sizeRadios = mainGrid.SizeRadios;
+			StackPanel orientationGroup = mainGrid.OrientationGroup;
 			orientationGroup.MinHeight = mainGrid.ActualHeight;
 			
 			StackPanel withBackButton = new StackPanel();
 			withBackButton.Orientation = Orientation.Vertical;
 			withBackButton.Margin = new Thickness(0, 0, 10, 0);
-			
-			Button next = new Button();
-			next.Content = "Next";
-			next.IsEnabled = false;
-			//next.PreviewMouseLeftButtonUp += SomeMethod;
 			
 			Button goBack = new Button();
 			goBack.Content = "Go back";
@@ -116,9 +116,13 @@ namespace SeaBattle
 			Content = content;
 		}
 		
+		private void CreateAnotherGrid(object sender, RoutedEventArgs e)
+		{
+			SetGrid();
+		}
+		
 		private void ShowMainWindow(object sender, RoutedEventArgs e)
 		{
-			this.Title = "123";
 			StartMenu start = new StartMenu();
 			start.Show();
 			this.Close();
