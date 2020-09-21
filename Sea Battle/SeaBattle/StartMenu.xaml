@@ -4,54 +4,63 @@
 	Title="Sea Battle"
 	Width="600"
 	Height="525">
-	<DockPanel>
-		<Menu
-			DockPanel.Dock="Top">
-			<MenuItem
-				Header="_New">
+	<Grid
+		x:Name="gWrapper">
+		<DockPanel>
+			<Menu
+				DockPanel.Dock="Top">
 				<MenuItem
-					Header="Start Game">
+					Header="_New">
 					<MenuItem
-						Header="Single Mode"
-						Click="AskSizeForSingleMode" />
+						Header="Start Game">
+						<MenuItem
+							Header="Single Mode"
+							Click="AskSizeForSingleMode" />
+						<MenuItem
+							Header="Two Players Mode"
+							Click="AskSizeForTwoPlayersMode" />
+					</MenuItem>
+					<Separator />
 					<MenuItem
-						Header="Two Players Mode"
-						Click="AskSizeForTwoPlayersMode" />
+						Header="_Exit"
+						Click="ExitApplication" />
 				</MenuItem>
-				<Separator />
 				<MenuItem
-					Header="_Exit"
-					Click="ExitApplication" />
-			</MenuItem>
-			<MenuItem
-				Header="Help">
-				<MenuItem
-					Header="About"
-					Click="ShowAbout" />
-			</MenuItem>
-		</Menu>
-		<StackPanel
-			DockPanel.Dock="Bottom"
-			VerticalAlignment="Center"
-			HorizontalAlignment="Center">
-			<Button
-				Content="Single Mode"
-				FontSize="30"
-				x:Name="bSingleMode"
-				Click="AskSizeForSingleMode"
-				Margin="0, 0, 0, 10" />
-			<Button
-				Content="Two Players Mode"
-				FontSize="30"
-				x:Name="bTwoPlayersMode"
-				Click="AskSizeForTwoPlayersMode"
-				Margin="0, 0, 0, 10" />
-			<Button
-				Content="Exit :("
-				FontSize="30"
-				x:Name="bExit"
-				Click="ExitApplication"
-				Margin="0, 0, 0, 10" />
-		</StackPanel>
-	</DockPanel>
+					Header="Help">
+					<MenuItem
+						Header="About"
+						Click="ShowAbout" />
+				</MenuItem>
+			</Menu>
+			<StackPanel
+				DockPanel.Dock="Bottom"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center">
+				<Button
+					Content="Single Mode"
+					FontSize="30"
+					x:Name="bSingleMode"
+					Click="AskSizeForSingleMode"
+					Margin="0, 0, 0, 10" />
+				<Button
+					Content="Two Players Mode"
+					FontSize="30"
+					x:Name="bTwoPlayersMode"
+					Click="AskSizeForTwoPlayersMode"
+					Margin="0, 0, 0, 10" />
+				<Button
+					Content="About Us"
+					FontSize="30"
+					x:Name="bAbout"
+		 			Click="ShowAbout"
+					Margin="0, 0, 0, 10" />
+				<Button
+					Content="Exit :("
+					FontSize="30"
+					x:Name="bExit"
+					Click="ExitApplication"
+					Margin="0, 0, 0, 10" />
+			</StackPanel>
+		</DockPanel>
+	</Grid>
 </Window>

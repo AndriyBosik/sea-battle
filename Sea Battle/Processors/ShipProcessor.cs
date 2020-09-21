@@ -1,8 +1,8 @@
 ﻿/*
  * Created by SharpDevelop.
  * User: Andriy
- * Date: 09/19/2020
- * Time: 22:07
+ * Date: 09/20/2020
+ * Time: 14:48
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
@@ -11,7 +11,7 @@ using System;
 namespace Processors
 {
 	/// <summary>
-	/// Description of FieldProcessor.
+	/// Description of ShipProcessors.
 	/// </summary>
 	public static class ShipProcessor
 	{

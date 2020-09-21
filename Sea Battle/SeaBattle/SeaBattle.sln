@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameObjects", "..\GameObjec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameParts", "..\GameParts\GameParts.csproj", "{2E77EEFA-99D2-41F4-8370-B2580C4AE84F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Processors", "..\Processors\Processors.csproj", "{E0A28059-5430-41ED-B008-031003979E2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Processors", "..\Processors\Processors.csproj", "{7D392411-0D1B-49A1-AEF2-86CB09FF7B31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,9 +28,9 @@ Global
 		{2E77EEFA-99D2-41F4-8370-B2580C4AE84F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E77EEFA-99D2-41F4-8370-B2580C4AE84F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E77EEFA-99D2-41F4-8370-B2580C4AE84F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0A28059-5430-41ED-B008-031003979E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0A28059-5430-41ED-B008-031003979E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0A28059-5430-41ED-B008-031003979E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0A28059-5430-41ED-B008-031003979E2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D392411-0D1B-49A1-AEF2-86CB09FF7B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D392411-0D1B-49A1-AEF2-86CB09FF7B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D392411-0D1B-49A1-AEF2-86CB09FF7B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D392411-0D1B-49A1-AEF2-86CB09FF7B31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

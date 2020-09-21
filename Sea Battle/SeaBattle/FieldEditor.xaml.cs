@@ -15,9 +15,7 @@ using Processors;
 
 using System;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
 namespace SeaBattle
 {
@@ -30,13 +28,17 @@ namespace SeaBattle
 		private const int CELL_SIZE = 35;
 		private const int MARGIN = 10;
 		
-		private Grid mainGrid;
 		private string orientation;
 		private int rows;
 		private int columns;
 		private readonly int maxShipSize;
 		private Label[][] field;
 		private CellStatus[][] status;
+		
+		private Field grid;
+		
+		private Cell[][] firstPlayer;
+		private Cell[][] secondPlayer;
 		
 		public FieldEditor(int rows, int columns)
 		{
@@ -53,7 +55,12 @@ namespace SeaBattle
 			
 			SetWindowSize();
 			
-			SetGrid();
+			Button next = new Button();
+			next.Content = "Next";
+			next.IsEnabled = false;
+			next.PreviewMouseLeftButtonUp += NextPlayer;
+			
+			SetGrid(next);
 		}
 		
 		// Initializes arrays field and status
@@ -76,23 +83,18 @@ namespace SeaBattle
 			this.ResizeMode = ResizeMode.NoResize;
 		}
 
-		private void SetGrid()
+		private void SetGrid(Button b)
 		{
-			Button next = new Button();
-			next.Content = "Next";
-			next.IsEnabled = false;
-			next.PreviewMouseLeftButtonUp += CreateAnotherGrid;
-			
-			Field mainGrid = new Field(rows, columns, maxShipSize, next);
+			grid = new Field(rows, columns, maxShipSize, b);
 			
 			SizeToContent = SizeToContent.WidthAndHeight;
 			DockPanel content = new DockPanel();
 			StackPanel fieldWithSizeRadios = new StackPanel();
 			fieldWithSizeRadios.Orientation = Orientation.Vertical;
 			
-			StackPanel sizeRadios = mainGrid.SizeRadios;
-			StackPanel orientationGroup = mainGrid.OrientationGroup;
-			orientationGroup.MinHeight = mainGrid.ActualHeight;
+			StackPanel sizeRadios = grid.SizeRadios;
+			StackPanel orientationGroup = grid.OrientationGroup;
+			orientationGroup.MinHeight = grid.ActualHeight;
 			
 			StackPanel withBackButton = new StackPanel();
 			withBackButton.Orientation = Orientation.Vertical;
@@ -103,10 +105,10 @@ namespace SeaBattle
 			goBack.PreviewMouseLeftButtonDown += ShowMainWindow;
 			
 			withBackButton.Children.Add(orientationGroup);
-			withBackButton.Children.Add(next);
+			withBackButton.Children.Add(b);
 			withBackButton.Children.Add(goBack);
 			
-			fieldWithSizeRadios.Children.Add(mainGrid);
+			fieldWithSizeRadios.Children.Add(grid);
 			fieldWithSizeRadios.Children.Add(sizeRadios);
 
 			DockPanel.SetDock(fieldWithSizeRadios, Dock.Left);
@@ -116,9 +118,30 @@ namespace SeaBattle
 			Content = content;
 		}
 		
-		private void CreateAnotherGrid(object sender, RoutedEventArgs e)
+		private void NextPlayer(object sender, RoutedEventArgs e)
 		{
-			SetGrid();
+			firstPlayer = grid.GetField();
+			
+			grid.Children.Clear();
+			
+			Button start = new Button();
+			start.Content = "Start game";
+			start.IsEnabled = false;
+			start.PreviewMouseLeftButtonUp += StartGame;
+			
+			SetGrid(start);
+		}
+		
+		private void StartGame(object sender, RoutedEventArgs e)
+		{
+			secondPlayer = grid.GetField();
+			
+			grid.Children.Clear();
+			
+			Game game = new Game(firstPlayer, secondPlayer);
+			
+			this.Close();
+			game.Show();
 		}
 		
 		private void ShowMainWindow(object sender, RoutedEventArgs e)

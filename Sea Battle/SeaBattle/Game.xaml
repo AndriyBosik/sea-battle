@@ -1,0 +1,19 @@
+<Window x:Class="SeaBattle.Game"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Title="SeaBattle" Height="300" Width="300">
+	<StackPanel
+		Orientation="Vertical"
+		x:Name="spWrapper" >
+		<Label
+			x:Name="lMoveHint"
+			FontSize="30"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center">It's player one's move</Label>
+		<StackPanel
+			Orientation="Horizontal"
+			x:Name="spContent" >
+			
+		</StackPanel>
+	</StackPanel>
+</Window>

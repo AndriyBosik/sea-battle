@@ -6,14 +6,12 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+
+using Processors;
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace SeaBattle
@@ -31,7 +29,12 @@ namespace SeaBattle
 		{
 			InitializeComponent();
 			
-			//this.Background = 
+			Grid wrapper = gWrapper;
+			
+			ImageBrush back = ImageProcessor.GetImage("main-menu-background");
+			back.Opacity = 0.3;
+			
+			wrapper.Background = back;
 		}
 		
 		private void ExitApplication(object sender, RoutedEventArgs e)

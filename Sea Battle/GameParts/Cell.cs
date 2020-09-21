@@ -9,6 +9,8 @@
 
 using GameObjects;
 
+using Processors;
+
 using System;
 using System.Windows.Media;
 using System.Windows.Controls;
@@ -76,19 +78,10 @@ namespace GameParts
 		private Label GetLabel()
 		{
 			Label label = new Label();
-			label.Background = GetImage();
+			label.Background = ImageProcessor.GetImage(this.icon);
 			label.LayoutTransform = new RotateTransform(0);
 			return label;
 		}
-		
-		private ImageBrush GetImage()
-		{
-			string path = Config.PROJECT_DIRECTORY + "Icons/" + icon + ".png";
-			BitmapImage btm = new BitmapImage();
-			btm.BeginInit();
-			btm.UriSource = new Uri(path, UriKind.Relative);
-			btm.EndInit();
-			return new ImageBrush(btm);
-		}
+
 	}
 }

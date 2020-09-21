@@ -9,6 +9,8 @@
 
 using GameObjects;
 
+using Processors;
+
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -26,19 +28,11 @@ namespace SeaBattle
 		{
 			InitializeComponent();
 			
-			string path = Config.PROJECT_DIRECTORY + "Icons/background.png";
-			BitmapImage btm = new BitmapImage();
-			btm.BeginInit();
-			btm.UriSource = new Uri(path, UriKind.Relative);
-			btm.EndInit();
+			ImageBrush back = ImageProcessor.GetImage("background");
+			back.Opacity = 0.3;
 			
 			DockPanel dp = dpContent;
-			
-			ImageBrush brush = new ImageBrush();
-			brush.ImageSource = btm;
-			brush.Opacity = 0.3;
-			
-			dp.Background = brush;
+			dp.Background = back;
 		}
 	}
 }

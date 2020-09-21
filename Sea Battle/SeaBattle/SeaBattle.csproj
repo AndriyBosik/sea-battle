@@ -79,6 +79,10 @@
       <DependentUpon>FieldSizeWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Game.xaml.cs">
+      <DependentUpon>Game.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\WPFAssemblyInfo.cs" />
     <Compile Include="StartMenu.xaml.cs">
@@ -90,6 +94,7 @@
     <Page Include="About.xaml" />
     <Page Include="FieldEditor.xaml" />
     <Page Include="FieldSizeWindow.xaml" />
+    <Page Include="Game.xaml" />
     <Page Include="StartMenu.xaml" />
   </ItemGroup>
   <ItemGroup>

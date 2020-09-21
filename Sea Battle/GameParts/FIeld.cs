@@ -140,10 +140,6 @@ namespace GameParts
 			{
 				for (int j = -1; j <= 1; j++)
 				{
-					if (i == 0 && j == 0)
-					{
-						continue;
-					}
 					if (!IsInsideField(row + i, column + j))
 					{
 						continue;
@@ -234,6 +230,12 @@ namespace GameParts
 					cells[i][j] = cell;
 				}
 			}
-		} 
+		}
+		
+		
+		public Cell[][] GetField()
+		{
+			return this.cells;
+		}
 	}
 }

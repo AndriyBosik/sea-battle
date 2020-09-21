@@ -16,6 +16,7 @@ namespace GameObjects
 	public class Config
 	{
 		public static string PROJECT_DIRECTORY = Environment.CurrentDirectory + "/../../";
+		public static string IMAGES_DIRECTORY = PROJECT_DIRECTORY + "Icons/";
 		
 		public static string EMPTY_CELL = "water";
 		public static string SHIP_CELL = "ship";
