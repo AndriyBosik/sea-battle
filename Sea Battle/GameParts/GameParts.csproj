@@ -67,6 +67,7 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Bomb.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Field.cs" />

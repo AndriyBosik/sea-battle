@@ -18,12 +18,13 @@ namespace GameObjects
 		public static string PROJECT_DIRECTORY = Environment.CurrentDirectory + "/../../";
 		public static string IMAGES_DIRECTORY = PROJECT_DIRECTORY + "Icons/";
 		
+		public static string APP_ICON = "app-icon";
 		public static string EMPTY_CELL = "water";
-		public static string SHIP_CELL = "ship";
-		public static string ONE_DECK = "ship";
+		public static string ONE_DECK = "bomb";
 		public static string INTERNAL = "internal";
 		public static string BEGIN = "begin";
 		public static string END = "end";
+		public static string BOMB = "bomb";
 		
 		public static string VERTICAL_ORIENTATION = "Vertical";
 		public static string HORIZONTAL_ORIENTATION = "Horizontal";

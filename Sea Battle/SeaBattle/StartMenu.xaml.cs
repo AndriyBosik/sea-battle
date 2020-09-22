@@ -7,6 +7,8 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 
+using System.Windows.Media.Imaging;
+using GameObjects;
 using Processors;
 
 using System;
@@ -28,6 +30,9 @@ namespace SeaBattle
 		public StartMenu()
 		{
 			InitializeComponent();
+			
+			Uri iconUri = new Uri(Config.IMAGES_DIRECTORY + Config.APP_ICON + ".ico");
+			this.Icon = BitmapFrame.Create(iconUri);
 			
 			Grid wrapper = gWrapper;
 			
