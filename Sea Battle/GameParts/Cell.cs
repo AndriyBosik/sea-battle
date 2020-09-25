@@ -14,7 +14,8 @@ using Processors;
 using System;
 using System.Windows.Media;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
+
+using Config;
 
 namespace GameParts
 {
@@ -57,12 +58,10 @@ namespace GameParts
 			
 		}
 		
-		public Cell(int x, int y)
-		{
-			Init(x, y, Config.EMPTY_CELL);
-		}
-		
-		public Cell(int x, int y, string icon)
+		public Cell(
+			int x,
+			int y,
+			string icon = Images.EMPTY_CELL)
 		{
 			Init(x, y, icon);
 		}

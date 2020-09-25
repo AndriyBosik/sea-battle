@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameParts", "..\GameParts\G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Processors", "..\Processors\Processors.csproj", "{7D392411-0D1B-49A1-AEF2-86CB09FF7B31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config", "..\Config\Config.csproj", "{385C340B-D94B-455F-963D-C869F0BC92E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,5 +34,9 @@ Global
 		{7D392411-0D1B-49A1-AEF2-86CB09FF7B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D392411-0D1B-49A1-AEF2-86CB09FF7B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D392411-0D1B-49A1-AEF2-86CB09FF7B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{385C340B-D94B-455F-963D-C869F0BC92E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{385C340B-D94B-455F-963D-C869F0BC92E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{385C340B-D94B-455F-963D-C869F0BC92E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{385C340B-D94B-455F-963D-C869F0BC92E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

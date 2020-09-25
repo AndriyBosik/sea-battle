@@ -11,6 +11,8 @@ using GameParts;
 
 using GameObjects;
 
+using Config;
+
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,12 +23,12 @@ namespace SeaBattle
 	/// <summary>
 	/// Interaction logic for Game.xaml
 	/// </summary>
-	public partial class Game : Window
+	public partial class GameField: Window
 	{
 		private Cell[][] firstPlayerField;
 		private Cell[][] secondPlayerField;
 		
-		public Game(Cell[][] firstPlayerField, Cell[][] secondPlayerField)
+		public GameField(Cell[][] firstPlayerField, Cell[][] secondPlayerField)
 		{
 			InitializeComponent();
 			
@@ -39,12 +41,16 @@ namespace SeaBattle
 			this.secondPlayerField = secondPlayerField;
 			
 			Grid field = GetGrid(firstPlayerField);
+			field.Name = Gameplay.FIRST_PLAYER_FIELD;
 			spContent.Children.Add(field);
 			
 			spContent.Children.Add(GetSeparator());
 			
 			field = GetGrid(secondPlayerField);
+			field.Name = Gameplay.SECOND_PLAYER_FIELD;
 			spContent.Children.Add(field);
+			
+			spContent.MouseLeftButtonUp += ProcessMove;
 		}
 		
 		private Label GetSeparator()
@@ -66,12 +72,12 @@ namespace SeaBattle
 			
 			for (int i = 0; i < rows; i++)
 			{
-				grid.RowDefinitions.Add(new RowDefinition() {Height = new GridLength(Config.CELL_SIZE)} );
+				grid.RowDefinitions.Add(new RowDefinition() {Height = new GridLength(Gameplay.CELL_SIZE)} );
 			}
 			
 			for (int i = 0; i < columns; i++)
 			{
-				grid.ColumnDefinitions.Add(new ColumnDefinition() {Width = new GridLength(Config.CELL_SIZE)} );
+				grid.ColumnDefinitions.Add(new ColumnDefinition() {Width = new GridLength(Gameplay.CELL_SIZE)} );
 			}
 			
 			for (int i = 0; i < rows; i++)
@@ -85,6 +91,28 @@ namespace SeaBattle
 			}
 			grid.Margin = new Thickness(10, 10, 10, 10);
 			return grid;
+		}
+		
+		public void ProcessMove(object sender, RoutedEventArgs e)
+		{
+			Field field = GetField(e);
+			
+			Title = field.Name;
+		}
+		
+		private Field GetField(RoutedEventArgs e)
+		{
+			if (!(e.Source is Label))
+			{
+				return null;
+			}
+			Label cell = (Label)e.Source;
+			if (!(cell.Parent is Field))
+			{
+				return null;
+			}
+			var field = (Field)cell.Parent;
+			return field;
 		}
 	}
 }

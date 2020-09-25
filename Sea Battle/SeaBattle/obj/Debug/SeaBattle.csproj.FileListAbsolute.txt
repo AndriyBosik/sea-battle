@@ -21,5 +21,7 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\About.baml
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\About.g.cs
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Processors.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Processors.pdb
-D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\Game.baml
-D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\Game.g.cs
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\GameField.baml
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\GameField.g.cs
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Config.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Config.pdb

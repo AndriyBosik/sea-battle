@@ -9,8 +9,12 @@
 
 using GameObjects;
 
+using Config;
+
 using System;
+using System.Linq;
 using System.Windows.Media;
+using System.Collections.Generic;
 
 namespace GameParts
 {
@@ -19,26 +23,33 @@ namespace GameParts
 	/// </summary>
 	public class Deck: Cell
 	{
+		public static List<Deck> decks = new List<Deck>();
+		
 		private DeckKind kind;
 		
-		public Deck(int x, int y)
+		private int shipId;
+		public Ship Ship
 		{
-			Init(x, y, DeckKind.ONE_DECK, Config.HORIZONTAL_ORIENTATION);
+			get
+			{
+				return Ship.ships.Where(ship => ship.Id == shipId).FirstOrDefault();
+			}
+			set
+			{
+				shipId = value.Id;
+			}
 		}
 		
-		public Deck(int x, int y, DeckKind kind)
+		public Deck(
+			int x,
+			int y,
+			Ship ship,
+			DeckKind kind = DeckKind.ONE_DECK,
+			string orientation = Gameplay.HORIZONTAL_ORIENTATION)
 		{
-			Init(x, y, kind, Config.HORIZONTAL_ORIENTATION);
-		}
-		
-		public Deck(int x, int y, string orientation)
-		{
-			Init(x, y, DeckKind.ONE_DECK, orientation);
-		}
-		
-		public Deck(int x, int y, DeckKind kind, string orientation)
-		{
+			Ship = ship;
 			Init(x, y, kind, orientation);
+			decks.Add(this);
 		}
 		
 		private void Init(int x, int y, DeckKind kind, string orientation)
@@ -54,7 +65,7 @@ namespace GameParts
 		
 		private void RotateDeck(string orientation)
 		{
-			if (orientation == Config.VERTICAL_ORIENTATION)
+			if (orientation == Gameplay.VERTICAL_ORIENTATION)
 			{
 				image.LayoutTransform = new RotateTransform(90);
 			}

@@ -20,43 +20,56 @@ namespace GameParts
 	/// </summary>
 	public class Ship
 	{
-		protected int size;
-		protected string orientation;
-		private List<Deck> ship;
-		private bool isDestroyed;
+		public static List<Ship> ships = new List<Ship>();
 		
-		public Ship(int x, int y, int size, string orientation)
+		private int size;
+		private string orientation;
+		
+		private static int counter = 0;
+		
+		//private List<Deck> decks;
+		private bool isDestroyed;
+		private int id;
+		private int x;
+		private int y;
+		
+		public int Id
 		{
-			this.isDestroyed = false;
-			ship = new List<Deck>();
-			this.orientation = orientation;
-			this.size = size;
-			for (int i = 0; i < size; i++)
+			get
 			{
-				if (orientation.Equals(Config.HORIZONTAL_ORIENTATION))
-				{
-					AddDeck(x, y + i, DeckKindProcessor.GetDeckKind(i, size), orientation);
-				}
-				else
-				{
-					AddDeck(x + i, y, DeckKindProcessor.GetDeckKind(i, size), orientation);
-				}
+				return id;
 			}
 		}
 		
-		private void AddDeck(int x, int y, DeckKind kind, string orientation)
+		public List<Deck> Decks
 		{
-			ship.Add(new Deck(x, y, kind, orientation));
+			get
+			{
+				return Deck.decks.Where(deck => deck.Ship == this).ToList();
+			}
+		}
+		
+		public Ship(int x, int y, int size, string orientation)
+		{
+			this.x = x;
+			this.y = y;
+			this.id = counter;
+			counter++;
+			
+			this.isDestroyed = false;
+			this.orientation = orientation;
+			this.size = size;
+			ships.Add(this);
 		}
 		
 		public Deck GetDeck(int number)
 		{
-			return ship.ElementAt(number);
+			return Decks.ElementAt(number);
 		}
 		
 		public int GetSize()
 		{
-			return ship.Count;
+			return this.Decks.Count;
 		}
 	}
 }

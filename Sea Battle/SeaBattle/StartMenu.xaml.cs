@@ -11,6 +11,8 @@ using System.Windows.Media.Imaging;
 using GameObjects;
 using Processors;
 
+using Config;
+
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,8 +33,7 @@ namespace SeaBattle
 		{
 			InitializeComponent();
 			
-			Uri iconUri = new Uri(Config.IMAGES_DIRECTORY + Config.APP_ICON + ".ico");
-			this.Icon = BitmapFrame.Create(iconUri);
+			this.Icon = ImageProcessor.GetIcon(Images.APP_ICON);
 			
 			Grid wrapper = gWrapper;
 			

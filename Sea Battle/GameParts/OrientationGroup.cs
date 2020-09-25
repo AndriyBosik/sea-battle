@@ -9,6 +9,8 @@
 
 using GameObjects;
 
+using Config;
+
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,7 +33,7 @@ namespace GameParts
 			this.field = field;
 			RadioButton rbHorizontal = new RadioButton()
 			{
-				Content = Config.HORIZONTAL_ORIENTATION,
+				Content = Gameplay.HORIZONTAL_ORIENTATION,
 				GroupName = ORIENTATION_GROUP,
 				IsChecked = true
 			};
@@ -39,7 +41,7 @@ namespace GameParts
 			
 			RadioButton rbVertical = new RadioButton()
 			{
-				Content = Config.VERTICAL_ORIENTATION,
+				Content = Gameplay.VERTICAL_ORIENTATION,
 				GroupName = ORIENTATION_GROUP,
 			};
 			rbVertical.Checked += ChangeOrientation;

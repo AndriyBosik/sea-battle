@@ -7,7 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using GameObjects;
+using Config;
 
 namespace GameParts
 {
@@ -16,9 +16,12 @@ namespace GameParts
 	/// </summary>
 	public class Bomb: Cell
 	{
+		protected int radius;
+		
 		public Bomb(int x, int y)
 		{
-			Init(x, y, Config.BOMB);
+			Init(x, y, Images.BOMB);
+			radius = 1;
 		}
 	}
 }

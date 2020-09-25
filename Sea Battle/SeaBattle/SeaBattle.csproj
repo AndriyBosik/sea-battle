@@ -80,8 +80,8 @@
       <DependentUpon>FieldSizeWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Game.xaml.cs">
-      <DependentUpon>Game.xaml</DependentUpon>
+    <Compile Include="GameField.xaml.cs">
+      <DependentUpon>GameField.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,7 +95,7 @@
     <Page Include="About.xaml" />
     <Page Include="FieldEditor.xaml" />
     <Page Include="FieldSizeWindow.xaml" />
-    <Page Include="Game.xaml" />
+    <Page Include="GameField.xaml" />
     <Page Include="StartMenu.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +106,10 @@
     <Folder Include="Icons" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Config\Config.csproj">
+      <Project>{385c340b-d94b-455f-963d-c869f0bc92e9}</Project>
+      <Name>Config</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameObjects\GameObjects.csproj">
       <Project>{ae342253-ebbb-43b0-8bd6-53e35a2173f2}</Project>
       <Name>GameObjects</Name>

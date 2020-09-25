@@ -8,6 +8,8 @@
  */
 using System;
 
+using Config;
+
 namespace GameObjects
 {
 	/// <summary>
@@ -37,13 +39,13 @@ namespace GameObjects
 			switch (kind)
 			{
 				case DeckKind.BEGIN:
-					return Config.BEGIN;
+					return Images.BEGIN;
 				case DeckKind.INTERNAL:
-					return Config.INTERNAL;
+					return Images.INTERNAL;
 				case DeckKind.END:
-					return Config.END;
+					return Images.END;
 				default:
-					return Config.ONE_DECK;
+					return Images.ONE_DECK;
 			}
 		}
 	}

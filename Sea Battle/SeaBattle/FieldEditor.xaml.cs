@@ -11,6 +11,8 @@ using GameParts;
 
 using GameObjects;
 
+using Config;
+
 using Processors;
 
 using System;
@@ -44,7 +46,7 @@ namespace SeaBattle
 		{
 			InitializeComponent();
 			
-			orientation = Config.HORIZONTAL_ORIENTATION;
+			orientation = Gameplay.HORIZONTAL_ORIENTATION;
 			
 			this.rows = rows;
 			this.columns = columns;
@@ -138,7 +140,7 @@ namespace SeaBattle
 			
 			grid.Children.Clear();
 			
-			Game game = new Game(firstPlayer, secondPlayer);
+			GameField game = new GameField(firstPlayer, secondPlayer);
 			
 			this.Close();
 			game.Show();

@@ -9,6 +9,8 @@
 
 using GameObjects;
 
+using Config;
+
 using Processors;
 
 using System;
@@ -81,7 +83,7 @@ namespace GameParts
 		
 		public Field(int rows, int columns, int maxShipSize, Button next)
 		{	
-			this.orientation = Config.HORIZONTAL_ORIENTATION;
+			this.orientation = Gameplay.HORIZONTAL_ORIENTATION;
 			this.size = 1;
 			this.Margin = new Thickness(10);
 			this.rows = rows;
@@ -116,7 +118,7 @@ namespace GameParts
 		{
 			for (int i = 0; i < size; i++)
 			{
-				if (orientation.Equals(Config.VERTICAL_ORIENTATION))
+				if (orientation.Equals(Gameplay.VERTICAL_ORIENTATION))
 				{
 					if (!IsInsideField(row + i, column) || !CheckAroundOneDeck(row + i, column))
 					{
@@ -171,12 +173,17 @@ namespace GameParts
 			{
 				int currentRow = row + i;
 				int currentColumn = column;
-				if (orientation.Equals(Config.HORIZONTAL_ORIENTATION))
+				if (orientation.Equals(Gameplay.HORIZONTAL_ORIENTATION))
 				{
 					currentRow = row;
 					currentColumn = column + i;
 				}
-				Deck deck = ship.GetDeck(i);
+				Deck deck = new Deck(
+					currentRow,
+					currentColumn,
+					ship,
+					DeckKindProcessor.GetDeckKind(i, size),
+					orientation);
 				cells[currentRow][currentColumn] = deck;
 				
 				Grid.SetRow(deck.Image, currentRow);
@@ -206,13 +213,13 @@ namespace GameParts
 			
 			for (int i = 0; i < rows; i++)
 			{
-				RowDefinitions.Add(new RowDefinition() { Height = new GridLength(Config.CELL_SIZE) });
+				RowDefinitions.Add(new RowDefinition() { Height = new GridLength(Gameplay.CELL_SIZE) });
 				cells[i] = new Cell[columns];
 			}
 			
 			for (int i = 0; i < columns; i++)
 			{
-				ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(Config.CELL_SIZE) });
+				ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(Gameplay.CELL_SIZE) });
 			}
 		}
 		
@@ -236,6 +243,11 @@ namespace GameParts
 		public Cell[][] GetField()
 		{
 			return this.cells;
+		}
+		
+		public void UpdateCell(int x, int y, Label newValue)
+		{
+			cells[x][y].Image = newValue;
 		}
 	}
 }

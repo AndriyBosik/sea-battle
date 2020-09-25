@@ -83,9 +83,9 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameObjects\GameObjects.csproj">
-      <Project>{ae342253-ebbb-43b0-8bd6-53e35a2173f2}</Project>
-      <Name>GameObjects</Name>
+    <ProjectReference Include="..\Config\Config.csproj">
+      <Project>{385c340b-d94b-455f-963d-c869f0bc92e9}</Project>
+      <Name>Config</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

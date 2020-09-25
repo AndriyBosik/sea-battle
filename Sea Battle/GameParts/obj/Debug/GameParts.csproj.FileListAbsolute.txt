@@ -13,3 +13,5 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\obj\Debug\GameParts.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\obj\Debug\GameParts.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\bin\Debug\Processors.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\bin\Debug\Processors.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\bin\Debug\Config.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\bin\Debug\Config.pdb
