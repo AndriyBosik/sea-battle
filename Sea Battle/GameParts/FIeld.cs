@@ -155,9 +155,9 @@ namespace GameParts
 			return true;
 		}
 		
-		private bool IsInsideField(int row, int column)
+		public bool IsInsideField(int x, int y)
 		{
-			return row >= 0 && row < rows && column >= 0 && column < columns;
+			return x >= 0 && x < rows && y >= 0 && y < columns;
 		}
 		
 		private void Paste(int row, int column)
@@ -238,7 +238,6 @@ namespace GameParts
 				}
 			}
 		}
-		
 		
 		public Cell[][] GetField()
 		{

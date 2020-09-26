@@ -8,6 +8,8 @@
  */
 using System;
 
+using GameObjects;
+
 using Config;
 
 namespace GameParts
@@ -17,30 +19,42 @@ namespace GameParts
 	/// </summary>
 	public class Gun
 	{
+		private static int counter = 0;
+		private int id;
+		
 		private Field field;
 		
-		private int damage;
-		private int orientation;
-		private int distance;
+		private int durability;
+		private int consumption;
+		private int radius;
 		private string image;
 		
 		public Gun(
 			Field field,
-			int damage = 10,
-			int orientation = Gameplay.HORIZONTAL_ORIENTATION,
-			int distance = 1,
+			int durability = 100,
+			int radius = 1,
+			int consumption = 1,
 			string image = Images.SMALL_GUN)
 		{
+			counter++;
+			id = counter;
+			
 			this.field = field;
-			this.damage = damage;
-			this.orientation = orientation;
-			this.distance = distance;
+			
+			this.durability = durability;
+			this.consumption = consumption;
+			this.radius = radius;
 			this.image = image;
 		}
 		
-		public void MakeShot()
+		public void MakeShot(int x, int y, Bullet bullet, string orientation = Gameplay.HORIZONTAL_ORIENTATION)
 		{
-			
+			if (bullet.GunDamage > this.durability)
+			{
+				return;
+			}
+			durability -= bullet.GunDamage;
+			// do some stuff
 		}
 	}
 }

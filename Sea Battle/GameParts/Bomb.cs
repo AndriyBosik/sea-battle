@@ -23,12 +23,20 @@ namespace GameParts
 		private int damage;
 		private int deactivationPrice;
 		
-		public Bomb(Field field, int x, int y, int deactivationPrice, string icon = Images.BOMB)
+		public Bomb(
+			Field field,
+			int x,
+			int y,
+			int radius = 1,
+			int cost = 10,
+			int damage = 10,
+			int deactivationPrice = 20,
+			string icon = Images.BOMB)
 		{
 			Init(x, y, icon);
-			radius = 1;
-			cost = 10;
-			damage = 10;
+			this.radius = radius;
+			cost = this.cost;
+			damage = this.damage;
 			this.field = field;
 			this.deactivationPrice = deactivationPrice;
 		}

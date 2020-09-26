@@ -27,6 +27,7 @@ namespace GameParts
 		
 		private static int counter = 0;
 		
+		private int stability;
 		private bool isDestroyed;
 		private int destroyPrize;
 		private int id;
@@ -60,6 +61,13 @@ namespace GameParts
 			this.orientation = orientation;
 			this.size = size;
 			ships.Add(this);
+			
+			stability = QuantifyStability();
+		}
+		
+		private int QuantifyStability()
+		{
+			return size*3;
 		}
 		
 		public Deck GetDeck(int number)

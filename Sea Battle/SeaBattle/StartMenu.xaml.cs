@@ -23,7 +23,7 @@ namespace SeaBattle
 	/// <summary>
 	/// Interaction logic for Window1.xaml
 	/// </summary>
-	public partial class StartMenu : Window
+	public partial class StartMenu: Window
 	{
 		
 		private int rows;
@@ -32,8 +32,6 @@ namespace SeaBattle
 		public StartMenu()
 		{
 			InitializeComponent();
-			
-			this.Icon = ImageProcessor.GetIcon(Images.APP_ICON);
 			
 			Grid wrapper = gWrapper;
 			
