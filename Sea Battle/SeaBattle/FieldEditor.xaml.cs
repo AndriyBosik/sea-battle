@@ -39,8 +39,8 @@ namespace SeaBattle
 		
 		private Field grid;
 		
-		private Cell[][] firstPlayer;
-		private Cell[][] secondPlayer;
+		private Field firstPlayer;
+		private Field secondPlayer;
 		
 		public FieldEditor(int rows, int columns)
 		{
@@ -112,7 +112,7 @@ namespace SeaBattle
 			
 			fieldWithSizeRadios.Children.Add(grid);
 			fieldWithSizeRadios.Children.Add(sizeRadios);
-
+			
 			DockPanel.SetDock(fieldWithSizeRadios, Dock.Left);
 			DockPanel.SetDock(withBackButton, Dock.Right);
 			content.Children.Add(fieldWithSizeRadios);
@@ -122,9 +122,10 @@ namespace SeaBattle
 		
 		private void NextPlayer(object sender, RoutedEventArgs e)
 		{
-			firstPlayer = grid.GetField();
+			DisconnectGrid();
+			firstPlayer = grid;
 			
-			grid.Children.Clear();
+			//grid.Children.Clear();
 			
 			Button start = new Button();
 			start.Content = "Start game";
@@ -134,16 +135,24 @@ namespace SeaBattle
 			SetGrid(start);
 		}
 		
+		private void DisconnectGrid()
+		{
+			var smth = (Panel)grid.Parent;
+			smth.Children.Clear();
+		}
+		
 		private void StartGame(object sender, RoutedEventArgs e)
 		{
-			secondPlayer = grid.GetField();
+			DisconnectGrid();
+			secondPlayer = grid;
 			
-			grid.Children.Clear();
+			//grid.Children.Clear();
 			
 			GameField game = new GameField(firstPlayer, secondPlayer);
 			
 			this.Close();
 			game.Show();
+			
 		}
 		
 		private void ShowMainWindow(object sender, RoutedEventArgs e)

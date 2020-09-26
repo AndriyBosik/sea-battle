@@ -23,7 +23,7 @@ using System.Collections.Generic;
 namespace GameParts
 {
 	/// <summary>
-	/// Description of FIeld.
+	/// Description of Field.
 	/// </summary>
 	public class Field: Grid
 	{
@@ -243,11 +243,6 @@ namespace GameParts
 		public Cell[][] GetField()
 		{
 			return this.cells;
-		}
-		
-		public void UpdateCell(int x, int y, Label newValue)
-		{
-			cells[x][y].Image = newValue;
 		}
 	}
 }

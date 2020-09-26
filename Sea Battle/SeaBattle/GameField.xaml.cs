@@ -25,10 +25,10 @@ namespace SeaBattle
 	/// </summary>
 	public partial class GameField: Window
 	{
-		private Cell[][] firstPlayerField;
-		private Cell[][] secondPlayerField;
+		private Field firstPlayerField;
+		private Field secondPlayerField;
 		
-		public GameField(Cell[][] firstPlayerField, Cell[][] secondPlayerField)
+		public GameField(Field firstPlayerField, Field secondPlayerField)
 		{
 			InitializeComponent();
 			
@@ -40,15 +40,13 @@ namespace SeaBattle
 			this.firstPlayerField = firstPlayerField;
 			this.secondPlayerField = secondPlayerField;
 			
-			Grid field = GetGrid(firstPlayerField);
-			field.Name = Gameplay.FIRST_PLAYER_FIELD;
-			spContent.Children.Add(field);
+			firstPlayerField.Name = Gameplay.FIRST_PLAYER_FIELD;
+			spContent.Children.Add(firstPlayerField);
 			
 			spContent.Children.Add(GetSeparator());
 			
-			field = GetGrid(secondPlayerField);
-			field.Name = Gameplay.SECOND_PLAYER_FIELD;
-			spContent.Children.Add(field);
+			secondPlayerField.Name = Gameplay.SECOND_PLAYER_FIELD;
+			spContent.Children.Add(secondPlayerField);
 			
 			spContent.MouseLeftButtonUp += ProcessMove;
 		}
@@ -61,36 +59,6 @@ namespace SeaBattle
 			l.VerticalAlignment = VerticalAlignment.Center;
 			l.HorizontalAlignment = HorizontalAlignment.Center;
 			return l;
-		}
-		
-		private Grid GetGrid(Cell[][] firstPlayerField)
-		{
-			int rows = firstPlayerField.Length;
-			int columns = firstPlayerField[0].Length;
-			
-			Grid grid = new Grid();
-			
-			for (int i = 0; i < rows; i++)
-			{
-				grid.RowDefinitions.Add(new RowDefinition() {Height = new GridLength(Gameplay.CELL_SIZE)} );
-			}
-			
-			for (int i = 0; i < columns; i++)
-			{
-				grid.ColumnDefinitions.Add(new ColumnDefinition() {Width = new GridLength(Gameplay.CELL_SIZE)} );
-			}
-			
-			for (int i = 0; i < rows; i++)
-			{
-				for (int j = 0; j < columns; j++)
-				{
-					Grid.SetRow(firstPlayerField[i][j].Image, i);
-					Grid.SetColumn(firstPlayerField[i][j].Image, j);
-					grid.Children.Add(firstPlayerField[i][j].Image);
-				}
-			}
-			grid.Margin = new Thickness(10, 10, 10, 10);
-			return grid;
 		}
 		
 		public void ProcessMove(object sender, RoutedEventArgs e)

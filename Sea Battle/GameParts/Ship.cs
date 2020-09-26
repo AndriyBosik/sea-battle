@@ -27,8 +27,8 @@ namespace GameParts
 		
 		private static int counter = 0;
 		
-		//private List<Deck> decks;
 		private bool isDestroyed;
+		private int destroyPrize;
 		private int id;
 		private int x;
 		private int y;

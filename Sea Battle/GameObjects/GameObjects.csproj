@@ -51,8 +51,8 @@
     <Compile Include="CellStatus.cs" />
     <Compile Include="DeckKind.cs" />
     <Compile Include="DeckKindProcessor.cs" />
-    <Compile Include="Game.cs" />
     <Compile Include="GameMode.cs" />
+    <Compile Include="GunKind.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
@@ -68,6 +68,10 @@
     <ProjectReference Include="..\Config\Config.csproj">
       <Project>{385c340b-d94b-455f-963d-c869f0bc92e9}</Project>
       <Name>Config</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Processors\Processors.csproj">
+      <Project>{7d392411-0d1b-49a1-aef2-86cb09ff7b31}</Project>
+      <Name>Processors</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

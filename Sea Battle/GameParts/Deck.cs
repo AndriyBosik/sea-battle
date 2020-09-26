@@ -28,6 +28,9 @@ namespace GameParts
 		private DeckKind kind;
 		
 		private int shipId;
+		private int health;
+		private int destroyPrize;
+		
 		public Ship Ship
 		{
 			get

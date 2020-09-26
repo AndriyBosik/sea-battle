@@ -16,12 +16,26 @@ namespace GameParts
 	/// </summary>
 	public class Bomb: Cell
 	{
-		protected int radius;
+		private Field field;
 		
-		public Bomb(int x, int y)
+		private int radius;
+		private int cost;
+		private int damage;
+		private int deactivationPrice;
+		
+		public Bomb(Field field, int x, int y, int deactivationPrice, string icon = Images.BOMB)
 		{
-			Init(x, y, Images.BOMB);
+			Init(x, y, icon);
 			radius = 1;
+			cost = 10;
+			damage = 10;
+			this.field = field;
+			this.deactivationPrice = deactivationPrice;
+		}
+		
+		public void MakeExplosion()
+		{
+			
 		}
 	}
 }
