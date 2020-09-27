@@ -7,12 +7,14 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 
+//using System.Windows;
 using GameObjects;
 
 using Processors;
 
 using System;
 using System.Windows.Media;
+//using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 
 using Config;

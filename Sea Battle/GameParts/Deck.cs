@@ -29,6 +29,7 @@ namespace GameParts
 		
 		private int shipId;
 		private int health;
+		private int maxHealth;
 		private int destroyPrize;
 		
 		public Ship Ship
@@ -43,9 +44,22 @@ namespace GameParts
 			}
 		}
 		
+		public int MaxHealth
+		{
+			get { return maxHealth; }
+			set { maxHealth = value; }
+		}
+		
+		public int Health
+		{
+			get { return health; }
+			set { health = value; }
+		}
+		
 		public Deck(
 			int x,
 			int y,
+			int health,
 			Ship ship,
 			DeckKind kind = DeckKind.ONE_DECK,
 			string orientation = Gameplay.HORIZONTAL_ORIENTATION)
@@ -53,6 +67,7 @@ namespace GameParts
 			Ship = ship;
 			Init(x, y, kind, orientation);
 			decks.Add(this);
+			this.maxHealth = this.health = health;
 		}
 		
 		private void Init(int x, int y, DeckKind kind, string orientation)
@@ -72,6 +87,16 @@ namespace GameParts
 			{
 				image.LayoutTransform = new RotateTransform(90);
 			}
+		}
+		
+		public void Hurt(int damage)
+		{
+			health -= damage;
+		}
+		
+		public void Heal(int health)
+		{
+			this.health += health;
 		}
 	}
 }

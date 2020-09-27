@@ -16,7 +16,7 @@ namespace GameParts
 	/// </summary>
 	public class Bomb: Cell
 	{
-		private Field field;
+		private PlayerData player;
 		
 		private int radius;
 		private int cost;
@@ -24,7 +24,7 @@ namespace GameParts
 		private int deactivationPrice;
 		
 		public Bomb(
-			Field field,
+			PlayerData player,
 			int x,
 			int y,
 			int radius = 1,
@@ -37,13 +37,23 @@ namespace GameParts
 			this.radius = radius;
 			cost = this.cost;
 			damage = this.damage;
-			this.field = field;
+			this.player = player;
 			this.deactivationPrice = deactivationPrice;
 		}
 		
 		public void MakeExplosion()
 		{
-			
+			MakeExplosion(point.X, point.Y);
+		}
+		
+		public void MakeExplosion(int x, int y)
+		{
+			// Recursive explosion
+		}
+		
+		public void Deactivate()
+		{
+			player.Money -= cost;
 		}
 	}
 }

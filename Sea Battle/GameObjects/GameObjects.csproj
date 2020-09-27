@@ -55,6 +55,7 @@
     <Compile Include="DamageKind.cs" />
     <Compile Include="DeckKind.cs" />
     <Compile Include="DeckKindProcessor.cs" />
+    <Compile Include="Direction.cs" />
     <Compile Include="GameMode.cs" />
     <Compile Include="GunKind.cs" />
     <Compile Include="Move.cs" />

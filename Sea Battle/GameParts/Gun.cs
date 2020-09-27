@@ -7,6 +7,8 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 using GameObjects;
 
@@ -19,19 +21,39 @@ namespace GameParts
 	/// </summary>
 	public class Gun
 	{
+		public static List<Gun> guns = new List<Gun>();
+		
 		private static int counter = 0;
 		private int id;
+		private int playerId;
 		
-		private Field field;
-		
-		private int durability;
+		private int price;
+		private int durability; // Percentage value(default = 100)
 		private int consumption;
 		private int radius;
 		private string image;
 		
+		public List<Bullet> Bullets
+		{
+			get
+			{
+				return Bullet.bullets.Where(bullet => bullet.Gun == this).ToList();
+			}
+		}
+		
+		public int Id
+		{
+			get { return id; }
+		}
+		
+		public PlayerData Player
+		{
+			get { return PlayerData.players.Where(player => player.Id == playerId).FirstOrDefault(); }
+			set { playerId = value.Id; }
+		}
+		
 		public Gun(
-			Field field,
-			int durability = 100,
+			PlayerData player,
 			int radius = 1,
 			int consumption = 1,
 			string image = Images.SMALL_GUN)
@@ -39,22 +61,58 @@ namespace GameParts
 			counter++;
 			id = counter;
 			
-			this.field = field;
+			Player = player;
 			
-			this.durability = durability;
+			this.durability = 100;
 			this.consumption = consumption;
 			this.radius = radius;
 			this.image = image;
 		}
 		
-		public void MakeShot(int x, int y, Bullet bullet, string orientation = Gameplay.HORIZONTAL_ORIENTATION)
+		public void TryShot(int x, int y, Field field, Bullet bullet, Direction direction)
 		{
 			if (bullet.GunDamage > this.durability)
 			{
 				return;
 			}
 			durability -= bullet.GunDamage;
-			// do some stuff
+			durability -= 5;
+			
+			Shot(x, y, direction, field);
+		}
+		
+		private void Shot(int x, int y, Direction direction, Field field)
+		{
+			Bullet bullet = GetBullet();
+			if (bullet == null)
+			{
+				return;
+			}
+			bullet.Count -= consumption;
+			bullet.Shot(x, y, direction, field);
+		}
+		
+		private Bullet GetBullet()
+		{
+			foreach (var bullet in Bullets)
+			{
+				if (bullet.Count >= consumption)
+				{
+					return bullet;
+				}
+			}
+			return null;
+		}
+		
+		public void Sell()
+		{
+			int sellPrice = CalculateSellPrice();
+			Player.Money += sellPrice;
+		}
+		
+		public int CalculateSellPrice()
+		{
+			return (int)((durability/100.0)*price);
 		}
 	}
 }

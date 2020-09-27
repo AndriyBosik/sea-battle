@@ -70,6 +70,16 @@ namespace GameParts
 			return size*3;
 		}
 		
+		public int GetAward()
+		{
+			return size*5;
+		}
+		
+		public int GetOneDeckAward()
+		{
+			return size;
+		}
+		
 		public Deck GetDeck(int number)
 		{
 			return Decks.ElementAt(number);
