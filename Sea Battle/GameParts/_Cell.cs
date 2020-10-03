@@ -26,7 +26,6 @@ namespace GameParts
 	/// </summary>
 	public class Cell
 	{
-		protected Point point;
 		public string icon;
 		protected Label image;
 		protected CellStatus status;
@@ -55,23 +54,15 @@ namespace GameParts
 			}
 		}
 		
-		public Cell()
-		{
-			
-		}
-		
 		public Cell(
-			int x,
-			int y,
 			string icon = Images.EMPTY_CELL)
 		{
-			Init(x, y, icon);
+			Init(icon);
 		}
 		
-		protected void Init(int x, int y, string icon)
+		protected void Init(string icon)
 		{
 			status = CellStatus.EMPTY;
-			point = new Point(x, y);
 			this.icon = icon;
 			image = GetLabel();
 		}

@@ -8,6 +8,7 @@
  */
 using System;
 using Config;
+using GameObjects;
 
 namespace GameParts
 {
@@ -18,6 +19,7 @@ namespace GameParts
 	{
 		private PlayerData player;
 		
+		private Point point;
 		private int radius;
 		private int cost;
 		private int damage;
@@ -25,15 +27,13 @@ namespace GameParts
 		
 		public Bomb(
 			PlayerData player,
-			int x,
-			int y,
 			int radius = 1,
 			int cost = 10,
 			int damage = 10,
 			int deactivationPrice = 20,
 			string icon = Images.BOMB)
 		{
-			Init(x, y, icon);
+			Init(icon);
 			this.radius = radius;
 			cost = this.cost;
 			damage = this.damage;
@@ -41,12 +41,17 @@ namespace GameParts
 			this.deactivationPrice = deactivationPrice;
 		}
 		
+		public void Move(int x, int y)
+		{
+			this.point = new Point(x, y);
+		}
+		
 		public void MakeExplosion()
 		{
 			MakeExplosion(point.X, point.Y);
 		}
 		
-		public void MakeExplosion(int x, int y)
+		private void MakeExplosion(int x, int y)
 		{
 			// Recursive explosion
 		}

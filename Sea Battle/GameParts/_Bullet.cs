@@ -26,9 +26,6 @@ namespace GameParts
 		private int playerId;
 		
 		private int gunId;
-		private readonly int damage;
-		private readonly int cost;
-		private readonly DamageKind damageKind;
 		private readonly int gunDamage;
 		private int stability;
 		private int totalCount;
@@ -62,7 +59,7 @@ namespace GameParts
 		
 		public PlayerData Player
 		{
-			get { return PlayerData.players.Where(player => player.Id == playerId).FirstOrDefault() }
+			get { return PlayerData.players.Where(player => player.Id == playerId).FirstOrDefault(); }
 			set { playerId = value.Id; }
 		}
 		

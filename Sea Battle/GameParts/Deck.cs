@@ -57,25 +57,23 @@ namespace GameParts
 		}
 		
 		public Deck(
-			int x,
-			int y,
-			int health,
 			Ship ship,
 			DeckKind kind = DeckKind.ONE_DECK,
-			string orientation = Gameplay.HORIZONTAL_ORIENTATION)
+			string orientation = Gameplay.HORIZONTAL_ORIENTATION,
+			int health = 100)
 		{
 			Ship = ship;
-			Init(x, y, kind, orientation);
+			Init(kind, orientation);
 			decks.Add(this);
 			this.maxHealth = this.health = health;
 		}
 		
-		private void Init(int x, int y, DeckKind kind, string orientation)
+		private void Init(DeckKind kind, string orientation)
 		{
 			this.kind = kind;
 			this.icon = DeckKindProcessor.GetIcon(kind);
 			
-			base.Init(x, y, this.icon);
+			base.Init(this.icon);
 			
 			status = CellStatus.DECK;
 			RotateDeck(orientation);

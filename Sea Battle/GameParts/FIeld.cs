@@ -179,8 +179,6 @@ namespace GameParts
 					currentColumn = column + i;
 				}
 				Deck deck = new Deck(
-					currentRow,
-					currentColumn,
 					ship,
 					DeckKindProcessor.GetDeckKind(i, size),
 					orientation);
@@ -229,7 +227,7 @@ namespace GameParts
 			{
 				for (int j = 0; j < columns; j++)
 				{
-					Cell cell = new Cell(i, j);
+					Cell cell = new Cell();
 					Grid.SetRow(cell.Image, i);
 					Grid.SetColumn(cell.Image, j);
 					Children.Add(cell.Image);
