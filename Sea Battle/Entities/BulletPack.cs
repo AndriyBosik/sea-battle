@@ -7,6 +7,8 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 using GameObjects;
 
@@ -17,10 +19,33 @@ namespace Entities
 	/// <summary>
 	/// Description of Bullet.
 	/// </summary>
-	public class Bullet: ShopBullet
+	public class BulletPack: ShopBulletPack
 	{	
+//		public List<Gun> PossibleGuns
+//		{
+//			get { return Database.guns.Where(gun => gun.DamageKind == this.DamageKind).ToList(); }
+//		}
 		
-		public Bullet(
+		private List<BulletPackInGun> BulletPackInGuns
+		{
+			get
+			{
+				return Database.bulletPackInGuns.Where(bulletPackInGun => bulletPackInGun.Gun == this).ToList();
+			}
+		}
+		
+		public List<Gun> Guns
+		{
+			get
+			{
+				return Database.bulletPackInGuns
+					.Where(bulletPackInGun => bulletPackInGun.Gun == this)
+					.Select(bulletPackInGun => bulletPackInGun.Gun)
+					.ToList();
+			}
+		}
+		
+		public BulletPack(
 			int stability,
 			int count,
 			DamageKind damageKind,
@@ -28,7 +53,7 @@ namespace Entities
 			int damage,
 			string icon = Images.SMALL_BULLET): base(stability, count, damageKind, costByOne, damage, icon)
 		{
-			
+			Database.bulletPacks.Add(this);
 		}
 		
 		public void Shot(Point point)

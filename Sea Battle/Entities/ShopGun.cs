@@ -8,6 +8,8 @@
  */
 using System;
 
+using GameObjects;
+
 namespace Entities
 {
 	/// <summary>
@@ -16,10 +18,16 @@ namespace Entities
 	public class ShopGun: ShopItem
 	{
 
-		private int Deterioration
+		public int Deterioration
 		{
 			get;
 			set;
+		}
+		
+		public DamageKind DamageKind
+		{
+			get;
+			private set;
 		}
 		
 		public ShopGun(int costByOne, int deterioration, string icon): base(costByOne, 0, icon)

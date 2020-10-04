@@ -17,7 +17,7 @@ namespace Entities
 	/// <summary>
 	/// Description of ShopBullet.
 	/// </summary>
-	public class ShopBullet: ShopItem
+	public class ShopBulletPack: ShopItem
 	{
 		public DamageKind DamageKind
 		{
@@ -37,7 +37,7 @@ namespace Entities
 			set;
 		}
 		
-		public ShopBullet(
+		public ShopBulletPack(
 			int stability,
 			int count,
 			DamageKind damageKind,

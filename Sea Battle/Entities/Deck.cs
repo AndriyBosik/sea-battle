@@ -70,7 +70,7 @@ namespace Entities
 		public Deck(Ship ship, DeckKind kind, string orientation):
 			this(ship, kind, orientation, 100)
 		{
-			
+			Database.decks.Add(this);
 		}
 		
 		public Deck(

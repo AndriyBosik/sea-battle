@@ -20,6 +20,7 @@ namespace Entities
 		public static List<Deck> decks = new List<Deck>();
 		public static List<Ship> ships = new List<Ship>();
 		public static List<Bomb> bombs = new List<Bomb>();
-		//public static List<Field> fields;
+		public static List<BulletPack> bulletPacks = new List<BulletPack>();
+		public static List<BulletPackInGun> bulletPackInGuns = new List<BulletPackInGun>();
 	}
 }
