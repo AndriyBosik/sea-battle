@@ -13,6 +13,8 @@ using Config;
 
 using Processors;
 
+using Entities;
+
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -167,7 +169,7 @@ namespace GameParts
 				return;
 			}
 			
-			Ship ship = new Ship(row, column, size, orientation);
+			Ship ship = new Ship(size, orientation);
 			
 			for (int i = 0; i < size; i++)
 			{
@@ -189,7 +191,7 @@ namespace GameParts
 				Children.Add(deck.Image);
 			}
 			
-			int index = ship.GetSize();
+			int index = ship.Size;
 			if (ships[index] == null)
 			{
 				ships[index] = new List<Ship>();

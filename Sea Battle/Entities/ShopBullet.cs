@@ -41,9 +41,9 @@ namespace Entities
 			int stability,
 			int count,
 			DamageKind damageKind,
-			int cost,
+			int costByOne,
 			int damage,
-			string icon = Images.SMALL_BULLET): base(cost, damage, icon)
+			string icon = Images.SMALL_BULLET): base(costByOne, damage, icon)
 		{
 			Stability = stability;
 			Count = count;

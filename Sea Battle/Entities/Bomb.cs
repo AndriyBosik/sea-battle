@@ -19,7 +19,7 @@ namespace Entities
 	/// </summary>
 	public class Bomb: ShopBomb
 	{
-		private readonly Point point;
+		private Point point;
 		private readonly CellStatus status;
 		
 		public Bomb(Point point, int radius, int cost, int damage, int deactivationPrice, string icon = Images.BOMB):

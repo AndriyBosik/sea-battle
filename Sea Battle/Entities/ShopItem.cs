@@ -18,7 +18,7 @@ namespace Entities
 	public class ShopItem: Cell
 	{
 		
-		public int Cost
+		public int CostByOne
 		{
 			get;
 			private set;
@@ -30,10 +30,9 @@ namespace Entities
 			private set;
 		}
 
-		
-		public ShopItem(int cost, int damage, string icon)
+		public ShopItem(int costByOne, int damage, string icon)
 		{
-			Cost = cost;
+			CostByOne = costByOne;
 			Damage = damage;
 			this.icon = icon;
 			Init(icon);

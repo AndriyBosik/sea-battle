@@ -25,3 +25,5 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\GameField.baml
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\GameField.g.cs
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Config.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Config.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Entities.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Entities.pdb

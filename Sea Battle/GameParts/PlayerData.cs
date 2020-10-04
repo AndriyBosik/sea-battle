@@ -10,6 +10,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
+using Entities;
+
 namespace GameParts
 {
 	/// <summary>
@@ -42,21 +44,21 @@ namespace GameParts
 			set { money = value; }
 		}
 		
-		public List<Gun> Guns
-		{
-			get
-			{
-				return Gun.guns.Where(gun => gun.Player == this).ToList();
-			}
-		}
+//		public List<Gun> Guns
+//		{
+//			get
+//			{
+//				//return Database.guns.Where(gun => gun.Player == this).ToList();
+//			}
+//		}
 		
-		public List<Bullet> Bullets
-		{
-			get
-			{
-				return Bullet.bullets.Where(bullet=> bullet.Player == this).ToList();
-			}
-		}
+//		public List<Bullet> Bullets
+//		{
+//			get
+//			{
+//				//return Bullet.bullets.Where(bullet=> bullet.Player == this).ToList();
+//			}
+//		}
 		
 		public PlayerData(Field field, int money = 1000, int healthPoints = 1000)
 		{
@@ -70,7 +72,7 @@ namespace GameParts
 		
 		public void HealDeck(Deck deck)
 		{
-			deck.Heal(Math.Min(healthPoints, deck.MaxHealth - deck.Health));
+			deck.Heal(Math.Min(healthPoints, deck.TotalHealth - deck.CurrentHealth));
 		}
 		
 	}

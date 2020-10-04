@@ -1,42 +1,45 @@
 ﻿/*
  * Created by SharpDevelop.
  * User: Andriy
- * Date: 02.10.2020
- * Time: 23:01
+ * Date: 10/04/2020
+ * Time: 18:14
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+
+using GameObjects;
 
 namespace Entities
 {
 	/// <summary>
 	/// Description of Gun.
 	/// </summary>
-	public class Gun: Base
+	public class Gun: ShopGun
 	{
-		public int Cost
-		{
-			get;
-			private set;
-		}
-		
-		private string Icon
-		{
-			get;
-			private set;
-		}
-		
-		private int Deterioration
-		{
-			get;
-			private set;
-		}
-		
-		public Gun()
+		public Gun(int costByOne, int deterioration, string icon): base(costByOne, deterioration, icon)
 		{
 			
-			Database.guns.Add(this);
+		}
+		
+		public void TryShot(Bullet bullet, Point point)
+		{
+			
+		}
+		
+		private void Shot(Bullet bullet)
+		{
+			
+		}
+		
+		public void Sell()
+		{
+			
+		}
+		
+		private int QuantifySellPrice()
+		{
+			return 0;
 		}
 	}
 }

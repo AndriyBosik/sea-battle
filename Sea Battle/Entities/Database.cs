@@ -16,10 +16,10 @@ namespace Entities
 	/// </summary>
 	public class Database
 	{
-		public static List<Gun> guns;
-		public static List<Deck> decks;
-		//public static List<Ship> ships;
-		public static List<Bomb> bombs;
+		public static List<Gun> guns = new List<Gun>();
+		public static List<Deck> decks = new List<Deck>();
+		public static List<Ship> ships = new List<Ship>();
+		public static List<Bomb> bombs = new List<Bomb>();
 		//public static List<Field> fields;
 	}
 }

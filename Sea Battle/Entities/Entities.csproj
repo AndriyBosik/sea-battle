@@ -73,6 +73,8 @@
     <Compile Include="Database.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Gun.cs" />
+    <Compile Include="ShopGun.cs" />
+    <Compile Include="Ship.cs" />
     <Compile Include="ShopBomb.cs" />
     <Compile Include="ShopBullet.cs" />
     <Compile Include="ShopItem.cs" />
