@@ -7,7 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 
-using GameObjects;
+using FieldEditorParts;
 
 using Processors;
 

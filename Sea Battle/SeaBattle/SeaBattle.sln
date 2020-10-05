@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle", "SeaBattle.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameObjects", "..\GameObjects\GameObjects.csproj", "{AE342253-EBBB-43B0-8BD6-53E35A2173F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameParts", "..\GameParts\GameParts.csproj", "{2E77EEFA-99D2-41F4-8370-B2580C4AE84F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FieldEditorParts", "..\GameParts\FieldEditorParts.csproj", "{2E77EEFA-99D2-41F4-8370-B2580C4AE84F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Processors", "..\Processors\Processors.csproj", "{7D392411-0D1B-49A1-AEF2-86CB09FF7B31}"
 EndProject

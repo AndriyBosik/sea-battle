@@ -8,7 +8,7 @@
  */
 
 using System.Windows.Media.Imaging;
-using GameObjects;
+using FieldEditorParts;
 using Processors;
 
 using Config;

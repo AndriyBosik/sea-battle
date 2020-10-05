@@ -10,7 +10,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace GameParts
+namespace FieldEditorParts
 {
 	/// <summary>
 	/// Description of SizeRadios.

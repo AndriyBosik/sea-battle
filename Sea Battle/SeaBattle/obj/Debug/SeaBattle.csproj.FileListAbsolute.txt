@@ -15,8 +15,6 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\FieldEditor.ba
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\FieldEditor.g.cs
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\GameObjects.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\GameObjects.pdb
-D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\GameParts.exe
-D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\GameParts.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\About.baml
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\About.g.cs
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Processors.exe
@@ -27,3 +25,5 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Config.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Config.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Entities.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Entities.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\FieldEditorParts.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\FieldEditorParts.pdb

@@ -6,10 +6,11 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>GameParts</RootNamespace>
-    <AssemblyName>GameParts</AssemblyName>
+    <RootNamespace>FieldEditorParts</RootNamespace>
+    <AssemblyName>FieldEditorParts</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
+    <NoWin32Manifest>False</NoWin32Manifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -70,7 +71,7 @@
     <Compile Include="Field.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="OrientationGroup.cs" />
-    <Compile Include="PlayerData.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\WPFAssemblyInfo.cs" />
     <Compile Include="SizeRadios.cs" />

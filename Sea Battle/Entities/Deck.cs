@@ -22,6 +22,7 @@ namespace Entities
 	public class Deck: Cell
 	{
 		private Guid shipId;
+		private Guid bombId;
 		
 		#region Properties
 		public Ship Ship
@@ -34,6 +35,12 @@ namespace Entities
 			{
 				shipId = value.ID;
 			}
+		}
+		
+		public Bomb Bomb
+		{
+			get { return Database.bombs.Where(bomb => bomb.ID == bombId).FirstOrDefault(); }
+			set { bombId = value.ID; }
 		}
 		
 		public int CurrentHealth

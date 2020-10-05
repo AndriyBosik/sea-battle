@@ -28,7 +28,7 @@ namespace Entities
 		{
 			get
 			{
-				return Database.bulletPackInGuns.Where(bulletPackInGun => bulletPackInGun.BulletPack == this).ToList();
+				return Database.bulletPackInGuns.Where(bulletPackInGun => bulletPackInGun.Gun == this).ToList();
 			}
 		}
 		
@@ -37,7 +37,7 @@ namespace Entities
 			get
 			{
 				return Database.bulletPackInGuns
-					.Where(bulletPackInGun => bulletPackInGun.BulletPack == this)
+					.Where(bulletPackInGun => bulletPackInGun.Gun == this)
 					.Select(bulletPackInGun => bulletPackInGun.BulletPack)
 					.ToList();
 			}

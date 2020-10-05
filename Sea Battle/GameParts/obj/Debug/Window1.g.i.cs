@@ -51,7 +51,7 @@ namespace GameParts {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/GameParts;component/window1.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/FieldEditorParts;component/window1.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\Window1.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

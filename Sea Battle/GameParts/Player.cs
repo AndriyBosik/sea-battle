@@ -12,14 +12,14 @@ using System.Collections.Generic;
 
 using Entities;
 
-namespace GameParts
+namespace FieldEditorParts
 {
 	/// <summary>
 	/// Description of PlayerData.
 	/// </summary>
-	public class PlayerData
+	public class Player
 	{
-		public static List<PlayerData> players = new List<PlayerData>();
+		public static List<Player> players = new List<Player>();
 		
 		private static int counter = 0;
 		int id;
@@ -44,23 +44,7 @@ namespace GameParts
 			set { money = value; }
 		}
 		
-//		public List<Gun> Guns
-//		{
-//			get
-//			{
-//				//return Database.guns.Where(gun => gun.Player == this).ToList();
-//			}
-//		}
-		
-//		public List<Bullet> Bullets
-//		{
-//			get
-//			{
-//				//return Bullet.bullets.Where(bullet=> bullet.Player == this).ToList();
-//			}
-//		}
-		
-		public PlayerData(Field field, int money = 1000, int healthPoints = 1000)
+		public Player(Field field, int money = 1000, int healthPoints = 1000)
 		{
 			counter++;
 			id = counter;

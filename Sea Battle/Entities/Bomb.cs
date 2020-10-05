@@ -7,6 +7,8 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Config;
 
@@ -19,8 +21,15 @@ namespace Entities
 	/// </summary>
 	public class Bomb: ShopBomb
 	{
+		private Guid deckId;
 		private Point point;
 		private readonly CellStatus status;
+		
+		public Deck Deck
+		{
+			get { return Database.decks.Where(deck => deck.ID == deckId).FirstOrDefault(); }
+			set { deckId = value.ID; }
+		}
 		
 		public Bomb(Point point, int radius, int cost, int damage, int deactivationPrice, string icon = Images.BOMB):
 			base(radius, cost, damage, deactivationPrice, icon)

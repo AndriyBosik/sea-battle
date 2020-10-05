@@ -22,7 +22,7 @@ using System.Windows.Controls;
 
 using System.Collections.Generic;
 
-namespace GameParts
+namespace FieldEditorParts
 {
 	/// <summary>
 	/// Description of Field.

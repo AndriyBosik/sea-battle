@@ -14,7 +14,7 @@ using GameObjects;
 
 using Processors;
 
-namespace GameParts
+namespace FieldEditorParts
 {
 	/// <summary>
 	/// Description of GAme.

@@ -115,9 +115,9 @@
       <Project>{ae342253-ebbb-43b0-8bd6-53e35a2173f2}</Project>
       <Name>GameObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameParts\GameParts.csproj">
+    <ProjectReference Include="..\GameParts\FieldEditorParts.csproj">
       <Project>{2e77eefa-99d2-41f4-8370-b2580c4ae84f}</Project>
-      <Name>GameParts</Name>
+      <Name>FieldEditorParts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Processors\Processors.csproj">
       <Project>{e0a28059-5430-41ed-b008-031003979e2f}</Project>
