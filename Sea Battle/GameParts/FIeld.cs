@@ -41,7 +41,6 @@ namespace FieldEditorParts
 		
 		private SizeRadios sizeRadios;
 		private OrientationGroup orientationGroup;
-		private Button next;
 		
 		public string Orientation
 		{
@@ -83,11 +82,16 @@ namespace FieldEditorParts
 			}
 		}
 		
-		public Field(int rows, int columns, int maxShipSize, Button next)
+		public bool AllShipsPasted
+		{
+			get; set;
+		}
+		
+		public Field(int rows, int columns, int maxShipSize)
 		{	
 			this.orientation = Gameplay.HORIZONTAL_ORIENTATION;
 			this.size = 1;
-			this.Margin = new Thickness(10);
+			//this.Margin = new Thickness(10);
 			this.rows = rows;
 			this.columns = columns;
 			this.maxShipSize = maxShipSize;
@@ -95,7 +99,7 @@ namespace FieldEditorParts
 			
 			this.orientationGroup = new OrientationGroup(this);
 			this.sizeRadios = new SizeRadios(maxShipSize, this);
-			this.next = next;
+			this.AllShipsPasted = false;
 			
 			InitializeGrid(rows, columns);
 			InitializeCells(rows, columns);
@@ -202,7 +206,7 @@ namespace FieldEditorParts
 				sizeRadios.MakeDisabled(size);
 				if (sizeRadios.AllPasted)
 				{
-					next.IsEnabled = true;
+					AllShipsPasted = true;
 				}
 			}
 		}

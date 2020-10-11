@@ -26,7 +26,8 @@ namespace SeaBattle
 	/// </summary>
 	public partial class FieldEditor : Window
 	{
-		
+		private const string ALL_SHIPS_ARE_NOT_PASTED = "You must place all the ships!!!";
+		private const string ERROR_TITLE = "Error";
 		private const int CELL_SIZE = 35;
 		private const int MARGIN = 10;
 		
@@ -36,6 +37,7 @@ namespace SeaBattle
 		private readonly int maxShipSize;
 		private Label[][] field;
 		private CellStatus[][] status;
+		private bool isFirstPlayerReady;
 		
 		private Field grid;
 		
@@ -50,6 +52,8 @@ namespace SeaBattle
 			
 			this.rows = rows;
 			this.columns = columns;
+			this.isFirstPlayerReady = false;
+			
 			
 			InitializeField();
 			
@@ -57,12 +61,7 @@ namespace SeaBattle
 			
 			SetWindowSize();
 			
-			Button next = new Button();
-			next.Content = "Next";
-			next.IsEnabled = false;
-			next.PreviewMouseLeftButtonUp += NextPlayer;
-			
-			SetGrid(next);
+			SetGrid();
 		}
 		
 		// Initializes arrays field and status
@@ -85,54 +84,101 @@ namespace SeaBattle
 			this.ResizeMode = ResizeMode.NoResize;
 		}
 
-		private void SetGrid(Button b)
+		private void SetGrid()
 		{
-			grid = new Field(rows, columns, maxShipSize, b);
+			StackPanel content = new StackPanel();
+			content.Orientation = Orientation.Vertical;
 			
-			SizeToContent = SizeToContent.WidthAndHeight;
-			DockPanel content = new DockPanel();
-			StackPanel fieldWithSizeRadios = new StackPanel();
-			fieldWithSizeRadios.Orientation = Orientation.Vertical;
+			content.Children.Add(PlayerInfo());
+			content.Children.Add(FieldComponents());
+			//content.Children.Add(Footer());
 			
-			StackPanel sizeRadios = grid.SizeRadios;
-			StackPanel orientationGroup = grid.OrientationGroup;
-			orientationGroup.MinHeight = grid.ActualHeight;
+			Border border = new Border();
+			border.Padding = new Thickness(10);
+			border.Child = content;
+			Content = border;
+		}
+		
+		private UIElement PlayerInfo()
+		{
+			TextBlock text = new TextBlock();
+			text.Text = "You have 1000 coins";
+			text.FontSize = 22;
+			text.TextWrapping = TextWrapping.Wrap;
+			return text;
+		}
+		
+		private UIElement FieldComponents()
+		{
+			StackPanel components = new StackPanel();
+			components.Orientation = Orientation.Vertical;
 			
-			StackPanel withBackButton = new StackPanel();
-			withBackButton.Orientation = Orientation.Vertical;
-			withBackButton.Margin = new Thickness(0, 0, 10, 0);
+			StackPanel horizontal = new StackPanel();
+			horizontal.Orientation = Orientation.Horizontal;
+			horizontal.Margin = new Thickness(10);
+			
+			grid = new Field(rows, columns, maxShipSize);
+			horizontal.Children.Add(grid);
+			
+			StackPanel rightColumn = new StackPanel();
+			rightColumn.Orientation = Orientation.Vertical;
+			rightColumn.Children.Add(grid.OrientationGroup);
 			
 			Button goBack = new Button();
 			goBack.Content = "Go back";
 			goBack.PreviewMouseLeftButtonDown += ShowMainWindow;
 			
-			withBackButton.Children.Add(orientationGroup);
-			withBackButton.Children.Add(b);
-			withBackButton.Children.Add(goBack);
+			Button shop = new Button();
+			shop.Content = "Shop";
+			shop.PreviewMouseLeftButtonUp += OpenShop;
 			
-			fieldWithSizeRadios.Children.Add(grid);
-			fieldWithSizeRadios.Children.Add(sizeRadios);
+			Button next = new Button();
+			next.Content = "Next";
+			next.PreviewMouseLeftButtonUp += NextStep;
 			
-			DockPanel.SetDock(fieldWithSizeRadios, Dock.Left);
-			DockPanel.SetDock(withBackButton, Dock.Right);
-			content.Children.Add(fieldWithSizeRadios);
-			content.Children.Add(withBackButton);
-			Content = content;
+			rightColumn.Children.Add(next);
+			rightColumn.Children.Add(shop);
+			rightColumn.Children.Add(goBack);
+			rightColumn.Margin = new Thickness(10, 0, 0, 0);
+			
+			horizontal.Children.Add(rightColumn);
+			
+			components.Children.Add(horizontal);
+			components.Children.Add(grid.SizeRadios);
+			
+			return components;
 		}
 		
-		private void NextPlayer(object sender, RoutedEventArgs e)
+		private void OpenShop(object sender, RoutedEventArgs e)
 		{
+			if (!grid.AllShipsPasted)
+			{
+				MessageBox.Show(ALL_SHIPS_ARE_NOT_PASTED, ERROR_TITLE);
+				return;
+			}
+			Shop shop = new Shop();
+			shop.Show();
+		}
+		
+		private void NextStep(object sender, RoutedEventArgs e)
+		{
+			if (!grid.AllShipsPasted)
+			{
+				MessageBox.Show(ALL_SHIPS_ARE_NOT_PASTED, ERROR_TITLE);
+				return;
+			}
+			
 			DisconnectGrid();
+			
+			if (isFirstPlayerReady)
+			{
+				StartGame(sender, e);
+				return;
+			}
+			isFirstPlayerReady = true;
 			firstPlayer = grid;
 			
-			//grid.Children.Clear();
-			
-			Button start = new Button();
-			start.Content = "Start game";
-			start.IsEnabled = false;
-			start.PreviewMouseLeftButtonUp += StartGame;
-			
-			SetGrid(start);
+			SetGrid();
 		}
 		
 		private void DisconnectGrid()
@@ -143,10 +189,7 @@ namespace SeaBattle
 		
 		private void StartGame(object sender, RoutedEventArgs e)
 		{
-			DisconnectGrid();
 			secondPlayer = grid;
-			
-			//grid.Children.Clear();
 			
 			GameField game = new GameField(firstPlayer, secondPlayer);
 			

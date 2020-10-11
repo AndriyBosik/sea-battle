@@ -56,7 +56,7 @@ namespace FieldEditorParts
 		{
 			this.allPasted = false;
 			this.Orientation = Orientation.Horizontal;
-			this.Margin = new Thickness(0, 0, 0, 10);
+			//this.Margin = new Thickness(0, 0, 0, 10);
 		}
 		
 		private void ChangeSize(object obj, RoutedEventArgs e)

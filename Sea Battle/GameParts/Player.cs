@@ -12,6 +12,8 @@ using System.Collections.Generic;
 
 using Entities;
 
+using Config;
+
 namespace FieldEditorParts
 {
 	/// <summary>
@@ -25,8 +27,6 @@ namespace FieldEditorParts
 		int id;
 		
 		private Field field;
-		private int money;
-		private int healthPoints;
 		
 		public Field Field
 		{
@@ -40,23 +40,30 @@ namespace FieldEditorParts
 		
 		public int Money
 		{
-			get { return money; }
-			set { money = value; }
+			get; set;
 		}
 		
-		public Player(Field field, int money = 1000, int healthPoints = 1000)
+		public int HealthPoints
+		{
+			get; set;
+		}
+		
+		public Player(Field field)
 		{
 			counter++;
 			id = counter;
 			
 			this.field = field;
-			this.money = money;
-			this.healthPoints = healthPoints;
+			this.Money = Gameplay.INITIAL_MONEY;
+			this.HealthPoints = Gameplay.INITIAL_HEALTH_POINT;
+			
 		}
 		
 		public void HealDeck(Deck deck)
 		{
-			deck.Heal(Math.Min(healthPoints, deck.TotalHealth - deck.CurrentHealth));
+			int health = Math.Min(HealthPoints, deck.TotalHealth - deck.CurrentHealth);
+			deck.Heal(health);
+			HealthPoints -= health;
 		}
 		
 	}

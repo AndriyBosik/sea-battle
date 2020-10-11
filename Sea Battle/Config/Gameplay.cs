@@ -23,5 +23,8 @@ namespace Config
 		
 		public const int CELL_SIZE = 35;
 		public const int DEFAULT_SHIP_SIZE = 1;
+		
+		public const int INITIAL_MONEY = 1000;
+		public const int INITIAL_HEALTH_POINT = 1000;
 	}
 }

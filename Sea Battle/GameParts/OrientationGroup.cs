@@ -53,7 +53,7 @@ namespace FieldEditorParts
 		private void Init()
 		{
 			this.Orientation = Orientation.Vertical;
-			this.Margin = new Thickness(0, 10, 10, 0);
+			//this.Margin = new Thickness(0, 10, 10, 0);
 		}
 		
 		private void ChangeOrientation(object obj, RoutedEventArgs e)

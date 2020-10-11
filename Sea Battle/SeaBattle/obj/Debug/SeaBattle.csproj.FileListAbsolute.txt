@@ -27,3 +27,5 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Entities.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Entities.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\FieldEditorParts.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\FieldEditorParts.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\Shop.baml
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\Shop.g.cs
