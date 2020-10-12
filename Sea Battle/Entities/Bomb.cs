@@ -31,7 +31,7 @@ namespace Entities
 			set { deckId = value.ID; }
 		}
 		
-		public Bomb(Point point, int radius, int cost, int damage, int deactivationPrice, string icon = Images.BOMB):
+		public Bomb(Point point, int radius, int cost, int damage, int deactivationPrice, string icon):
 			base(radius, cost, damage, deactivationPrice, icon)
 		{
 			status = CellStatus.BOMB;

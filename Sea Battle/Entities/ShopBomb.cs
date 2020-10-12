@@ -30,10 +30,45 @@ namespace Entities
 		}
 		
 		public ShopBomb(
-			int radius, int cost, int damage, int deactivationPrice, string icon = Images.BOMB): base(cost, damage, icon)
+			int radius,
+			int costByOne,
+			int damage,
+			int deactivationPrice,
+			string icon): base(costByOne, damage, icon)
 		{
 			Radius = radius;
 			DeactivationPrice = deactivationPrice;
+		}
+		
+		#region Equals and GetHashCode implementation
+		public override bool Equals(object obj)
+		{
+			ShopBomb other = obj as ShopBomb;
+			if (other == null)
+				return false;
+			return  this.icon == other.icon;
+		}
+
+		public static bool operator ==(ShopBomb lhs, ShopBomb rhs) {
+			if (ReferenceEquals(lhs, rhs))
+				return true;
+			if (ReferenceEquals(lhs, null) || ReferenceEquals(rhs, null))
+				return false;
+			return lhs.Equals(rhs);
+		}
+
+		public static bool operator !=(ShopBomb lhs, ShopBomb rhs) {
+			return !(lhs == rhs);
+		}
+
+		#endregion
+		
+		public override string ToString()
+		{
+			return  "Radius: " + Radius + "\n" +
+					"Damage: " + Damage + "\n" +
+					"Deactivation Price: " + DeactivationPrice + "\n" +
+					"Cost: " + CostByOne + "\n";
 		}
 	}
 }

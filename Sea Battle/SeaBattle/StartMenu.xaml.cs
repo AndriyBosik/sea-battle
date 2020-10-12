@@ -35,7 +35,7 @@ namespace SeaBattle
 			
 			Grid wrapper = gWrapper;
 			
-			ImageBrush back = ImageProcessor.GetImage("main-menu-background");
+			ImageBrush back = ImageProcessor.GetBackground("main-menu-background");
 			back.Opacity = 0.3;
 			
 			wrapper.Background = back;

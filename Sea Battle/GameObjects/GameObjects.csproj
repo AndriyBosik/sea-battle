@@ -51,8 +51,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BombKind.cs" />
     <Compile Include="CellStatus.cs" />
     <Compile Include="DamageKind.cs" />
+    <Compile Include="DamageKindExtensions.cs" />
     <Compile Include="DeckKind.cs" />
     <Compile Include="DeckKindProcessor.cs" />
     <Compile Include="Direction.cs" />

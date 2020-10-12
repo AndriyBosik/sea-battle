@@ -11,6 +11,7 @@ using Config;
 
 using System;
 using System.Windows.Media;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace Processors
@@ -20,7 +21,7 @@ namespace Processors
 	/// </summary>
 	public static class ImageProcessor
 	{
-		public static ImageBrush GetImage(string name)
+		public static ImageBrush GetBackground(string name)
 		{
 			string path = SolutionConfig.IMAGES_DIRECTORY + name + ".png";
 			BitmapImage btm = new BitmapImage();
@@ -29,6 +30,22 @@ namespace Processors
 			btm.EndInit();
 			return new ImageBrush(btm);
 		}
+		
+		public static Image GetImage(string imageName, int width, int height)
+		{
+			Image im = new Image();
+			BitmapImage btm = new BitmapImage();
+			
+			btm.BeginInit();
+			btm.UriSource = new Uri(SolutionConfig.IMAGES_DIRECTORY + imageName + ".png");
+			btm.EndInit();
+			
+			im.Height = height;
+			im.Width = height;
+			im.Source = btm;
+			im.Stretch = Stretch.Fill;
+			
+			return im;		}
 		
 		public static BitmapFrame GetIcon(string name)
 		{

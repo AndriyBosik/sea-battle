@@ -10,6 +10,8 @@ using System;
 
 using GameObjects;
 
+using Config;
+
 namespace Entities
 {
 	/// <summary>
@@ -30,9 +32,18 @@ namespace Entities
 			private set;
 		}
 		
-		public ShopGun(int costByOne, int deterioration, string icon): base(costByOne, 0, icon)
+		public ShopGun(int costByOne, int deterioration, DamageKind damageKind, string icon): base(costByOne, 0, icon)
 		{
+			DamageKind = damageKind;
 			Deterioration = deterioration;
 		}
+		
+		public override string ToString()
+		{
+			return  "Deterioration: " + Deterioration + "\n" +
+					"Cost: " + CostByOne + "\n" +
+					"King of damage: " + DamageKindExtensions.ToString(DamageKind) + "\n";
+		}
+ 
 	}
 }

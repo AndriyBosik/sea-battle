@@ -31,6 +31,7 @@ namespace FieldEditorParts
 		public Field Field
 		{
 			get { return field; }
+			set { field = value; }
 		}
 		
 		public int Id
@@ -48,12 +49,10 @@ namespace FieldEditorParts
 			get; set;
 		}
 		
-		public Player(Field field)
+		public Player()
 		{
 			counter++;
 			id = counter;
-			
-			this.field = field;
 			this.Money = Gameplay.INITIAL_MONEY;
 			this.HealthPoints = Gameplay.INITIAL_HEALTH_POINT;
 			

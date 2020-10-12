@@ -15,8 +15,8 @@ namespace GameObjects
 	/// </summary>
 	public enum GunKind
 	{
-		SMALL,
-		MEDIUM,
-		BIG
+		SmallGun,
+		MediumGun,
+		LargeGun
 	}
 }

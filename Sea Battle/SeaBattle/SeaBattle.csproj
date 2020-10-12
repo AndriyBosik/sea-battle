@@ -116,6 +116,10 @@
       <Project>{385c340b-d94b-455f-963d-c869f0bc92e9}</Project>
       <Name>Config</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{a3bf9d9d-410e-45b9-92ef-5bfd63272d91}</Project>
+      <Name>Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameObjects\GameObjects.csproj">
       <Project>{ae342253-ebbb-43b0-8bd6-53e35a2173f2}</Project>
       <Name>GameObjects</Name>
@@ -127,6 +131,10 @@
     <ProjectReference Include="..\Processors\Processors.csproj">
       <Project>{e0a28059-5430-41ed-b008-031003979e2f}</Project>
       <Name>Processors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shop\Shop.csproj">
+      <Project>{4cd74d5a-e118-4a6b-9cf4-69b603c30bc8}</Project>
+      <Name>Shop</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

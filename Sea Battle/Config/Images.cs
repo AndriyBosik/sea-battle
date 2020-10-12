@@ -21,13 +21,7 @@ namespace Config
 		public const string INTERNAL = "internal";
 		public const string BEGIN = "begin";
 		public const string END = "end";
-		public const string BOMB = "bomb";
 		
 		public const string SMALL_BULLET = "small-bullet";
-		
-		public const string SMALL_GUN = "small-gun";
-		public const string MEDIUM_GUN = "medium-gun";
-		public const string BIG_GUN = "big-gun";
-		public const string MEGA_GUN = "mega-gun";
 	}
 }

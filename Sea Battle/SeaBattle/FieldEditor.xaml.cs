@@ -9,15 +9,21 @@
  
 using FieldEditorParts;
 
+using Shop;
+
 using GameObjects;
 
 using Config;
 
+using Entities;
+
 using Processors;
 
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace SeaBattle
 {
@@ -31,22 +37,27 @@ namespace SeaBattle
 		private const int CELL_SIZE = 35;
 		private const int MARGIN = 10;
 		
+		private StackPanel rightColumn;
+		
 		private string orientation;
 		private int rows;
 		private int columns;
 		private readonly int maxShipSize;
 		private Label[][] field;
+		private TextBlock information;
 		private CellStatus[][] status;
 		private bool isFirstPlayerReady;
 		
 		private Field grid;
 		
-		private Field firstPlayer;
-		private Field secondPlayer;
+		private Player firstPlayer;
+		private Player secondPlayer;
 		
 		public FieldEditor(int rows, int columns)
 		{
 			InitializeComponent();
+			
+			information = new TextBlock();
 			
 			orientation = Gameplay.HORIZONTAL_ORIENTATION;
 			
@@ -54,6 +65,8 @@ namespace SeaBattle
 			this.columns = columns;
 			this.isFirstPlayerReady = false;
 			
+			firstPlayer = new Player();
+			secondPlayer = new Player();
 			
 			InitializeField();
 			
@@ -101,11 +114,10 @@ namespace SeaBattle
 		
 		private UIElement PlayerInfo()
 		{
-			TextBlock text = new TextBlock();
-			text.Text = "You have 1000 coins";
-			text.FontSize = 22;
-			text.TextWrapping = TextWrapping.Wrap;
-			return text;
+			information.Text = "You have " + GetCurrentPlayer().Money + " coins";
+			information.FontSize = 22;
+			information.TextWrapping = TextWrapping.Wrap;
+			return information;
 		}
 		
 		private UIElement FieldComponents()
@@ -118,9 +130,10 @@ namespace SeaBattle
 			horizontal.Margin = new Thickness(10);
 			
 			grid = new Field(rows, columns, maxShipSize);
+			
 			horizontal.Children.Add(grid);
 			
-			StackPanel rightColumn = new StackPanel();
+			rightColumn = new StackPanel();
 			rightColumn.Orientation = Orientation.Vertical;
 			rightColumn.Children.Add(grid.OrientationGroup);
 			
@@ -151,13 +164,40 @@ namespace SeaBattle
 		
 		private void OpenShop(object sender, RoutedEventArgs e)
 		{
-			if (!grid.AllShipsPasted)
+//			if (!grid.AllShipsPasted)
+//			{
+//				MessageBox.Show(ALL_SHIPS_ARE_NOT_PASTED, ERROR_TITLE);
+//				return;
+//			}
+			Shop shop = new Shop(GetCurrentPlayer());
+			if (shop.ShowDialog() == true)
 			{
-				MessageBox.Show(ALL_SHIPS_ARE_NOT_PASTED, ERROR_TITLE);
-				return;
+				PlayerInfo();
+				AddBombsRadioButtons(shop.ShopBombs);
 			}
-			Shop shop = new Shop();
-			shop.Show();
+		}
+		
+		private void AddBombsRadioButtons(List<ShopBomb> shopBombs)
+		{
+			int smallBombsCount = GetBombCount(shopBombs, BombKind.SmallBomb);
+			int mediumBombsCount = GetBombCount(shopBombs, BombKind.MediumBomb);
+			int largeBombsCount = GetBombCount(shopBombs, BombKind.LargeBomb);
+			
+			RadioButton small = new RadioButton();
+			small.Content = BombKind.SmallBomb + "(" + smallBombsCount + ")";
+			RadioButton medium = new RadioButton();
+			medium.Content = BombKind.MediumBomb + "(" + mediumBombsCount + ")";
+			RadioButton large = new RadioButton();
+			large.Content = BombKind.LargeBomb + "(" + largeBombsCount + ")";
+			rightColumn.Children.Add(small);
+			rightColumn.Children.Add(medium);
+			rightColumn.Children.Add(large);
+		}
+		
+		private int GetBombCount(List<ShopBomb> shopBombs, BombKind kind)
+		{
+			ShopBomb sample = ShopBombGenerator.GenerateBomb(kind);
+			return shopBombs.Where(shopBomb => shopBomb.Equals(sample)).Count();
 		}
 		
 		private void NextStep(object sender, RoutedEventArgs e)
@@ -176,7 +216,7 @@ namespace SeaBattle
 				return;
 			}
 			isFirstPlayerReady = true;
-			firstPlayer = grid;
+			firstPlayer.Field = grid;
 			
 			SetGrid();
 		}
@@ -189,7 +229,7 @@ namespace SeaBattle
 		
 		private void StartGame(object sender, RoutedEventArgs e)
 		{
-			secondPlayer = grid;
+			secondPlayer.Field = grid;
 			
 			GameField game = new GameField(firstPlayer, secondPlayer);
 			
@@ -203,6 +243,11 @@ namespace SeaBattle
 			StartMenu start = new StartMenu();
 			start.Show();
 			this.Close();
+		}
+		
+		private Player GetCurrentPlayer()
+		{
+			return isFirstPlayerReady ? secondPlayer : firstPlayer;
 		}
 		
 	}

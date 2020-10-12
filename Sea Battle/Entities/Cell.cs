@@ -24,10 +24,10 @@ namespace Entities
 	public class Cell: Base
 	{
 		public string icon;
-		protected Label image;
+		protected Canvas image;
 		protected CellStatus status;
 		
-		public Label Image
+		public Canvas Image
 		{
 			get
 			{
@@ -61,15 +61,13 @@ namespace Entities
 		{
 			status = CellStatus.EMPTY;
 			this.icon = icon;
-			image = GetLabel();
+			image = GetImage();
 		}
 		
-		private Label GetLabel()
+		private Canvas GetImage()
 		{
-			Label label = new Label();
-			label.Background = ImageProcessor.GetImage(this.icon);
-			label.LayoutTransform = new RotateTransform(0);
-			return label;
+			Canvas canvas = new Canvas();canvas.Background = ImageProcessor.GetBackground(this.icon);
+			return canvas;
 		}
 
 	}

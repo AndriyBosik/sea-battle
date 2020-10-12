@@ -28,7 +28,7 @@ namespace SeaBattle
 		{
 			InitializeComponent();
 			
-			ImageBrush back = ImageProcessor.GetImage("background");
+			ImageBrush back = ImageProcessor.GetBackground("background");
 			back.Opacity = 0.3;
 			
 			DockPanel dp = dpContent;

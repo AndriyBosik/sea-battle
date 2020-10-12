@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Windows.Media;
 
+using System.Windows.Shapes;
 using Config;
 
 using GameObjects;
@@ -87,10 +88,11 @@ namespace Entities
 			int health)
 		{
 			Ship = ship;
-			Init(deckKind, orientation);
 			
 			CurrentHealth = TotalHealth = health;
+			
 			Database.decks.Add(this);
+			Init(deckKind, orientation);
 		}
 		
 		private void Init(DeckKind kind, string orientation)
@@ -103,6 +105,7 @@ namespace Entities
 			
 			status = CellStatus.DECK;
 			RotateDeck(orientation);
+			DrawHealthStatusBar();
 		}
 		
 		private void RotateDeck(string orientation)
@@ -111,6 +114,32 @@ namespace Entities
 			{
 				image.LayoutTransform = new RotateTransform(90);
 			}
+		}
+		
+		private void DrawHealthStatusBar()
+		{
+			Line line = new Line();
+			line.Stroke = GetBrushColor();
+			line.X1 = 0;
+			line.Y1 = 0;
+			line.X2 = Gameplay.CELL_SIZE*CurrentHealth*1.0/TotalHealth;
+			line.Y2 = 0;
+			line.StrokeThickness = 2;
+			image.Children.Add(line);
+		}
+		
+		private Brush GetBrushColor()
+		{
+			if (CurrentHealth <= TotalHealth/3.0)
+				return Brushes.Red;
+			if (CurrentHealth <= TotalHealth*2.0/3.0)
+				return Brushes.Yellow;
+			return Brushes.Green;
+		}
+		
+		public void Refresh()
+		{
+			DrawHealthStatusBar();
 		}
 		
 		public void Hurt(int damage)

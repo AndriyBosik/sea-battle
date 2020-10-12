@@ -25,10 +25,10 @@ namespace SeaBattle
 	/// </summary>
 	public partial class GameField: Window
 	{
-		private Field firstPlayerField;
-		private Field secondPlayerField;
+		private Player firstPlayer;
+		private Player secondPlayer;
 		
-		public GameField(Field firstPlayerField, Field secondPlayerField)
+		public GameField(Player firstPlayer, Player secondPlayer)
 		{
 			InitializeComponent();
 			
@@ -37,16 +37,16 @@ namespace SeaBattle
 
 			spContent.Margin = new Thickness(10, 10, 10, 10);
 			
-			this.firstPlayerField = firstPlayerField;
-			this.secondPlayerField = secondPlayerField;
+			this.firstPlayer = firstPlayer;
+			this.secondPlayer = secondPlayer;
 			
-			firstPlayerField.Name = Gameplay.FIRST_PLAYER_FIELD;
-			spContent.Children.Add(firstPlayerField);
+			firstPlayer.Field.Name = Gameplay.FIRST_PLAYER_FIELD;
+			spContent.Children.Add(firstPlayer.Field);
 			
 			spContent.Children.Add(GetSeparator());
 			
-			secondPlayerField.Name = Gameplay.SECOND_PLAYER_FIELD;
-			spContent.Children.Add(secondPlayerField);
+			secondPlayer.Field.Name = Gameplay.SECOND_PLAYER_FIELD;
+			spContent.Children.Add(secondPlayer.Field);
 			
 			spContent.MouseLeftButtonUp += ProcessMove;
 		}
@@ -70,7 +70,7 @@ namespace SeaBattle
 		
 		private Field GetField(RoutedEventArgs e)
 		{
-			if (!(e.Source is Label))
+			if (!(e.Source is Image))
 			{
 				return null;
 			}

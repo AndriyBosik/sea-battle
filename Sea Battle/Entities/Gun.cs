@@ -43,7 +43,8 @@ namespace Entities
 			}
 		}
 		
-		public Gun(int costByOne, int deterioration, string icon): base(costByOne, deterioration, icon)
+		public Gun(int costByOne, int deterioration, DamageKind damageKind, string icon):
+			base(costByOne, deterioration, damageKind, icon)
 		{
 			Database.guns.Add(this);
 		}
