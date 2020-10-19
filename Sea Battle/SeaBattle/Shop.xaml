@@ -16,14 +16,30 @@
 			x:Name="gItems">
 		
 		</Grid>
-		<Button
-			x:Name="bOK"
+		<StackPanel
+			x:Name="spBottomButtons"
 			HorizontalAlignment="Right"
-			Click="bOKClick"
-			Margin="10,10,10,10"
-			Padding="20,0,20,0">
-			OK
-		</Button>
+			Orientation="Horizontal">
+			
+			<Button
+				x:Name="bBuyBullets"
+				IsEnabled="False"
+				Click="bBuyBulletsClick"
+				Margin="10"
+				Padding="20,0,20,0">
+				Buy Bullets
+			</Button>
+			
+			<Button
+				x:Name="bOK"
+				HorizontalAlignment="Right"
+				Click="bOKClick"
+				Margin="10,10,10,10"
+				Padding="20,0,20,0">
+				OK
+			</Button>
+		
+		</StackPanel>
 	
 	</StackPanel>
 </Window>

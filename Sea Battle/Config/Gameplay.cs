@@ -26,5 +26,7 @@ namespace Config
 		
 		public const int INITIAL_MONEY = 1000;
 		public const int INITIAL_HEALTH_POINT = 1000;
+		
+		public const int INFINITY = int.MaxValue;
 	}
 }

@@ -70,7 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\WPFAssemblyInfo.cs" />
     <Compile Include="ShopBombGenerator.cs" />
-    <Compile Include="ShopGunGenerator.cs" />
+    <Compile Include="GunGenerator.cs" />
     <Compile Include="ShopItemView.cs" />
     <Compile Include="Window1.xaml.cs">
       <SubType>Code</SubType>

@@ -17,25 +17,41 @@ namespace Entities
 	/// </summary>
 	public class ShopItem: Cell
 	{
+		public int MaxCount
+		{ get; protected set; }
+		
+		public int BuyedCount
+		{ get; private set; }
 		
 		public int CostByOne
-		{
-			get;
-			private set;
-		}
+		{ get; protected set; }
 		
 		public int Damage
-		{
-			get;
-			private set;
-		}
+		{ get; protected set; }
 
-		public ShopItem(int costByOne, int damage, string icon)
+		public ShopItem(int costByOne, int damage, string icon, int maxCount = 1)
 		{
+			BuyedCount = 0;
+			MaxCount = maxCount;
 			CostByOne = costByOne;
 			Damage = damage;
 			this.icon = icon;
 			Init(icon);
+		}
+		
+		public bool MaxCountBuyed()
+		{
+			return BuyedCount == MaxCount;
+		}
+		
+		public bool TryBuy()
+		{
+			if (BuyedCount < MaxCount)
+			{
+				BuyedCount++;
+				return true;
+			}
+			return false;
 		}
 	}
 }

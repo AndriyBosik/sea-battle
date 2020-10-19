@@ -73,6 +73,10 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BulletsShop.xaml.cs">
+      <DependentUpon>BulletsShop.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FieldEditor.xaml.cs">
       <DependentUpon>FieldEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -98,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="About.xaml" />
+    <Page Include="BulletsShop.xaml" />
     <Page Include="FieldEditor.xaml" />
     <Page Include="FieldSizeWindow.xaml" />
     <Page Include="GameField.xaml" />

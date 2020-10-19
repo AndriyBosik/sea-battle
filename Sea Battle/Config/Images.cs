@@ -21,7 +21,5 @@ namespace Config
 		public const string INTERNAL = "internal";
 		public const string BEGIN = "begin";
 		public const string END = "end";
-		
-		public const string SMALL_BULLET = "small-bullet";
 	}
 }

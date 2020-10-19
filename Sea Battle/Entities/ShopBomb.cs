@@ -15,7 +15,7 @@ namespace Entities
 	/// <summary>
 	/// Description of ShopBomb.
 	/// </summary>
-	public class ShopBomb: ShopItem
+	public class ShopBomb: Core
 	{
 		public int Radius
 		{
@@ -34,13 +34,12 @@ namespace Entities
 			int costByOne,
 			int damage,
 			int deactivationPrice,
-			string icon): base(costByOne, damage, icon)
+			string icon): base(radius, costByOne, damage, icon)
 		{
-			Radius = radius;
 			DeactivationPrice = deactivationPrice;
 		}
 		
-		#region Equals and GetHashCode implementation
+		#region Equals implementation
 		public override bool Equals(object obj)
 		{
 			ShopBomb other = obj as ShopBomb;
@@ -49,7 +48,7 @@ namespace Entities
 			return  this.icon == other.icon;
 		}
 
-		public static bool operator ==(ShopBomb lhs, ShopBomb rhs) {
+		public static bool operator==(ShopBomb lhs, ShopBomb rhs) {
 			if (ReferenceEquals(lhs, rhs))
 				return true;
 			if (ReferenceEquals(lhs, null) || ReferenceEquals(rhs, null))

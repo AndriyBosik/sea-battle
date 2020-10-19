@@ -22,5 +22,15 @@ namespace Entities
 		public static List<Bomb> bombs = new List<Bomb>();
 		public static List<BulletPack> bulletPacks = new List<BulletPack>();
 		public static List<BulletPackInGun> bulletPackInGuns = new List<BulletPackInGun>();
+		
+		public static readonly List<BulletPack> shopBulletPacks = new List<BulletPack>()
+		{
+			new LinearBullets(2, 5, 1, 10, GameObjects.BulletPack.SmallBullet.ToString()),
+			new LinearBullets(3, 4, 1, 10, GameObjects.BulletPack.MediumBullet.ToString()),
+			new LinearBullets(4, 3, 1, 10, GameObjects.BulletPack.LargeBullet.ToString()),
+			new Core(1, 10, 10, GameObjects.BulletPack.SmallCore.ToString()),
+			new Core(2, 20, 30, GameObjects.BulletPack.MediumCore.ToString()),
+			new Core(3, 30, 50, GameObjects.BulletPack.LargeCore.ToString())
+		};
 	}
 }

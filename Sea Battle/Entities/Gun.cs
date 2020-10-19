@@ -1,8 +1,8 @@
 ﻿/*
  * Created by SharpDevelop.
  * User: Andriy
- * Date: 10/04/2020
- * Time: 18:14
+ * Date: 02.10.2020
+ * Time: 23:01
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
@@ -12,18 +12,16 @@ using System.Collections.Generic;
 
 using GameObjects;
 
+using Config;
+
 namespace Entities
 {
 	/// <summary>
 	/// Description of Gun.
 	/// </summary>
-	public class Gun: ShopGun
+	public class Gun: ShopItem
 	{
-//		public List<BulletPack> PossibleBulletPacks
-//		{
-//			get { return Database.bulletPacks.Where(bulletPack => bulletPack.DamageKind == this.DamageKind).ToList(); }
-//		}
-		
+
 		private List<BulletPackInGun> BulletPackInGuns
 		{
 			get
@@ -43,9 +41,23 @@ namespace Entities
 			}
 		}
 		
-		public Gun(int costByOne, int deterioration, DamageKind damageKind, string icon):
-			base(costByOne, deterioration, damageKind, icon)
+		public int Deterioration
 		{
+			get;
+			set;
+		}
+		
+		public DamageKind DamageKind
+		{
+			get;
+			private set;
+		}
+		
+		public Gun(int costByOne, int deterioration, DamageKind damageKind, string icon): base(costByOne, 0, icon)
+		{
+			DamageKind = damageKind;
+			Deterioration = deterioration;
+			
 			Database.guns.Add(this);
 		}
 		
@@ -68,5 +80,25 @@ namespace Entities
 		{
 			return 0;
 		}
+		
+		public override bool Equals(object obj)
+		{
+			var shopGun = (Gun)obj;
+			if (shopGun == null)
+			{
+				return false;
+			}
+			return  this.CostByOne == shopGun.CostByOne &&
+					this.Deterioration == shopGun.Deterioration &&
+					this.DamageKind == shopGun.DamageKind;
+		}
+		
+		public override string ToString()
+		{
+			return  "Deterioration: " + Deterioration + "\n" +
+					"Cost: " + CostByOne + "\n" +
+					"King of damage: " + DamageKindExtensions.ToString(DamageKind) + "\n";
+		}
+ 
 	}
 }

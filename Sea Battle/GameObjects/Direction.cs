@@ -18,6 +18,7 @@ namespace GameObjects
 		UP,
 		DOWN,
 		LEFT,
-		RIGHT
+		RIGHT,
+		NO_DIRECTION
 	}
 }

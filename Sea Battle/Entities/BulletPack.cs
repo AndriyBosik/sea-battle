@@ -2,7 +2,7 @@
  * Created by SharpDevelop.
  * User: Andriy
  * Date: 02.10.2020
- * Time: 23:28
+ * Time: 23:39
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
@@ -10,21 +10,17 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using GameObjects;
-
 using Config;
+
+using GameObjects;
 
 namespace Entities
 {
 	/// <summary>
-	/// Description of Bullet.
+	/// Description of ShopBullet.
 	/// </summary>
-	public class BulletPack: ShopBulletPack
-	{	
-//		public List<Gun> PossibleGuns
-//		{
-//			get { return Database.guns.Where(gun => gun.DamageKind == this.DamageKind).ToList(); }
-//		}
+	public abstract class BulletPack: ShopItem
+	{
 		
 		private List<BulletPackInGun> BulletPackInGuns
 		{
@@ -45,35 +41,44 @@ namespace Entities
 			}
 		}
 		
+		public DamageKind DamageKind
+		{
+			get;
+			private set;
+		}
+		
+		public int Radius
+		{
+			get;
+			private set;
+		}
+		
+		public int Count
+		{
+			get;
+			set;
+		}
+		
 		public BulletPack(
-			int stability,
+			int radius,
 			int count,
 			DamageKind damageKind,
 			int costByOne,
 			int damage,
-			string icon = Images.SMALL_BULLET): base(stability, count, damageKind, costByOne, damage, icon)
+			string icon): base(costByOne, damage, icon, Gameplay.INFINITY)
 		{
+			Radius = radius;
+			Count = count;
+			DamageKind = damageKind;
+			
 			Database.bulletPacks.Add(this);
 		}
 		
-		public void Shot(Point point)
-		{
-			
-		}
+		public abstract void Shot(Point point, Direction direction);
 		
-		public void Shot(Point point, Direction direction)
-		{
-			
-		}
+		public abstract void Sell();
 		
-		public void Sell()
-		{
-			
-		}
-		
-		public int QuantifySellPrice()
-		{
-			return (int)(CostByOne*Count);
-		}
+		public abstract int QuantifySellPrice();
+
 	}
 }

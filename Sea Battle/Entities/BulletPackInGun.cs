@@ -9,6 +9,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace Entities
 {
@@ -17,6 +18,8 @@ namespace Entities
 	/// </summary>
 	public class BulletPackInGun: Base
 	{	
+		private int count;
+		
 		private Guid bulletPackID;
 		public BulletPack BulletPack
 		{
@@ -29,6 +32,12 @@ namespace Entities
 		{
 			get { return Database.guns.Where(gun => gun.ID == gunID).FirstOrDefault(); }
 			set { gunID = value.ID; }
+		}
+		
+		public BulletPackInGun(Gun gun, BulletPack bulletPack)
+		{
+			this.Gun = gun;
+			this.BulletPack = bulletPack;
 		}
 	}
 }

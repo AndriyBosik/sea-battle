@@ -33,14 +33,16 @@ namespace SeaBattle
 		private Player player;
 		private List<ShopItemView> items;
 		
+		private ShopItem selectedItem;
+		
 		public List<ShopBomb> ShopBombs
 		{
 			get; set;
 		}
 		
-		public List<ShopGun> ShopGuns
+		public List<Gun> Guns
 		{
-			get; set;
+			get; private set;
 		}
 		
 		public Shop(Player player)
@@ -76,30 +78,61 @@ namespace SeaBattle
 		private void GetBombs()
 		{
 			ShopBombs = new List<ShopBomb>();
-			ShopGuns = new List<ShopGun>();
 			
 			InitGrid();
 			
 			int i = 0;
 			foreach (BombKind kind in (BombKind[])Enum.GetValues(typeof(BombKind)))
 			{
-				var bomb = new ShopItemView(ShopBombGenerator.GenerateBomb(kind), Buy);
+				var bomb = new ShopItemView(ShopBombGenerator.GenerateBomb(kind), Buy, player.Money);
 				items.Add(bomb);
-				Grid.SetRow(bomb.GetView(player.Money), i);
-				Grid.SetColumn(bomb.GetView(player.Money), 0);
-				gItems.Children.Add(bomb.GetView(player.Money));
+				Grid.SetRow(bomb, i);
+				Grid.SetColumn(bomb, 0);
+				gItems.Children.Add(bomb);
 				i++;
 			}
 			
 			i = 0;
 			foreach (GunKind kind in (GunKind[])Enum.GetValues(typeof(GunKind)))
 			{
-				var gun = new ShopItemView(ShopGunGenerator.GenerateGun(kind), Buy);
+				var gun = new ShopItemView(GunGenerator.GenerateGun(kind), Buy, player.Money);
+				gun = TryGetFromPlayer(gun);
+				gun.PreviewMouseLeftButtonUp += Select;
 				items.Add(gun);
-				Grid.SetRow(gun.GetView(player.Money), i);
-				Grid.SetColumn(gun.GetView(player.Money), 1);
-				gItems.Children.Add(gun.GetView(player.Money));
+				Grid.SetRow(gun, i);
+				Grid.SetColumn(gun, 1);
+				gItems.Children.Add(gun);
 				i++;
+			}
+		}
+		
+		private ShopItemView TryGetFromPlayer(ShopItemView item)
+		{
+			foreach (var playerGun in player.Guns)
+			{
+				if (playerGun.Equals(item.Item))
+					return new ShopItemView(playerGun, Buy, player.Money);
+			}
+			return item;
+		}
+		
+		private void Select(object sender, EventArgs e)
+		{
+			bBuyBullets.IsEnabled = false;
+			selectedItem = null;
+			var clicked = (ShopItemView)sender;
+			foreach (var item in items)
+			{
+				item.Unselect();
+				if (item.Item.Equals(clicked.Item))
+				{
+					if (item.TrySelect())
+					{
+						selectedItem = (Gun)clicked.Item;
+						bBuyBullets.IsEnabled = true;
+						bBuyBullets.Tag = (Gun)clicked.Item;
+					}
+				}
 			}
 		}
 		
@@ -109,12 +142,30 @@ namespace SeaBattle
 			Close();
 		}
 		
+		private void bBuyBulletsClick(object sender, EventArgs e)
+		{
+			var clicked = (Button)sender;
+			var gun = (Gun)clicked.Tag;
+			
+			var bulletsShop = new BulletsShop(gun, player.Money);
+			if (bulletsShop.ShowDialog() == true)
+			{
+				player.Money = bulletsShop.Money;
+				Refresh();
+			}
+		}
+		
 		private void Buy(object sender, RoutedEventArgs e)
 		{
 			ShopItem item =  (ShopItem)((Button)sender).Tag;
+			if (!item.TryBuy())
+				return;
 			if (item is ShopBomb)
 			{
 				ShopBombs.Add((ShopBomb)item);
+			} else if (item is Gun)
+			{
+				player.Guns.Add((Gun)item);
 			}
 			player.Money -= item.CostByOne;
 			Refresh();

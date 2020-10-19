@@ -41,6 +41,10 @@ namespace SeaBattle
 			this.secondPlayer = secondPlayer;
 			
 			firstPlayer.Field.Name = Gameplay.FIRST_PLAYER_FIELD;
+			
+//			spContent.Children.Add(GetGuns(firstPlayer));
+//			spContent.Children.Add(GetGuns(secondPlayer));
+			
 			spContent.Children.Add(firstPlayer.Field);
 			
 			spContent.Children.Add(GetSeparator());
@@ -49,6 +53,20 @@ namespace SeaBattle
 			spContent.Children.Add(secondPlayer.Field);
 			
 			spContent.MouseLeftButtonUp += ProcessMove;
+		}
+		
+		private StackPanel GetGuns(Player player)
+		{
+			var sp = new StackPanel();
+			sp.Orientation = Orientation.Vertical;
+			foreach (var item in player.Guns)
+			{
+				var l = new Label();
+				l.Content = item.ToString();
+				l.Content += item.BulletPacks.Count.ToString();
+				sp.Children.Add(l);
+			}
+			return sp;
 		}
 		
 		private Label GetSeparator()

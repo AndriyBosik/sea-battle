@@ -44,6 +44,11 @@ namespace FieldEditorParts
 			get; set;
 		}
 		
+		public List<Gun> Guns
+		{ get; private set; }
+		
+		public List<BulletPack> BulletPacks;
+		
 		public int HealthPoints
 		{
 			get; set;
@@ -56,6 +61,8 @@ namespace FieldEditorParts
 			this.Money = Gameplay.INITIAL_MONEY;
 			this.HealthPoints = Gameplay.INITIAL_HEALTH_POINT;
 			
+			Guns = new List<Gun>();
+			BulletPacks = new List<BulletPack>();
 		}
 		
 		public void HealDeck(Deck deck)

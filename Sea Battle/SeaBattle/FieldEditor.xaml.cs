@@ -32,12 +32,14 @@ namespace SeaBattle
 	/// </summary>
 	public partial class FieldEditor : Window
 	{
+		private const string BOMBS_GROUP = "bombs";
 		private const string ALL_SHIPS_ARE_NOT_PASTED = "You must place all the ships!!!";
 		private const string ERROR_TITLE = "Error";
 		private const int CELL_SIZE = 35;
 		private const int MARGIN = 10;
 		
 		private StackPanel rightColumn;
+		private StackPanel bombsGroup;
 		
 		private string orientation;
 		private int rows;
@@ -47,6 +49,7 @@ namespace SeaBattle
 		private TextBlock information;
 		private CellStatus[][] status;
 		private bool isFirstPlayerReady;
+		private List<ShopBomb> shopBombs;
 		
 		private Field grid;
 		
@@ -56,7 +59,7 @@ namespace SeaBattle
 		public FieldEditor(int rows, int columns)
 		{
 			InitializeComponent();
-			
+			shopBombs = new List<ShopBomb>();
 			information = new TextBlock();
 			
 			orientation = Gameplay.HORIZONTAL_ORIENTATION;
@@ -114,6 +117,7 @@ namespace SeaBattle
 		
 		private UIElement PlayerInfo()
 		{
+			information = new TextBlock();
 			information.Text = "You have " + GetCurrentPlayer().Money + " coins";
 			information.FontSize = 22;
 			information.TextWrapping = TextWrapping.Wrap;
@@ -152,6 +156,8 @@ namespace SeaBattle
 			rightColumn.Children.Add(next);
 			rightColumn.Children.Add(shop);
 			rightColumn.Children.Add(goBack);
+			bombsGroup = GetBombsRadioGroup();
+			rightColumn.Children.Add(bombsGroup);
 			rightColumn.Margin = new Thickness(10, 0, 0, 0);
 			
 			horizontal.Children.Add(rightColumn);
@@ -162,6 +168,25 @@ namespace SeaBattle
 			return components;
 		}
 		
+		private StackPanel GetBombsRadioGroup()
+		{
+			var spContent = new StackPanel();
+			spContent.Orientation = Orientation.Vertical;
+			
+			var label = new Label();
+			label.Content = "Place your bombs:";
+			spContent.Children.Add(label);
+			foreach (BombKind kind in (BombKind[])Enum.GetValues(typeof(BombKind)))
+			{
+				var rb = new RadioButton();
+				rb.GroupName = BOMBS_GROUP;
+				rb.Tag = kind;
+				rb.Content = kind + "(" + 0 + ")";
+				spContent.Children.Add(rb);
+			}
+			return spContent;
+		}
+		
 		private void OpenShop(object sender, RoutedEventArgs e)
 		{
 //			if (!grid.AllShipsPasted)
@@ -170,31 +195,32 @@ namespace SeaBattle
 //				return;
 //			}
 			Shop shop = new Shop(GetCurrentPlayer());
-			if (shop.ShowDialog() == true)
+			shop.ShowDialog();
+			PlayerInfo();
+			UpdateShopBombs(shop.ShopBombs);
+			UpdateBombsRadioGroup();
+		}
+		
+		private void UpdateShopBombs(List<ShopBomb> shopBombs)
+		{
+			this.shopBombs.AddRange(shopBombs);
+		}
+		
+		private void UpdateBombsRadioGroup()
+		{
+			foreach (var elem in bombsGroup.Children)
 			{
-				PlayerInfo();
-				AddBombsRadioButtons(shop.ShopBombs);
+				if (!(elem is RadioButton))
+				{
+					continue;
+				}
+				var rb = (RadioButton)elem;
+				var count = GetBombCount((BombKind)rb.Tag);
+				rb.Content = rb.Tag + "(" + count + ")";
 			}
 		}
 		
-		private void AddBombsRadioButtons(List<ShopBomb> shopBombs)
-		{
-			int smallBombsCount = GetBombCount(shopBombs, BombKind.SmallBomb);
-			int mediumBombsCount = GetBombCount(shopBombs, BombKind.MediumBomb);
-			int largeBombsCount = GetBombCount(shopBombs, BombKind.LargeBomb);
-			
-			RadioButton small = new RadioButton();
-			small.Content = BombKind.SmallBomb + "(" + smallBombsCount + ")";
-			RadioButton medium = new RadioButton();
-			medium.Content = BombKind.MediumBomb + "(" + mediumBombsCount + ")";
-			RadioButton large = new RadioButton();
-			large.Content = BombKind.LargeBomb + "(" + largeBombsCount + ")";
-			rightColumn.Children.Add(small);
-			rightColumn.Children.Add(medium);
-			rightColumn.Children.Add(large);
-		}
-		
-		private int GetBombCount(List<ShopBomb> shopBombs, BombKind kind)
+		private int GetBombCount(BombKind kind)
 		{
 			ShopBomb sample = ShopBombGenerator.GenerateBomb(kind);
 			return shopBombs.Where(shopBomb => shopBomb.Equals(sample)).Count();

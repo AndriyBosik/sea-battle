@@ -15,19 +15,19 @@ namespace Shop
 	/// <summary>
 	/// Description of ShopGunGenerator.
 	/// </summary>
-	public class ShopGunGenerator
+	public class GunGenerator
 	{
-		public static ShopGun GenerateGun(GunKind kind)
+		public static Gun GenerateGun(GunKind kind)
 		{
 			string icon = kind.ToString();
 			switch (kind)
 			{
 				case GunKind.SmallGun:
-					return new ShopGun(200, 100, DamageKind.SPLASH, icon);
+					return new Gun(200, 100, DamageKind.SPLASH, icon);
 				case GunKind.MediumGun:
-					return new ShopGun(300, 110, DamageKind.LINEAR, icon);
+					return new Gun(300, 110, DamageKind.LINEAR, icon);
 				case GunKind.LargeGun:
-					return new ShopGun(500, 200, DamageKind.SPLASH, icon);
+					return new Gun(500, 200, DamageKind.SPLASH, icon);
 				default:
 					return null;
 			}
