@@ -19,6 +19,7 @@ namespace GameObjects
 		EMPTY,
 		BOMB,
 		OPENED,
+		CLOSED,
 		DESTROYED_DECK
 	}
 }

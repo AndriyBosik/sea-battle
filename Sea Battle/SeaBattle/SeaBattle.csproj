@@ -137,9 +137,9 @@
       <Project>{e0a28059-5430-41ed-b008-031003979e2f}</Project>
       <Name>Processors</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Shop\Shop.csproj">
+    <ProjectReference Include="..\Shop\ItemViews.csproj">
       <Project>{4cd74d5a-e118-4a6b-9cf4-69b603c30bc8}</Project>
-      <Name>Shop</Name>
+      <Name>ItemViews</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

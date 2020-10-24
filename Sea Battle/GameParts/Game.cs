@@ -8,11 +8,9 @@
  */
 using System;
 
-using Config;
+using Entities;
 
 using GameObjects;
-
-using Processors;
 
 namespace FieldEditorParts
 {
@@ -21,24 +19,34 @@ namespace FieldEditorParts
 	/// </summary>
 	public class Game
 	{
-		private Field first;
-		private Field second;
+		private Player firstPlayer;
+		private Player secondPlayer;
 		private Move move;
 		
-		public Game(Field first, Field second)
+		public Game(Player firstPlayer, Player secondPlayer)
 		{
-			this.first = first;
-			this.second = second;
+			this.firstPlayer = firstPlayer;
+			this.secondPlayer = secondPlayer;
 			this.move = Move.FIRST;
 		}
 		
 		public bool TryMove(Field field)
 		{
-			if ((move == Move.FIRST && field == first) || (move == Move.SECOND && field == second))
+			if ((move == Move.FIRST && field == secondPlayer.Field) || (move == Move.SECOND && field == firstPlayer.Field))
 			{
 				return true;
 			}
 			return false;
+		}
+		
+		public Player GetCurrentPlayer()
+		{
+			return move == Move.FIRST ? firstPlayer : secondPlayer;
+		}
+		
+		public Field GetCurrentField()
+		{
+			return move == Move.FIRST ? secondPlayer.Field : firstPlayer.Field;
 		}
 		
 		public void MakeMove(int x, int y)

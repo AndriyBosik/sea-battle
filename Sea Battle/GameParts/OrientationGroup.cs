@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 
+using System.Windows.Input;
 using GameObjects;
 
 using Config;
@@ -24,27 +25,24 @@ namespace FieldEditorParts
 	{
 		private const string ORIENTATION_GROUP = "Orientation";
 		
-		private Field field;
-		
-		public OrientationGroup(Field field)
+		public OrientationGroup(RoutedEventHandler handler)
 		{
 			Init();
 			
-			this.field = field;
 			RadioButton rbHorizontal = new RadioButton()
 			{
 				Content = Gameplay.HORIZONTAL_ORIENTATION,
 				GroupName = ORIENTATION_GROUP,
 				IsChecked = true
 			};
-			rbHorizontal.Checked += ChangeOrientation;
+			rbHorizontal.Checked += handler;
 			
 			RadioButton rbVertical = new RadioButton()
 			{
 				Content = Gameplay.VERTICAL_ORIENTATION,
 				GroupName = ORIENTATION_GROUP,
 			};
-			rbVertical.Checked += ChangeOrientation;
+			rbVertical.Checked += handler;
 			
 			this.Children.Add(rbHorizontal);
 			this.Children.Add(rbVertical);
@@ -54,12 +52,6 @@ namespace FieldEditorParts
 		{
 			this.Orientation = Orientation.Vertical;
 			//this.Margin = new Thickness(0, 10, 10, 0);
-		}
-		
-		private void ChangeOrientation(object obj, RoutedEventArgs e)
-		{
-			RadioButton sender = (RadioButton)obj;
-			field.Orientation = (string)sender.Content;
 		}
 	}
 }

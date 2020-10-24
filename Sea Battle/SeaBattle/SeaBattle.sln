@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config", "..\Config\Config.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "..\Entities\Entities.csproj", "{A3BF9D9D-410E-45B9-92EF-5BFD63272D91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop", "..\Shop\Shop.csproj", "{4CD74D5A-E118-4A6B-9CF4-69B603C30BC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemViews", "..\Shop\ItemViews.csproj", "{4CD74D5A-E118-4A6B-9CF4-69B603C30BC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

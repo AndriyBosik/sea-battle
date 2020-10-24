@@ -23,7 +23,6 @@ namespace Entities
 	{
 		private Guid deckId;
 		private Point point;
-		private readonly CellStatus status;
 		
 		public Deck Deck
 		{
@@ -34,10 +33,16 @@ namespace Entities
 		public Bomb(Point point, int radius, int cost, int damage, int deactivationPrice, string icon):
 			base(radius, cost, damage, deactivationPrice, icon)
 		{
-			status = CellStatus.BOMB;
+			Status = CellStatus.BOMB;
 			this.point = point;
 			
 			Database.bombs.Add(this);
+		}
+		
+		public override void Uncover()
+		{
+			this.icon = Images.EMPTY_CELL;
+			base.Uncover();
 		}
 		
 		public void Move(Point point)
@@ -45,9 +50,32 @@ namespace Entities
 			this.point = point;
 		}
 		
-		public void Explose()
+		public void Explose(Field field)
 		{
-			// Make explosion
+			Cell[][] cells = field.cells;
+			int n = cells.Length;
+			int m = cells[0].Length;
+			for (int i = -Radius + 1; i <= Radius - 1; i++)
+			{
+				int leftSide = -(Radius - 1 - Math.Abs(i));
+				int rightSide = -leftSide;
+				for (int j = leftSide; j <= rightSide; j++)
+				{
+					int x = point.X + i;
+					int y = point.Y + j;
+					if (!field.IsInsideField(x, y))
+						continue;
+					var damage = Damage - (Math.Abs(i) + Math.Abs(j))*10;
+					if (cells[x][y] is Deck)
+					{
+						var deck = (Deck)cells[x][y];
+						deck.Hurt(damage);
+						deck.Refresh();
+					}
+					cells[x][y].Uncover();
+					field.Repaint(x, y);
+				}
+			}
 		}
 		
 		public void Deactivate()

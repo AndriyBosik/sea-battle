@@ -12,13 +12,14 @@ using System.Collections.Generic;
 
 using System.Windows.Controls;
 
+using System.Windows.Input;
 using GameObjects;
 
 using Entities;
 
 using FieldEditorParts;
 
-using Shop;
+using ItemViews;
 
 using Config;
 
@@ -35,10 +36,8 @@ namespace SeaBattle
 		
 		private ShopItem selectedItem;
 		
-		public List<ShopBomb> ShopBombs
-		{
-			get; set;
-		}
+		public Dictionary<BombKind, int> ShopBombs
+		{ get; private set; }
 		
 		public List<Gun> Guns
 		{
@@ -77,25 +76,43 @@ namespace SeaBattle
 		
 		private void GetBombs()
 		{
-			ShopBombs = new List<ShopBomb>();
+			ShopBombs = new Dictionary<BombKind, int>();
 			
 			InitGrid();
 			
 			int i = 0;
 			foreach (BombKind kind in (BombKind[])Enum.GetValues(typeof(BombKind)))
 			{
-				var bomb = new ShopItemView(ShopBombGenerator.GenerateBomb(kind), Buy, player.Money);
-				items.Add(bomb);
-				Grid.SetRow(bomb, i);
-				Grid.SetColumn(bomb, 0);
-				gItems.Children.Add(bomb);
+				var bomb = ShopBombGenerator.GenerateBomb(kind);
+				var bombItem = new ShopItemView(
+					bomb,
+					Gameplay.SHOP_ITEM_SIZE,
+					Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
+					(object sender, MouseButtonEventArgs e) => {
+						if (!ShopBombs.ContainsKey(kind))
+							ShopBombs.Add(kind, 0);
+				    	ShopBombs[kind]++;
+				    	player.Money -= bomb.CostByOne;
+				    	Refresh();
+				    },
+					player.Money);
+				bombItem.Tag = kind;
+				items.Add(bombItem);
+				Grid.SetRow(bombItem, i);
+				Grid.SetColumn(bombItem, 0);
+				gItems.Children.Add(bombItem);
 				i++;
 			}
 			
 			i = 0;
 			foreach (GunKind kind in (GunKind[])Enum.GetValues(typeof(GunKind)))
 			{
-				var gun = new ShopItemView(GunGenerator.GenerateGun(kind), Buy, player.Money);
+				var gun = new ShopItemView(
+					GunGenerator.GenerateGun(kind),
+					Gameplay.SHOP_ITEM_SIZE,
+					Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
+					Buy,
+					player.Money);
 				gun = TryGetFromPlayer(gun);
 				gun.PreviewMouseLeftButtonUp += Select;
 				items.Add(gun);
@@ -111,7 +128,12 @@ namespace SeaBattle
 			foreach (var playerGun in player.Guns)
 			{
 				if (playerGun.Equals(item.Item))
-					return new ShopItemView(playerGun, Buy, player.Money);
+					return new ShopItemView(
+						playerGun,
+						Gameplay.SHOP_ITEM_SIZE,
+						Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
+						Buy,
+						player.Money);
 			}
 			return item;
 		}
@@ -123,10 +145,10 @@ namespace SeaBattle
 			var clicked = (ShopItemView)sender;
 			foreach (var item in items)
 			{
-				item.Unselect();
+				item.Deselect();
 				if (item.Item.Equals(clicked.Item))
 				{
-					if (item.TrySelect())
+					if (item.Select())
 					{
 						selectedItem = (Gun)clicked.Item;
 						bBuyBullets.IsEnabled = true;
@@ -160,10 +182,7 @@ namespace SeaBattle
 			ShopItem item =  (ShopItem)((Button)sender).Tag;
 			if (!item.TryBuy())
 				return;
-			if (item is ShopBomb)
-			{
-				ShopBombs.Add((ShopBomb)item);
-			} else if (item is Gun)
+			if (item is Gun)
 			{
 				player.Guns.Add((Gun)item);
 			}

@@ -15,6 +15,12 @@ namespace Config
 	/// </summary>
 	public static class Gameplay
 	{
+		public const int ITEM_SIZE = 50;
+		public const int ITEM_DESCRIPTION_SIZE = 10;
+		
+		public const int SHOP_ITEM_SIZE = 60;
+		public const int SHOP_ITEM_DESCRIPTION_SIZE = 15;
+		
 		public const string FIRST_PLAYER_FIELD = "FirstPlayer";
 		public const string SECOND_PLAYER_FIELD = "SecondPlayer";
 		
@@ -24,7 +30,7 @@ namespace Config
 		public const int CELL_SIZE = 35;
 		public const int DEFAULT_SHIP_SIZE = 1;
 		
-		public const int INITIAL_MONEY = 1000;
+		public const int INITIAL_MONEY = 2000;
 		public const int INITIAL_HEALTH_POINT = 1000;
 		
 		public const int INFINITY = int.MaxValue;

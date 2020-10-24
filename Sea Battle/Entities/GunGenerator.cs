@@ -7,10 +7,10 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using Entities;
+
 using GameObjects;
 
-namespace Shop
+namespace Entities
 {
 	/// <summary>
 	/// Description of ShopGunGenerator.

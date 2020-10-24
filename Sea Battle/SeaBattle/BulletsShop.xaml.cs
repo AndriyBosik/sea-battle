@@ -12,11 +12,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
 
-using Shop;
+using ItemViews;
 
 using Entities;
 
-using FieldEditorParts;
+using Config;
 
 namespace SeaBattle
 {
@@ -76,7 +76,12 @@ namespace SeaBattle
 			int current = 0;
 			foreach (var bulletPack in bullets)
 			{
-				var item = new ShopItemView(bulletPack, BuyMethod, Money);
+				var item = new ShopItemView(
+					bulletPack,
+					Gameplay.SHOP_ITEM_SIZE,
+					Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
+					BuyMethod,
+					Money);
 				Label label = new Label();
 				var count = GetCount(bulletPack);
 				label.Content = "You have: " + count;
@@ -101,7 +106,7 @@ namespace SeaBattle
 		{
 			var button = (Button)sender;
 			var item = (ShopItem)button.Tag;
-			Database.bulletPackInGuns.Add(new BulletPackInGun(gun, (BulletPack)item) );
+			new BulletPackInGun(gun, (BulletPack)item);
 			Money -= item.CostByOne;
 			RefreshAll();
 		}

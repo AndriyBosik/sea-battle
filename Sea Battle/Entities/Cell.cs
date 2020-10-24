@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 
+using System.Windows.Shapes;
 using GameObjects;
 
 using Config;
@@ -26,6 +27,7 @@ namespace Entities
 		public string icon;
 		protected Canvas image;
 		protected CellStatus status;
+		protected bool isCovered;
 		
 		public Canvas Image
 		{
@@ -55,6 +57,7 @@ namespace Entities
 			string icon = Images.EMPTY_CELL): base()
 		{
 			Init(icon);
+			isCovered = false;
 		}
 		
 		protected void Init(string icon)
@@ -64,10 +67,46 @@ namespace Entities
 			image = GetImage();
 		}
 		
+		private Canvas GetImage(string icon)
+		{
+			Canvas canvas = new Canvas();
+			canvas.Background = ImageProcessor.GetBackground(icon);
+			return canvas;
+		}
+		
 		private Canvas GetImage()
 		{
-			Canvas canvas = new Canvas();canvas.Background = ImageProcessor.GetBackground(this.icon);
+			Canvas canvas = new Canvas();
+			canvas.Background = ImageProcessor.GetBackground(icon);
 			return canvas;
+		}
+		
+		public virtual void Uncover()
+		{
+			image = GetImage();
+			isCovered = false;
+		}
+		
+		public void Select()
+		{
+			if (isCovered)
+				image = GetImage(Images.SELECTED_COVER);
+			else
+				image.Opacity = 0.7;
+		}
+		
+		public void Deselect()
+		{
+			if (isCovered)
+				Cover();
+			else
+				image.Opacity = 1;
+		}
+		
+		public virtual void Cover()
+		{
+			isCovered = true;
+			image = GetImage(Images.COVER);
 		}
 
 	}

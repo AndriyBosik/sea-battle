@@ -9,6 +9,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace FieldEditorParts
 {
@@ -19,7 +20,6 @@ namespace FieldEditorParts
 	{
 		private const string GROUP_NAME = "Size";
 		
-		private Field field;
 		private RadioButton[] rbs;
 		private bool allPasted;
 		
@@ -31,12 +31,11 @@ namespace FieldEditorParts
 			}
 		}
 		
-		public SizeRadios(int count, Field field)
+		public SizeRadios(int count, RoutedEventHandler ChangeSize)
 		{
 			rbs = new RadioButton[count];
 			Init();
 			
-			this.field = field;
 			for (int i = 1; i <= count; i++)
 			{
 				int index = i - 1;
@@ -56,14 +55,6 @@ namespace FieldEditorParts
 		{
 			this.allPasted = false;
 			this.Orientation = Orientation.Horizontal;
-			//this.Margin = new Thickness(0, 0, 0, 10);
-		}
-		
-		private void ChangeSize(object obj, RoutedEventArgs e)
-		{
-			RadioButton sender = (RadioButton)obj;
-			string sSize = (string)sender.Content;
-			field.Size = Int32.Parse(sSize);
 		}
 		
 		public void MakeDisabled(int number)

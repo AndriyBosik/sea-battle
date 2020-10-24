@@ -17,3 +17,5 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\bin\Debug\GameObjects.pd
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\bin\Debug\Processors.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\obj\Debug\FieldEditorParts.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\obj\Debug\FieldEditorParts.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\bin\Debug\ItemViews.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameParts\bin\Debug\ItemViews.pdb

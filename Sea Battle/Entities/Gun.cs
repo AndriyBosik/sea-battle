@@ -61,15 +61,15 @@ namespace Entities
 			Database.guns.Add(this);
 		}
 		
-		public void TryShot(BulletPack bullet, Point point)
+		public void Shot(Field field, BulletPack bullet, Point point, Direction direction)
 		{
-			
+			bullet.Shot(field, point, direction);
 		}
 		
-		private void Shot(BulletPack bullet)
-		{
-			
-		}
+//		private void Shot(BulletPack bullet)
+//		{
+//			
+//		}
 		
 		public void Sell()
 		{

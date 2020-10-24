@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using Entities;
 
 using Config;
+using GameObjects;
 
 namespace FieldEditorParts
 {
@@ -44,10 +45,13 @@ namespace FieldEditorParts
 			get; set;
 		}
 		
+		public Dictionary<BombKind, int> ShopBombs
+		{ get; private set; }
+		
 		public List<Gun> Guns
 		{ get; private set; }
 		
-		public List<BulletPack> BulletPacks;
+		public List<Entities.BulletPack> BulletPacks;
 		
 		public int HealthPoints
 		{
@@ -62,7 +66,8 @@ namespace FieldEditorParts
 			this.HealthPoints = Gameplay.INITIAL_HEALTH_POINT;
 			
 			Guns = new List<Gun>();
-			BulletPacks = new List<BulletPack>();
+			ShopBombs = new Dictionary<BombKind, int>();
+			BulletPacks = new List<Entities.BulletPack>();
 		}
 		
 		public void HealDeck(Deck deck)

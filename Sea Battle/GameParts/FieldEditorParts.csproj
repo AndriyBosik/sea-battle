@@ -68,12 +68,13 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Field.cs" />
+    <Compile Include="PseudoField.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="OrientationGroup.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\WPFAssemblyInfo.cs" />
+    <Compile Include="ShadowDrawer.cs" />
     <Compile Include="SizeRadios.cs" />
     <Compile Include="Window1.xaml.cs">
       <SubType>Code</SubType>
@@ -102,6 +103,10 @@
     <ProjectReference Include="..\Processors\Processors.csproj">
       <Project>{e0a28059-5430-41ed-b008-031003979e2f}</Project>
       <Name>Processors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shop\ItemViews.csproj">
+      <Project>{4cd74d5a-e118-4a6b-9cf4-69b603c30bc8}</Project>
+      <Name>ItemViews</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

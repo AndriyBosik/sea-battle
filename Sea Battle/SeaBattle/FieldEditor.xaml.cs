@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
  
+using System.Windows.Input;
 using FieldEditorParts;
 
 using Shop;
@@ -40,29 +41,27 @@ namespace SeaBattle
 		
 		private StackPanel rightColumn;
 		private StackPanel bombsGroup;
+		private SizeRadios sizeRadios;
+		private OrientationGroup orientationGroup;
 		
 		private string orientation;
+		private int size;
 		private int rows;
 		private int columns;
-		private readonly int maxShipSize;
 		private Label[][] field;
 		private TextBlock information;
 		private CellStatus[][] status;
 		private bool isFirstPlayerReady;
-		private List<ShopBomb> shopBombs;
 		
 		private Field grid;
-		
+		private BombKind bombKind;
 		private Player firstPlayer;
 		private Player secondPlayer;
 		
 		public FieldEditor(int rows, int columns)
 		{
 			InitializeComponent();
-			shopBombs = new List<ShopBomb>();
 			information = new TextBlock();
-			
-			orientation = Gameplay.HORIZONTAL_ORIENTATION;
 			
 			this.rows = rows;
 			this.columns = columns;
@@ -72,8 +71,6 @@ namespace SeaBattle
 			secondPlayer = new Player();
 			
 			InitializeField();
-			
-			maxShipSize = ShipProcessor.GetMaxShipSize(rows, columns);
 			
 			SetWindowSize();
 			
@@ -104,7 +101,7 @@ namespace SeaBattle
 		{
 			StackPanel content = new StackPanel();
 			content.Orientation = Orientation.Vertical;
-			
+			InitData();
 			content.Children.Add(PlayerInfo());
 			content.Children.Add(FieldComponents());
 			//content.Children.Add(Footer());
@@ -113,6 +110,12 @@ namespace SeaBattle
 			border.Padding = new Thickness(10);
 			border.Child = content;
 			Content = border;
+		}
+		
+		private void InitData()
+		{
+			size = 1;
+			orientation = Gameplay.HORIZONTAL_ORIENTATION;
 		}
 		
 		private UIElement PlayerInfo()
@@ -133,13 +136,17 @@ namespace SeaBattle
 			horizontal.Orientation = Orientation.Horizontal;
 			horizontal.Margin = new Thickness(10);
 			
-			grid = new Field(rows, columns, maxShipSize);
+			grid = new Field(rows, columns);
+			grid.PreviewMouseLeftButtonDown += TryPasteBomb;
 			
 			horizontal.Children.Add(grid);
 			
+			grid.PreviewMouseLeftButtonDown += TryPasteShip;
+			
 			rightColumn = new StackPanel();
 			rightColumn.Orientation = Orientation.Vertical;
-			rightColumn.Children.Add(grid.OrientationGroup);
+			orientationGroup = new OrientationGroup(ChangeOrientation);
+			rightColumn.Children.Add(orientationGroup);
 			
 			Button goBack = new Button();
 			goBack.Content = "Go back";
@@ -163,22 +170,69 @@ namespace SeaBattle
 			horizontal.Children.Add(rightColumn);
 			
 			components.Children.Add(horizontal);
-			components.Children.Add(grid.SizeRadios);
+			sizeRadios = new SizeRadios(grid.MaxShipSize, ChangeSize);
+			components.Children.Add(sizeRadios);
 			
 			return components;
+		}
+		
+		private void ChangeSize(object sender, RoutedEventArgs e)
+		{
+			var rb = (RadioButton)sender;
+			size = Int32.Parse(rb.Content.ToString());
+		}
+		
+		private void ChangeOrientation(object sender, RoutedEventArgs e)
+		{
+			var rb = (RadioButton)sender;
+			orientation = rb.Content.ToString();
+		}
+		
+		private void TryPasteShip(object sender, RoutedEventArgs e)
+		{
+			var elem = (UIElement)e.Source;
+			var row = Grid.GetRow(elem);
+			var column = Grid.GetColumn(elem);
+			grid.TryPasteShip(row, column, size, orientation);
+			if (grid.AllPasted(size))
+				sizeRadios.MakeDisabled(size);
+		}
+		
+		private void TryPasteBomb(object sender, MouseButtonEventArgs e)
+		{
+			if (!grid.IsAllShipsPasted())
+				return;
+			var kind = grid.BombKind;
+			if (!GetCurrentPlayer().ShopBombs.ContainsKey(kind) || GetCurrentPlayer().ShopBombs[kind] == 0)
+				return;
+			GetCurrentPlayer().ShopBombs[kind]--;
+			
+			var elem = (UIElement)e.Source;
+			var row = Grid.GetRow(elem);
+			var column = Grid.GetColumn(elem);
+			
+			grid.PasteBomb(row, column);
+			UpdateBombsRadioGroup();
 		}
 		
 		private StackPanel GetBombsRadioGroup()
 		{
 			var spContent = new StackPanel();
 			spContent.Orientation = Orientation.Vertical;
-			
+			bool first = true;
 			var label = new Label();
 			label.Content = "Place your bombs:";
 			spContent.Children.Add(label);
 			foreach (BombKind kind in (BombKind[])Enum.GetValues(typeof(BombKind)))
 			{
 				var rb = new RadioButton();
+				if (first)
+				{
+					rb.IsChecked = true;
+					first = false;
+					bombKind = kind;
+				}
+				rb.Checked += (object sender, RoutedEventArgs e) => grid.BombKind = kind;
 				rb.GroupName = BOMBS_GROUP;
 				rb.Tag = kind;
 				rb.Content = kind + "(" + 0 + ")";
@@ -201,9 +255,16 @@ namespace SeaBattle
 			UpdateBombsRadioGroup();
 		}
 		
-		private void UpdateShopBombs(List<ShopBomb> shopBombs)
+		private void UpdateShopBombs(Dictionary<BombKind, int> shopBombs)
 		{
-			this.shopBombs.AddRange(shopBombs);
+			foreach (BombKind kind in (BombKind[])Enum.GetValues(typeof(BombKind)))
+			{
+				if (!GetCurrentPlayer().ShopBombs.ContainsKey(kind))
+					GetCurrentPlayer().ShopBombs.Add(kind, 0);
+				if (!shopBombs.ContainsKey(kind))
+					continue;
+				GetCurrentPlayer().ShopBombs[kind] += shopBombs[kind];
+			}
 		}
 		
 		private void UpdateBombsRadioGroup()
@@ -215,20 +276,15 @@ namespace SeaBattle
 					continue;
 				}
 				var rb = (RadioButton)elem;
-				var count = GetBombCount((BombKind)rb.Tag);
+				var kind = (BombKind)rb.Tag;
+				var count = GetCurrentPlayer().ShopBombs[kind];
 				rb.Content = rb.Tag + "(" + count + ")";
 			}
 		}
 		
-		private int GetBombCount(BombKind kind)
-		{
-			ShopBomb sample = ShopBombGenerator.GenerateBomb(kind);
-			return shopBombs.Where(shopBomb => shopBomb.Equals(sample)).Count();
-		}
-		
 		private void NextStep(object sender, RoutedEventArgs e)
 		{
-			if (!grid.AllShipsPasted)
+			if (!grid.IsAllShipsPasted())
 			{
 				MessageBox.Show(ALL_SHIPS_ARE_NOT_PASTED, ERROR_TITLE);
 				return;

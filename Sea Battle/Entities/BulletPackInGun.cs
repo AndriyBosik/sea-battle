@@ -36,8 +36,18 @@ namespace Entities
 		
 		public BulletPackInGun(Gun gun, BulletPack bulletPack)
 		{
-			this.Gun = gun;
-			this.BulletPack = bulletPack;
+			var bpig = Database.bulletPackInGuns
+				.Where(item => item.Gun == gun && item.BulletPack.Equals(bulletPack)).FirstOrDefault();
+			if (bpig == null)
+			{
+				this.Gun = gun;
+				this.BulletPack = bulletPack;
+				Database.bulletPackInGuns.Add(this);
+			}
+			else
+			{
+				bpig.count++;
+			}
 		}
 	}
 }

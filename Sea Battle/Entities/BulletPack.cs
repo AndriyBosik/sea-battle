@@ -74,7 +74,7 @@ namespace Entities
 			Database.bulletPacks.Add(this);
 		}
 		
-		public abstract void Shot(Point point, Direction direction);
+		public abstract void Shot(Field field, Point point, Direction direction);
 		
 		public abstract void Sell();
 		

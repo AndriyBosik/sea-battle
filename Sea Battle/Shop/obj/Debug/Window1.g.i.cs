@@ -51,7 +51,7 @@ namespace Shop {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Shop;component/window1.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ItemViews;component/window1.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\Window1.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

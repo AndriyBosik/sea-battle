@@ -17,11 +17,6 @@ namespace Entities
 	/// </summary>
 	public class ShopBomb: Core
 	{
-		public int Radius
-		{
-			get;
-			private set;
-		}
 		
 		public int DeactivationPrice
 		{

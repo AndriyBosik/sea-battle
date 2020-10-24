@@ -36,9 +36,10 @@ namespace Entities
 			Radius = radius;
 		}
 		
-		public override void Shot(Point point, Direction direction)
+		public override void Shot(Field field, Point point, Direction direction)
 		{
-			
+			var bomb = BombGenerator.Generate(point.X, point.Y, BombKind.MediumBomb);
+			bomb.Explose(field);
 		}
 		
 		public override void Sell()

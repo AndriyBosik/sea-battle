@@ -16,6 +16,8 @@ namespace Config
 	public static class Images
 	{
 		public const string APP_ICON = "app-icon";
+		public const string COVER = "cover";
+		public const string SELECTED_COVER = "SelectedCover";
 		public const string EMPTY_CELL = "water";
 		public const string ONE_DECK = "ship";
 		public const string INTERNAL = "internal";

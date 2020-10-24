@@ -73,6 +73,11 @@ namespace Processors
 			return filled*1.0/empty <= 1.0/5;
 		}
 		
+		public static int ShipsCount(int maxSize)
+		{
+			return (1 + maxSize)*maxSize/2;
+		}
+		
 		public static bool CanPasteShip(int shipSize, int count, int maxSize)
 		{
 			return (count + 1) + shipSize <= maxSize + 1;

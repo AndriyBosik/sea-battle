@@ -13,114 +13,86 @@ using Config;
 
 using Processors;
 
-using Entities;
-
 using System;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Controls;
 
 using System.Collections.Generic;
 
-namespace FieldEditorParts
+namespace Entities
 {
 	/// <summary>
 	/// Description of Field.
 	/// </summary>
 	public class Field: Grid
 	{
-		private const int MARGIN = 10;
-		
-		private int rows;
-		private int columns;
-		private string orientation;
-		private int size;
-		private Cell[][] cells;
-		private List<Ship>[] ships;
-		private int maxShipSize;
-		
-		private SizeRadios sizeRadios;
-		private OrientationGroup orientationGroup;
-		
-		public string Orientation
-		{
-			get
-			{
-				return orientation;
-			}
-			set
-			{
-				orientation = value;
-			}
-		}
-		
-		public int Size
-		{
-			get
-			{
-				return size;
-			}
-			set
-			{
-				size = value;
-			}
-		}
-		
-		public OrientationGroup OrientationGroup
-		{
-			get
-			{
-				return orientationGroup;
-			}
-		}
-		
-		public SizeRadios SizeRadios
-		{
-			get
-			{
-				return sizeRadios;
-			}
-		}
-		
-		public bool AllShipsPasted
+		public BombKind BombKind
 		{
 			get; set;
 		}
 		
-		public Field(int rows, int columns, int maxShipSize)
-		{	
-			this.orientation = Gameplay.HORIZONTAL_ORIENTATION;
-			this.size = 1;
+		private const int MARGIN = 10;
+		
+		private int rows;
+		private int columns;
+		private int currentShipsCount;
+		private List<Ship>[] ships;
+		
+		public int MaxShipSize
+		{ get; set; }
+		
+		public Cell[][] cells;
+		
+		public Field(int rows, int columns)
+		{
 			//this.Margin = new Thickness(10);
 			this.rows = rows;
 			this.columns = columns;
-			this.maxShipSize = maxShipSize;
-			this.ships = new List<Ship>[maxShipSize + 1];
-			
-			this.orientationGroup = new OrientationGroup(this);
-			this.sizeRadios = new SizeRadios(maxShipSize, this);
-			this.AllShipsPasted = false;
+			this.MaxShipSize = ShipProcessor.GetMaxShipSize(rows, columns);
+			this.ships = new List<Ship>[MaxShipSize + 1];
+			this.currentShipsCount = 0;
 			
 			InitializeGrid(rows, columns);
 			InitializeCells(rows, columns);
-			
-			MouseLeftButtonUp += PasteShip;
 		}
 		
-		private void PasteShip(object sender, MouseButtonEventArgs e)
+		public bool IsAllShipsPasted()
 		{
-			var element = (UIElement)e.Source;
-			int row = Grid.GetRow(element);
-			int column = Grid.GetColumn(element);
-			
-			if (EmptyAround(row, column))
-			{
-				Paste(row, column);
-			}
-			
+			return ShipProcessor.ShipsCount(MaxShipSize) == currentShipsCount;
 		}
 		
-		private bool EmptyAround(int row, int column)
+		public void TryPasteShip(int row, int column, int size, string orientation)
+		{
+			if (EmptyAround(row, column, size, orientation))
+			{
+				PasteShip(row, column, size, orientation);
+			}
+		}
+		
+		public void PasteBomb(int row, int column)
+		{
+			if (cells[row][column].Status == CellStatus.BOMB)
+				return;
+			Children.Remove(cells[row][column].Image);
+			var bomb = BombGenerator.Generate(row, column, BombKind);
+			
+			cells[row][column] = bomb;
+			Repaint(row, column);
+		}
+		
+		public void Repaint(int row, int column)
+		{
+			Cell cell = cells[row][column];
+			Children.Remove(cell.Image);
+			
+			// Paste method for uncovering
+			
+			Grid.SetRow(cell.Image, row);
+			Grid.SetColumn(cell.Image, column);
+			Children.Add(cell.Image);
+		}
+		
+		private bool EmptyAround(int row, int column, int size, string orientation)
 		{
 			for (int i = 0; i < size; i++)
 			{
@@ -166,9 +138,9 @@ namespace FieldEditorParts
 			return x >= 0 && x < rows && y >= 0 && y < columns;
 		}
 		
-		private void Paste(int row, int column)
+		private void PasteShip(int row, int column, int size, string orientation)
 		{
-			if (ships[size] != null && !ShipProcessor.CanPasteShip(size, ships[size].Count, maxShipSize))
+			if (ships[size] != null && !ShipProcessor.CanPasteShip(size, ships[size].Count, MaxShipSize))
 			{
 				return;
 			}
@@ -201,14 +173,16 @@ namespace FieldEditorParts
 				ships[index] = new List<Ship>();
 			}
 			ships[size].Add(ship);
-			if (!ShipProcessor.CanPasteShip(size, ships[size].Count, maxShipSize))
+			currentShipsCount++;
+		}
+		
+		public bool AllPasted(int size)
+		{
+			if (ships[size] == null)
 			{
-				sizeRadios.MakeDisabled(size);
-				if (sizeRadios.AllPasted)
-				{
-					AllShipsPasted = true;
-				}
+				ships[size] = new List<Ship>();
 			}
+			return !ShipProcessor.CanPasteShip(size, ships[size].Count, MaxShipSize);
 		}
 		
 		private void InitializeGrid(int rows, int columns)

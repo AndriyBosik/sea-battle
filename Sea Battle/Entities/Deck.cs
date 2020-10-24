@@ -8,6 +8,7 @@
  */
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 
 using System.Windows.Shapes;
@@ -22,6 +23,9 @@ namespace Entities
 	/// </summary>
 	public class Deck: Cell
 	{
+		private const int DEATH_LINE_PADDING = 3;
+		private const int LINE_WIDTH = 3;
+		
 		private Guid shipId;
 		private Guid bombId;
 		
@@ -105,7 +109,7 @@ namespace Entities
 			
 			status = CellStatus.DECK;
 			RotateDeck(orientation);
-			DrawHealthStatusBar();
+			Refresh();
 		}
 		
 		private void RotateDeck(string orientation)
@@ -118,13 +122,29 @@ namespace Entities
 		
 		private void DrawHealthStatusBar()
 		{
+			if (isCovered)
+			{
+				return;
+			}
 			Line line = new Line();
 			line.Stroke = GetBrushColor();
 			line.X1 = 0;
-			line.Y1 = 0;
+			line.Y1 = 2;
 			line.X2 = Gameplay.CELL_SIZE*CurrentHealth*1.0/TotalHealth;
-			line.Y2 = 0;
-			line.StrokeThickness = 2;
+			line.Y2 = 2;
+			line.StrokeThickness = LINE_WIDTH;
+			image.Children.Add(line);
+		}
+		
+		private void DrawDeathSign()
+		{
+			if (isCovered)
+				return;
+			var line = new Line();
+			line.Stroke = Brushes.Red;
+			line.X1 = line.Y1 = DEATH_LINE_PADDING;
+			line.X2 = line.Y2 = Gameplay.CELL_SIZE - DEATH_LINE_PADDING;
+			line.StrokeThickness = LINE_WIDTH;
 			image.Children.Add(line);
 		}
 		
@@ -139,17 +159,30 @@ namespace Entities
 		
 		public void Refresh()
 		{
-			DrawHealthStatusBar();
+			if (CurrentHealth == 0)
+				DrawDeathSign();
+			else
+				DrawHealthStatusBar();
+		}
+		
+		public override void Uncover()
+		{
+			base.Uncover();
+			Refresh();
 		}
 		
 		public void Hurt(int damage)
 		{
 			CurrentHealth -= damage;
+			if (CurrentHealth < 0)
+				CurrentHealth = 0;
 		}
 		
 		public void Heal(int health)
 		{
-			this.CurrentHealth += health;
+			CurrentHealth += health;
+			if (CurrentHealth > TotalHealth)
+				CurrentHealth = TotalHealth;
 		}
 	}
 }

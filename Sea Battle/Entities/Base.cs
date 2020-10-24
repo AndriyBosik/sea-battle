@@ -13,7 +13,7 @@ namespace Entities
 	/// <summary>
 	/// Description of Base.
 	/// </summary>
-	public class Base
+	public abstract class Base
 	{
 		public Guid ID
 		{

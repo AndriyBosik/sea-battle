@@ -8,13 +8,11 @@
  */
 using System;
 
-using Entities;
-
 using GameObjects;
 
 using Config;
 
-namespace Shop
+namespace Entities
 {
 	/// <summary>
 	/// Description of ShopBombGenerator.
@@ -31,7 +29,7 @@ namespace Shop
 				case BombKind.MediumBomb:
 					return new ShopBomb(2, 400, 100, 300, icon);
 				case BombKind.LargeBomb:
-					return new ShopBomb(3, 1000, 110, 1500, icon);
+					return new ShopBomb(3, 1000, 60, 1500, icon);
 				default:
 					return null;
 			}
