@@ -64,33 +64,32 @@ namespace Entities
 		{
 			status = CellStatus.EMPTY;
 			this.icon = icon;
-			image = GetImage();
+			image = new Canvas();
+			image.Background = GetImage();
 		}
 		
-		private Canvas GetImage(string icon)
+		private ImageBrush GetImage(string icon)
 		{
-			Canvas canvas = new Canvas();
-			canvas.Background = ImageProcessor.GetBackground(icon);
-			return canvas;
+			return ImageProcessor.GetBackground(icon);
 		}
 		
-		private Canvas GetImage()
+		private ImageBrush GetImage()
 		{
-			Canvas canvas = new Canvas();
-			canvas.Background = ImageProcessor.GetBackground(icon);
-			return canvas;
+			return ImageProcessor.GetBackground(icon);
 		}
 		
 		public virtual void Uncover()
 		{
-			image = GetImage();
+			image.Background = GetImage();
 			isCovered = false;
 		}
 		
 		public void Select()
 		{
 			if (isCovered)
-				image = GetImage(Images.SELECTED_COVER);
+			{
+				image.Background = GetImage(Images.SELECTED_COVER);
+			}
 			else
 				image.Opacity = 0.7;
 		}
@@ -106,7 +105,7 @@ namespace Entities
 		public virtual void Cover()
 		{
 			isCovered = true;
-			image = GetImage(Images.COVER);
+			image.Background = GetImage(Images.COVER);
 		}
 
 	}

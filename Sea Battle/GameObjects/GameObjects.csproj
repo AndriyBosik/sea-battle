@@ -77,10 +77,6 @@
       <Project>{385c340b-d94b-455f-963d-c869f0bc92e9}</Project>
       <Name>Config</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Processors\Processors.csproj">
-      <Project>{7d392411-0d1b-49a1-aef2-86cb09ff7b31}</Project>
-      <Name>Processors</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

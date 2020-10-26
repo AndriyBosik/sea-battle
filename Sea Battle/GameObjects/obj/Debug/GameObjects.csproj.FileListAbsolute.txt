@@ -6,5 +6,3 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\obj\Debug\GameObjects.
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\obj\Debug\GameObjects.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\bin\Debug\Config.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\bin\Debug\Config.pdb
-D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\bin\Debug\Processors.exe
-D:\Study\II Course(I term)\OOP\Lab\Sea Battle\GameObjects\bin\Debug\Processors.pdb

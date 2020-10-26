@@ -47,18 +47,18 @@ namespace ItemViews
 			sp.VerticalAlignment = VerticalAlignment.Bottom;
 			
 			sp.Children.Add(ImageProcessor.GetImage(Item.icon, iconSize, iconSize));
-			sp.Children.Add(GetInformation());
+			description = new TextBlock();
+			InitInformation();
+			sp.Children.Add(description);
 			
 			return sp;
 		}
 		
-		private TextBlock GetInformation()
+		protected virtual void InitInformation()
 		{
-			description = new TextBlock();
 			description.Text = Item.ToString();
 			description.Margin = new Thickness(10, 0, 0, 0);
 			description.FontFamily = new FontFamily("Comic Sans MS");
-			return description;
 		}
 		
 		private Image GetImage()

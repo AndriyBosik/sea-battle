@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 
+using System.Threading;
 using GameObjects;
 
 using Config;
@@ -80,13 +81,10 @@ namespace Entities
 			Repaint(row, column);
 		}
 		
-		public void Repaint(int row, int column)
+		private void Repaint(int row, int column)
 		{
 			Cell cell = cells[row][column];
-			Children.Remove(cell.Image);
-			
-			// Paste method for uncovering
-			
+			Children.Remove(cell.Image);			
 			Grid.SetRow(cell.Image, row);
 			Grid.SetColumn(cell.Image, column);
 			Children.Add(cell.Image);
@@ -156,6 +154,7 @@ namespace Entities
 					currentRow = row;
 					currentColumn = column + i;
 				}
+				Children.Remove(cells[currentRow][currentColumn].Image);
 				Deck deck = new Deck(
 					ship,
 					DeckKindProcessor.GetDeckKind(i, size),

@@ -95,7 +95,7 @@ namespace SeaBattle
 				    	player.Money -= bomb.CostByOne;
 				    	Refresh();
 				    },
-					player.Money);
+					player);
 				bombItem.Tag = kind;
 				items.Add(bombItem);
 				Grid.SetRow(bombItem, i);
@@ -112,7 +112,7 @@ namespace SeaBattle
 					Gameplay.SHOP_ITEM_SIZE,
 					Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
 					Buy,
-					player.Money);
+					player);
 				gun = TryGetFromPlayer(gun);
 				gun.PreviewMouseLeftButtonUp += Select;
 				items.Add(gun);
@@ -133,7 +133,7 @@ namespace SeaBattle
 						Gameplay.SHOP_ITEM_SIZE,
 						Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
 						Buy,
-						player.Money);
+						player);
 			}
 			return item;
 		}
@@ -169,12 +169,9 @@ namespace SeaBattle
 			var clicked = (Button)sender;
 			var gun = (Gun)clicked.Tag;
 			
-			var bulletsShop = new BulletsShop(gun, player.Money);
-			if (bulletsShop.ShowDialog() == true)
-			{
-				player.Money = bulletsShop.Money;
-				Refresh();
-			}
+			var bulletsShop = new BulletsShop(gun, player);
+			bulletsShop.ShowDialog();
+			Refresh();
 		}
 		
 		private void Buy(object sender, RoutedEventArgs e)
@@ -195,7 +192,7 @@ namespace SeaBattle
 			ShowPlayerInformation();
 			foreach (var item in items)
 			{
-				item.Refresh(player.Money);
+				item.Refresh();
 			}
 		}
 		

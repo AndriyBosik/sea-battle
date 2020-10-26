@@ -61,7 +61,6 @@ namespace Entities
 					deck.Hurt(damage);
 				}
 				field.cells[point.X + x*i][point.Y + y*i].Uncover();
-				field.Repaint(point.X + x*i, point.Y + y*i);
 			}
 		}
 		

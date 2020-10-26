@@ -38,6 +38,15 @@ namespace FieldEditorParts
 			if (lastRow == -1)
 				return;
 			var field = game.GetCurrentField();
+			if (lastDamageKind == DamageKind.LINEAR)
+				DeselectLinearArea(field);
+			else
+				DeselectCircleArea(field);
+			lastRow = lastColumn = -1;
+		}
+		
+		private void DeselectLinearArea(Field field)
+		{
 			int x = 0;
 			int y = 0;
 			GetAdditors(ref x, ref y, lastDirection);
@@ -46,10 +55,25 @@ namespace FieldEditorParts
 				if (field.IsInsideField(lastRow + x*i, lastColumn + y*i))
 				{
 					field.cells[lastRow + x*i][lastColumn + y*i].Deselect();
-					field.Repaint(lastRow + x*i, lastColumn + y*i);
 				}
 			}
-			lastRow = lastColumn = -1;
+		}
+		
+		private void DeselectCircleArea(Field field)
+		{
+			for (int i = -lastRadius + 1; i <= lastRadius - 1; i++)
+			{
+				int leftSide = -(lastRadius - 1 - Math.Abs(i));
+				int rightSide = -leftSide;
+				for (int j = leftSide; j <= rightSide; j++)
+				{
+					int x = lastRow + i;
+					int y = lastColumn + j;
+					if (!field.IsInsideField(x, y))
+						continue;
+					field.cells[x][y].Deselect();
+				}
+			}
 		}
 		
 		private void GetAdditors(ref int x, ref int y, Direction direction)
@@ -71,18 +95,10 @@ namespace FieldEditorParts
 			Field field = game.GetCurrentField();
 			if (!field.IsInsideField(row, column))
 				return;
-			field.cells[row][column].Select();
-			int x = 0;
-			int y = 0;
-			GetAdditors(ref x, ref y, direction);
-			for (int i = 0; i < radius; i++)
-			{
-				if (field.IsInsideField(row + x*i, column + y*i))
-				{
-					field.cells[row + x*i][column + y*i].Select();
-					field.Repaint(row + x*i, column + y*i);
-				}
-			}
+			if (kind == DamageKind.LINEAR)
+				SelectLinearArea(field, row, column, radius, direction);
+			else
+				SelectCircleArea(field, row, column, radius);
 			if (lastRow != row || lastColumn != column || lastRadius != radius)
 			{
 				lastRow = row;
@@ -91,7 +107,37 @@ namespace FieldEditorParts
 				lastDamageKind = kind;
 				lastDirection = direction;
 			}
-			field.Repaint(row, column);
+		}
+		
+		private void SelectLinearArea(Field field, int row, int column, int radius, Direction direction)
+		{
+			int x = 0;
+			int y = 0;
+			GetAdditors(ref x, ref y, direction);
+			for (int i = 0; i < radius; i++)
+			{
+				if (field.IsInsideField(row + x*i, column + y*i))
+				{
+					field.cells[row + x*i][column + y*i].Select();
+				}
+			}
+		}
+		
+		private void SelectCircleArea(Field field, int row, int column, int radius)
+		{
+			for (int i = -radius + 1; i <= radius - 1; i++)
+			{
+				int leftSide = -(radius - 1 - Math.Abs(i));
+				int rightSide = -leftSide;
+				for (int j = leftSide; j <= rightSide; j++)
+				{
+					int x = row + i;
+					int y = column + j;
+					if (!field.IsInsideField(x, y))
+						continue;
+					field.cells[x][y].Select();
+				}
+			}
 		}
 	}
 }

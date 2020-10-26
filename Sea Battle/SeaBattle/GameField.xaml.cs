@@ -23,7 +23,6 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Processors;
 
 namespace SeaBattle
 {
@@ -34,11 +33,6 @@ namespace SeaBattle
 	{
 		private Game game;
 		
-		private int lastHoverRow;
-		private int lastHoverColumn;
-		private Direction lastHoverDirection;
-		private Direction currentDirection;
-		
 		private Player firstPlayer;
 		private Player secondPlayer;
 		private ShadowDrawer drawer;
@@ -46,41 +40,61 @@ namespace SeaBattle
 		private List<ItemDescription> gunViews;
 		private List<ItemDescription> bulletViews;
 		
-		private Gun selectedGun;
-		private Entities.BulletPack selectedBulletPack;
-		
 		public GameField(Player firstPlayer, Player secondPlayer)
 		{
 			InitializeComponent();
 			
 			this.firstPlayer = firstPlayer;
 			this.secondPlayer = secondPlayer;
-			
-			lastHoverRow = lastHoverColumn = -1;
-			lastHoverDirection = Direction.NO_DIRECTION;
-			currentDirection = Direction.UP;
-			
 			game = new Game(firstPlayer, secondPlayer);
+			
+			RefreshContent();
+			
 			drawer = new ShadowDrawer(game);
 			
-			FillWithGuns(firstPlayer);
+			FillWithGuns();
 			
-			firstPlayer.Field.Name = Gameplay.FIRST_PLAYER_FIELD;
+			bBuyBullets.PreviewMouseLeftButtonDown += OpenBulletsShop;
 			
-			spContent.Children.Add(GetGameField(firstPlayer.Field));
+			InitField(firstPlayer.Field);
+			InitField(secondPlayer.Field);
+			bFirstPlayer.Child = firstPlayer.Field;
+			bSecondPlayer.Child = secondPlayer.Field;
 			
-			spContent.Children.Add(GetVSLabel());
-			
-			secondPlayer.Field.Name = Gameplay.SECOND_PLAYER_FIELD;
-			spContent.Children.Add(GetGameField(secondPlayer.Field));
-			
-			spContent.MouseLeftButtonUp += ProcessMove;
+			spContent.PreviewMouseLeftButtonUp += ProcessMove;
 		}
 		
-		private void FillWithGuns(Player player)
+		private void RefreshContent()
+		{
+			tbPlayerInformation.Text =  "You have:\n" +
+										game.GetCurrentPlayer().Money + " coins\n" +
+										game.GetCurrentPlayer().HealthPoints + " health points";
+			if (game.IsFirstPlayer(game.GetCurrentPlayer()))
+			{
+				bSecondPlayer.BorderBrush = Brushes.Blue;
+				bFirstPlayer.BorderBrush = Brushes.Transparent;
+			}
+			else
+			{
+				bSecondPlayer.BorderBrush = Brushes.Transparent;
+				bFirstPlayer.BorderBrush = Brushes.Blue;
+			}
+		}
+		
+		private void OpenBulletsShop(object sender, EventArgs e)
+		{
+			if (game.GetCurrentPlayer().SelectedGun == null)
+				return;
+			var shop = new BulletsShop(game.GetCurrentPlayer().SelectedGun, game.GetCurrentPlayer());
+			shop.ShowDialog();
+			RefreshContent();
+			RefreshBulletsList(game.GetCurrentPlayer().SelectedGun);
+		}
+		
+		private void FillWithGuns()
 		{
 			spGuns.Children.Clear();
-			var guns = player.Guns;
+			var guns = game.GetCurrentPlayer().Guns;
 			gunViews = new List<ItemDescription>();
 			foreach (var gun in guns)
 			{
@@ -95,19 +109,37 @@ namespace SeaBattle
 			var item = (ItemDescription)sender;
 			Select(item, gunViews);
 			var gun = (Gun)item.Item;
-			selectedGun = gun;
+			RefreshBulletsList(gun);
+		}
+		
+		private void RefreshBulletsList(Gun gun)
+		{
+			game.GetCurrentPlayer().SelectGun(gun);
 			spBullets.Children.Clear();
 			bulletViews = new List<ItemDescription>();
 			foreach (var bullet in gun.BulletPacks)
 			{
 				bulletViews.Add(new ItemDescription(bullet, Gameplay.ITEM_SIZE, Gameplay.ITEM_DESCRIPTION_SIZE));
+				var count = GetCount(bullet, gun);
+				var label = new Label();
+				label.Content = "You have: " + count;
+				bulletViews.LastOrDefault().spContent.Children.Add(label);
 				bulletViews.LastOrDefault().PreviewMouseLeftButtonDown += (s, ev) => {
 					var bulletPack = (ItemDescription)s;
 					Select(bulletPack, bulletViews);
-					selectedBulletPack = (Entities.BulletPack)bulletPack.Item;
+					game.GetCurrentPlayer().SelectBulletPack(bullet);
 				};
 				spBullets.Children.Add(bulletViews.LastOrDefault());
 			}
+		}
+		
+		private int GetCount(Entities.BulletPack bulletPack, Gun gun)
+		{
+			var bullets = Database.bulletPackInGuns.Where(bpig => bpig.Gun == gun && bpig.BulletPack.Equals(bulletPack))
+				.FirstOrDefault();
+			if (bullets == null)
+				return 0;
+			return bullets.Count;
 		}
 		
 		private void Select(ItemDescription selected, List<ItemDescription> items)
@@ -119,25 +151,18 @@ namespace SeaBattle
 			selected.Select();
 		}
 		
-		private Grid GetGameField(Field field)
+		private void InitField(Field field)
 		{
-			int n = field.RowDefinitions.Count;
-			int m = field.ColumnDefinitions.Count;
-			for (int i = 0; i < n; i++)
-			{
-				for (int j = 0; j < m; j++)
-				{
-					field.cells[i][j].Cover();
-					field.Repaint(i, j);
-					RefreshDataAfterMove(field);
-				}
-			}
+			foreach (var row in field.cells)
+				foreach (var cell in row)
+					cell.Cover();
+			RefreshDataAfterMove();
 			field.PreviewMouseLeftButtonDown += TryUncover;
 			field.PreviewMouseMove += MakeSelected;
+			var player = game.GetCurrentPlayer();
 			field.MouseLeave += (sender, e) =>
-				drawer.DrawSelectedArea(-1, -1, GetDamageKind(), GetRadius(), currentDirection);
+				drawer.DrawSelectedArea(-1, -1, player.DamageKind, player.Radius, player.ShotDirection);
 			field.PreviewMouseWheel += ChangeDirection;
-			return field;
 		}
 		
 		private void ChangeDirection(object sender, MouseWheelEventArgs e)
@@ -145,100 +170,53 @@ namespace SeaBattle
 			var field = (Field)sender;
 			if (field != game.GetCurrentField())
 				return;
-			var cell = (UIElement)e.Source;
-			var row = Grid.GetRow(cell);
-			var column = Grid.GetColumn(cell);
-			
+			int row, column;
+			GetCoords(out row, out column, e);
 			if (e.Delta > 0)
-				ChangeDirectionUp();
+				game.GetCurrentPlayer().PreviousDirection();
 			if (e.Delta < 0)
-				ChangeDirectionDown();
-			drawer.DrawSelectedArea(row, column, GetDamageKind(), GetRadius(), currentDirection);
-		}
-		
-		private void ChangeDirectionDown()
-		{
-			if (currentDirection == Direction.UP)
-				currentDirection = Direction.RIGHT;
-			else if (currentDirection == Direction.RIGHT)
-				currentDirection = Direction.DOWN;
-			else if (currentDirection == Direction.DOWN)
-				currentDirection = Direction.LEFT;
-			else
-				currentDirection = Direction.UP;
-		}
-		
-		private void ChangeDirectionUp()
-		{
-			if (currentDirection == Direction.UP)
-				currentDirection = Direction.LEFT;
-			else if (currentDirection == Direction.LEFT)
-				currentDirection = Direction.DOWN;
-			else if (currentDirection == Direction.DOWN)
-				currentDirection = Direction.RIGHT;
-			else
-				currentDirection = Direction.UP;
+				game.GetCurrentPlayer().NextDirection();
+			var player = game.GetCurrentPlayer();
+			drawer.DrawSelectedArea(row, column, player.DamageKind, player.Radius, player.ShotDirection);
 		}
 		
 		private void MakeSelected(object sender, MouseEventArgs e)
 		{
+			
 			var field = (Field)sender;
 			if (field != game.GetCurrentField())
 				return;
-			var cell = (UIElement)e.Source;
-			var row = Grid.GetRow(cell);
-			var column = Grid.GetColumn(cell);
-			drawer.DrawSelectedArea(row, column, GetDamageKind(), GetRadius(), currentDirection);
+			int row, column;
+			GetCoords(out row, out column, e);
+			var player = game.GetCurrentPlayer();
+			drawer.DrawSelectedArea(row, column, player.DamageKind, player.Radius, player.ShotDirection);
 		}
 		
-		private void RefreshDataAfterMove(Field field)
+		private void RefreshDataAfterMove()
 		{
 			spGuns.Children.Clear();
 			spBullets.Children.Clear();
-			selectedGun = null;
-			selectedBulletPack = null;
-			FillWithGuns(game.GetCurrentPlayer());
+			game.GetCurrentPlayer().DeselectAll();
+			gunViews = null;
+			bulletViews = null;
+			RefreshContent();
+			game.GetCurrentPlayer().DeselectAll();
+			FillWithGuns();
 		}
 		
 		private void TryUncover(object sender, MouseButtonEventArgs e)
 		{
-			drawer.DrawSelectedArea(-1, -1, GetDamageKind(), GetRadius(), Direction.NO_DIRECTION);
+			drawer.DrawSelectedArea(
+				-1, -1, game.GetCurrentPlayer().DamageKind, game.GetCurrentPlayer().Radius, Direction.NO_DIRECTION);
+			
 			var field = (Field)sender;
-			if (!game.TryMove(field))
-				return;
-			var element = (UIElement)e.Source;
-			var row = Grid.GetRow(element);
-			var column = Grid.GetColumn(element);
+			int row, column;
+			GetCoords(out row, out column, e);
 			var cell = field.cells[row][column];
-			game.MakeMove(row, column);
-			if (selectedGun != null && selectedBulletPack != null)
+			if (game.MakePlayerMove(field, row, column))
 			{
-				selectedGun.Shot(
-					field, selectedBulletPack, new GameObjects.Point(row, column), currentDirection);
+				RefreshDataAfterMove();
 			}
-			field.Repaint(row, column);
-			RefreshDataAfterMove(field);
-		}
-		
-		private int GetRadius()
-		{
-			if (selectedBulletPack == null)
-				return 1;
-			return selectedBulletPack.Radius;
-		}
-		
-		private DamageKind GetDamageKind()
-		{
-			if (selectedGun == null)
-				return DamageKind.LINEAR;
-			return selectedGun.DamageKind;
-		}
-		
-		private Field GetAnotherField(Field field)
-		{
-			if (field == firstPlayer.Field)
-				return secondPlayer.Field;
-			return firstPlayer.Field;
 		}
 		
 		private StackPanel GetGuns(Player player)
@@ -255,35 +233,16 @@ namespace SeaBattle
 			return sp;
 		}
 		
-		private Label GetVSLabel()
+		private void GetCoords(out int row, out int column, RoutedEventArgs e)
 		{
-			Label l = new Label();
-			l.FontSize = 30;
-			l.Content = "VS";
-			l.VerticalAlignment = VerticalAlignment.Center;
-			l.HorizontalAlignment = HorizontalAlignment.Center;
-			return l;
+			var element = (UIElement)e.Source;
+			row = Grid.GetRow(element);
+			column = Grid.GetColumn(element);
 		}
 		
 		public void ProcessMove(object sender, RoutedEventArgs e)
 		{
-			Field field = GetField(e);
-			if (field == null) return;
-		}
-		
-		private Field GetField(RoutedEventArgs e)
-		{
-			if (!(e.Source is Image))
-			{
-				return null;
-			}
-			Label cell = (Label)e.Source;
-			if (!(cell.Parent is Field))
-			{
-				return null;
-			}
-			var field = (Field)cell.Parent;
-			return field;
+			RefreshDataAfterMove();
 		}
 		
 	}

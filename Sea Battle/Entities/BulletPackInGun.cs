@@ -18,7 +18,8 @@ namespace Entities
 	/// </summary>
 	public class BulletPackInGun: Base
 	{	
-		private int count;
+		public int Count
+		{ get; private set; }
 		
 		private Guid bulletPackID;
 		public BulletPack BulletPack
@@ -42,11 +43,12 @@ namespace Entities
 			{
 				this.Gun = gun;
 				this.BulletPack = bulletPack;
+				this.Count = 1;
 				Database.bulletPackInGuns.Add(this);
 			}
 			else
 			{
-				bpig.count++;
+				bpig.Count++;
 			}
 		}
 	}

@@ -72,8 +72,7 @@ namespace Entities
 						deck.Hurt(damage);
 						deck.Refresh();
 					}
-					cells[x][y].Uncover();
-					field.Repaint(x, y);
+					field.cells[x][y].Uncover();
 				}
 			}
 		}
@@ -82,6 +81,19 @@ namespace Entities
 		{
 			// Take money
 			Init(Images.EMPTY_CELL);
+		}
+		
+		public override bool Equals(object obj)
+		{
+			Bomb other = obj as Bomb;
+			if (other == null)
+				return false;
+			return  this.icon == other.icon &&
+					this.CostByOne == other.CostByOne &&
+					this.Damage == other.Damage &&
+					this.DamageKind == other.DamageKind &&
+					this.Radius == other.Radius &&
+					this.DeactivationPrice == other.DeactivationPrice;
 		}
 	}
 }

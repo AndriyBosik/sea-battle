@@ -24,10 +24,13 @@ namespace Entities
 	public class Deck: Cell
 	{
 		private const int DEATH_LINE_PADDING = 3;
-		private const int LINE_WIDTH = 3;
+		private const int HEALTH_BAR_WIDTH = 3;
+		private const int DEATH_LINE_WIDTH = 3;
 		
 		private Guid shipId;
 		private Guid bombId;
+		
+		private Line healthBar;
 		
 		#region Properties
 		public Ship Ship
@@ -102,6 +105,7 @@ namespace Entities
 		private void Init(DeckKind kind, string orientation)
 		{
 			Kind = kind;
+			healthBar = new Line();
 			Orientation = orientation;
 			this.icon = DeckKindProcessor.GetIcon(kind);
 			
@@ -109,6 +113,8 @@ namespace Entities
 			
 			status = CellStatus.DECK;
 			RotateDeck(orientation);
+			healthBar = GetHealthBar();
+			image.Children.Add(healthBar);
 			Refresh();
 		}
 		
@@ -120,20 +126,16 @@ namespace Entities
 			}
 		}
 		
-		private void DrawHealthStatusBar()
+		private Line GetHealthBar()
 		{
-			if (isCovered)
-			{
-				return;
-			}
-			Line line = new Line();
-			line.Stroke = GetBrushColor();
-			line.X1 = 0;
-			line.Y1 = 2;
-			line.X2 = Gameplay.CELL_SIZE*CurrentHealth*1.0/TotalHealth;
-			line.Y2 = 2;
-			line.StrokeThickness = LINE_WIDTH;
-			image.Children.Add(line);
+			Line healthBar = new Line();
+			healthBar.Stroke = GetBrushColor();
+			healthBar.X1 = 0;
+			healthBar.Y1 = 2;
+			healthBar.X2 = Gameplay.CELL_SIZE;
+			healthBar.Y2 = 2;
+			healthBar.StrokeThickness = HEALTH_BAR_WIDTH;
+			return healthBar;
 		}
 		
 		private void DrawDeathSign()
@@ -144,7 +146,7 @@ namespace Entities
 			line.Stroke = Brushes.Red;
 			line.X1 = line.Y1 = DEATH_LINE_PADDING;
 			line.X2 = line.Y2 = Gameplay.CELL_SIZE - DEATH_LINE_PADDING;
-			line.StrokeThickness = LINE_WIDTH;
+			line.StrokeThickness = DEATH_LINE_WIDTH;
 			image.Children.Add(line);
 		}
 		
@@ -162,7 +164,17 @@ namespace Entities
 			if (CurrentHealth == 0)
 				DrawDeathSign();
 			else
-				DrawHealthStatusBar();
+			{
+				healthBar.X2 = Gameplay.CELL_SIZE*CurrentHealth*1.0/TotalHealth;
+				healthBar.Stroke = GetBrushColor();
+				healthBar.StrokeThickness = HEALTH_BAR_WIDTH;
+			}
+		}
+		
+		public override void Cover()
+		{
+			base.Cover();
+			healthBar.StrokeThickness = 0;
 		}
 		
 		public override void Uncover()

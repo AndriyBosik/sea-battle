@@ -7,21 +7,52 @@
 	<StackPanel
 		Orientation="Vertical"
 		x:Name="spWrapper" >
-		<Label
-			x:Name="lMoveHint"
-			FontSize="30"
-			VerticalAlignment="Center"
-			HorizontalAlignment="Center">It's player one's move</Label>
 		<StackPanel
-			x:Name="spGuns"
-			Orientation="Horizontal"
-			VerticalAlignment="Center"
-			HorizontalAlignment="Center"></StackPanel>
+			x:Name="spInformation"
+			Orientation="Horizontal">
+			<StackPanel
+				x:Name="spPlayerInformation"
+				Orientation="Vertical"
+				Margin="10">
+				<TextBlock
+					x:Name="tbPlayerInformation"
+					FontSize="14"></TextBlock>
+				<Button
+					x:Name="bBuyBullets"
+					FontSize="14">Buy bullets</Button>
+			</StackPanel>
+			<StackPanel
+				x:Name="spGuns"
+				Orientation="Horizontal"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"></StackPanel>
+		</StackPanel>
 		<StackPanel
 			Orientation="Horizontal"
 			x:Name="spContent"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
 			Margin="10">
 			
+			<Border
+				x:Name="bFirstPlayer"
+				BorderBrush="Blue"
+				BorderThickness="2"
+				CornerRadius="2"
+				Padding="10"></Border>
+			
+			<Label
+				FontSize="30"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center">VS</Label>
+			
+			<Border
+				x:Name="bSecondPlayer"
+				BorderBrush="Blue"
+				BorderThickness="2"
+				CornerRadius="2"
+				Padding="10"></Border>
+		
 		</StackPanel>
 		<StackPanel
 			x:Name="spBullets"

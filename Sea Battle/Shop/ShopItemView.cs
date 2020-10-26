@@ -20,12 +20,14 @@ namespace ItemViews
 	public class ShopItemView: ItemDescription
 	{
 		private Button bBuy;
+		private Player player;
 		
-		public ShopItemView(ShopItem item, int iconSize, int fontSize, MouseButtonEventHandler buyMethod, int money):
+		public ShopItemView(ShopItem item, int iconSize, int fontSize, MouseButtonEventHandler buyMethod, Player player):
 			base(item, iconSize, fontSize)
 		{
+			this.player = player;
 			spContent.Children.Add(AddBuyButton(buyMethod));
-			Refresh(money);
+			Refresh();
 		}
 		
 		private Button AddBuyButton(MouseButtonEventHandler buyMethod)
@@ -47,9 +49,10 @@ namespace ItemViews
 			return false;
 		}
 		
-		public void Refresh(int money)
+		public virtual void Refresh()
 		{
-			if (money >= Item.CostByOne && !Item.MaxCountBuyed())
+			InitInformation();
+			if (player.Money >= Item.CostByOne && !Item.MaxCountBuyed())
 			{
 				Enable();
 			}

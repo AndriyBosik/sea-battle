@@ -17,6 +17,7 @@ using ItemViews;
 using Entities;
 
 using Config;
+using Shop;
 
 namespace SeaBattle
 {
@@ -29,20 +30,17 @@ namespace SeaBattle
 		
 		private List<BulletPack> bullets;
 		private List<ShopItemView> items = new List<ShopItemView>();
+		private List<Label> countLabels = new List<Label>();
 		
 		private Gun gun;
+		private Player player;
 		
-		public int Money
-		{
-			get; private set;
-		}
-		
-		public BulletsShop(Gun gun, int money)
+		public BulletsShop(Gun gun, Player player)
 		{
 			InitializeComponent();
 			SizeToContent = SizeToContent.WidthAndHeight;
 			
-			this.Money = money;
+			this.player = player;
 			this.gun = gun;
 			bullets = Database.shopBulletPacks.Where(bulletPack => bulletPack.DamageKind == gun.DamageKind).ToList();
 			ShowPlayerInformation();
@@ -52,7 +50,7 @@ namespace SeaBattle
 		
 		private void ShowPlayerInformation()
 		{
-			lPlayerInformation.Content = "You have " + Money + " coins";
+			lPlayerInformation.Content = "You have " + player.Money + " coins";
 		}
 		
 		private void InitGrid()
@@ -76,16 +74,21 @@ namespace SeaBattle
 			int current = 0;
 			foreach (var bulletPack in bullets)
 			{
-				var item = new ShopItemView(
+				var count = GetCount(bulletPack);
+				var item = new BulletPackDescription(
+					gun,
 					bulletPack,
 					Gameplay.SHOP_ITEM_SIZE,
 					Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
 					BuyMethod,
-					Money);
-				Label label = new Label();
-				var count = GetCount(bulletPack);
-				label.Content = "You have: " + count;
-				item.spContent.Children.Add(label);
+					player);
+
+//				Label label = new Label();
+//				label.Content = "You have: " + count;
+//				label.Tag = bulletPack;
+//				countLabels.Add(label);
+//				item.spContent.Children.Add(label);
+				
 				int row = current / NUMBER_OF_COLUMNS;
 				int column = current % NUMBER_OF_COLUMNS;
 				Grid.SetRow(item, row);
@@ -98,8 +101,11 @@ namespace SeaBattle
 		
 		private int GetCount(BulletPack bulletPack)
 		{
-			return Database.bulletPackInGuns.Where(bpig => bpig.Gun == gun && bpig.BulletPack.Equals(bulletPack))
-				.ToList().Count();
+			var bullets = Database.bulletPackInGuns.Where(bpig => bpig.Gun == gun && bpig.BulletPack.Equals(bulletPack))
+				.FirstOrDefault();
+			if (bullets == null)
+				return 0;
+			return bullets.Count;
 		}
 		
 		private void BuyMethod(object sender, EventArgs e)
@@ -107,7 +113,7 @@ namespace SeaBattle
 			var button = (Button)sender;
 			var item = (ShopItem)button.Tag;
 			new BulletPackInGun(gun, (BulletPack)item);
-			Money -= item.CostByOne;
+			player.Money -= item.CostByOne;
 			RefreshAll();
 		}
 		
@@ -116,7 +122,13 @@ namespace SeaBattle
 			ShowPlayerInformation();
 			foreach (var item in items)
 			{
-				item.Refresh(Money);
+				item.Refresh();
+			}
+			foreach (var label in countLabels)
+			{
+				var bulletPack = (BulletPack)label.Tag;
+				var count = GetCount(bulletPack);
+				label.Content = "You have: " + count;
 			}
 		}
 		

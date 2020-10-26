@@ -38,7 +38,7 @@ namespace Entities
 		
 		public override void Shot(Field field, Point point, Direction direction)
 		{
-			var bomb = BombGenerator.Generate(point.X, point.Y, BombKind.MediumBomb);
+			var bomb = new Bomb(point, Radius, CostByOne, Damage, 0, icon);
 			bomb.Explose(field);
 		}
 		

@@ -18,8 +18,6 @@ using Config;
 
 using Entities;
 
-using Processors;
-
 using System;
 using System.Linq;
 using System.Windows;
@@ -102,7 +100,8 @@ namespace SeaBattle
 			StackPanel content = new StackPanel();
 			content.Orientation = Orientation.Vertical;
 			InitData();
-			content.Children.Add(PlayerInfo());
+			PlayerInfo();
+			content.Children.Add(information);
 			content.Children.Add(FieldComponents());
 			//content.Children.Add(Footer());
 			
@@ -118,13 +117,17 @@ namespace SeaBattle
 			orientation = Gameplay.HORIZONTAL_ORIENTATION;
 		}
 		
-		private UIElement PlayerInfo()
+		private void PlayerInfo()
 		{
 			information = new TextBlock();
-			information.Text = "You have " + GetCurrentPlayer().Money + " coins";
+			information.Text = GetPlayerMoneyInformation();
 			information.FontSize = 22;
 			information.TextWrapping = TextWrapping.Wrap;
-			return information;
+		}
+		
+		private string GetPlayerMoneyInformation()
+		{
+			return "You have " + GetCurrentPlayer().Money + " coins";
 		}
 		
 		private UIElement FieldComponents()
@@ -250,7 +253,7 @@ namespace SeaBattle
 //			}
 			Shop shop = new Shop(GetCurrentPlayer());
 			shop.ShowDialog();
-			PlayerInfo();
+			information.Text = GetPlayerMoneyInformation();
 			UpdateShopBombs(shop.ShopBombs);
 			UpdateBombsRadioGroup();
 		}
@@ -313,10 +316,10 @@ namespace SeaBattle
 		{
 			secondPlayer.Field = grid;
 			
-			GameField game = new GameField(firstPlayer, secondPlayer);
+			GameField gameField = new GameField(firstPlayer, secondPlayer);
 			
 			this.Close();
-			game.Show();
+			gameField.Show();
 			
 		}
 		
@@ -325,6 +328,11 @@ namespace SeaBattle
 			StartMenu start = new StartMenu();
 			start.Show();
 			this.Close();
+		}
+		
+		private Player GetAnotherPlayer()
+		{
+			return isFirstPlayerReady ? firstPlayer: secondPlayer;
 		}
 		
 		private Player GetCurrentPlayer()
