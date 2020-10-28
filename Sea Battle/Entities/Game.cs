@@ -19,13 +19,13 @@ namespace Entities
 	{
 		private Player firstPlayer;
 		private Player secondPlayer;
-		private Move move;
+		private MoveOrder move;
 		
 		public Game(Player firstPlayer, Player secondPlayer)
 		{
 			this.firstPlayer = firstPlayer;
 			this.secondPlayer = secondPlayer;
-			this.move = Move.FIRST;
+			this.move = MoveOrder.FIRST;
 		}
 		
 		public bool IsFirstPlayer(Player player)
@@ -35,55 +35,41 @@ namespace Entities
 		
 		public bool TryMove(Field field)
 		{
-			if ((move == Move.FIRST && field == secondPlayer.Field) || (move == Move.SECOND && field == firstPlayer.Field))
-			{
+			if ((move == MoveOrder.FIRST && field == secondPlayer.Field) || (move == MoveOrder.SECOND && field == firstPlayer.Field))
 				return true;
-			}
 			return false;
 		}
 		
 		public Player GetCurrentPlayer()
 		{
-			return move == Move.FIRST ? firstPlayer : secondPlayer;
+			return move == MoveOrder.FIRST ? firstPlayer : secondPlayer;
+		}
+		
+		public Player GetAnotherPlayer()
+		{
+			return move == MoveOrder.FIRST ? secondPlayer : firstPlayer;
 		}
 		
 		public Field GetCurrentField()
 		{
-			return move == Move.FIRST ? secondPlayer.Field : firstPlayer.Field;
+			return move == MoveOrder.FIRST ? secondPlayer.Field : firstPlayer.Field;
 		}
 		
-		public bool MakePlayerMove(Field field, int row, int column)
+		public bool MakeMove(Field field, int row, int column)
 		{
 			if (field != GetCurrentField())
 				return false;
-			GetCurrentPlayer().Shot(field, row, column);
+			GetAnotherPlayer().Money += GetCurrentPlayer().Shot(field, row, column);
 			ChangeMove();
 			return true;
 		}
 		
-		public void MakeMove(int x, int y)
-		{
-			if (move == Move.FIRST)
-			{
-				//first.UpdateCell(x, y, ImageProcessor.GetImage(Images.BOMB));
-			}
-			else
-			{
-				//second.UpdateCell(x, y, ImageProcessor.GetImage(Images.BOMB));
-			}
-			ChangeMove();
-		}
-		
 		private void ChangeMove()
 		{
-			if (move == Move.FIRST)
-			{
-				move = Move.SECOND;
-			}
+			if (move == MoveOrder.FIRST)
+				move = MoveOrder.SECOND;
 			else
-			{
-				move = Move.FIRST;
-			}
+				move = MoveOrder.FIRST;
 		}
 	}
 }

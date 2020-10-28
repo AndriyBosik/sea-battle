@@ -43,7 +43,7 @@ namespace Entities
 		
 		public int Radius
 		{
-			get { return SelectedBulletPack == null ? 1 : SelectedBulletPack.Radius; }
+			get { return SelectedBulletPack == null ? 1 : SelectedBulletPack.Radius + SelectedGun.Bonus.Radius; }
 		}
 		
 		public bool Move
@@ -56,9 +56,7 @@ namespace Entities
 		}
 		
 		public int Money
-		{
-			get; set;
-		}
+		{ get; set; }
 		
 		public Dictionary<BombKind, int> ShopBombs
 		{ get; private set; }
@@ -68,28 +66,15 @@ namespace Entities
 		
 		public List<BulletPack> BulletPacks;
 		
-		public int HealthPoints
-		{
-			get; set;
-		}
-		
 		public Player()
 		{
 			this.Money = Gameplay.INITIAL_MONEY;
-			this.HealthPoints = Gameplay.INITIAL_HEALTH_POINT;
 			
 			this.ShotDirection = Direction.UP;
 			
 			Guns = new List<Gun>();
 			ShopBombs = new Dictionary<BombKind, int>();
 			BulletPacks = new List<BulletPack>();
-		}
-		
-		public void HealDeck(Deck deck)
-		{
-			int health = Math.Min(HealthPoints, deck.TotalHealth - deck.CurrentHealth);
-			deck.Heal(health);
-			HealthPoints -= health;
 		}
 		
 		public void SelectGun(Gun gun)
@@ -118,9 +103,34 @@ namespace Entities
 			ShotDirection = DirectionProcessor.GetPreviousDirection(ShotDirection);
 		}
 		
-		public void Shot(Field field, int row, int column)
+		public int Shot(Field field, int row, int column)
 		{
-			SelectedGun.Shot(field, SelectedBulletPack, new GameObjects.Point(row, column), ShotDirection);
+			int opponentMoney = 0;
+			Money += SelectedGun.Shot(
+				field, SelectedBulletPack, new GameObjects.Point(row, column), ShotDirection, ref opponentMoney);
+			return opponentMoney;
+		}
+		
+		public void BuyBomb(BombKind kind)
+		{
+			if (!ShopBombs.ContainsKey(kind))
+				ShopBombs.Add(kind, 0);
+			ShopBombs[kind]++;
+			var shopBomb = ShopBombProcessor.GenerateBomb(kind);
+			Money -= shopBomb.CostByOne;
+			shopBomb.Buy();
+		}
+		
+		public void BuyGun(Gun gun)
+		{
+			Money -= gun.CostByOne;
+			Guns.Add(gun);
+			gun.Buy();
+		}
+		
+		public bool CanBuy(ShopItem item)
+		{
+			return Money >= item.CostByOne && !item.BuyedMaxCount;
 		}
 		
 	}

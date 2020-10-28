@@ -17,7 +17,7 @@ namespace Entities
 	/// <summary>
 	/// Description of ShopBombGenerator.
 	/// </summary>
-	public class ShopBombGenerator
+	public class ShopBombProcessor
 	{
 		public static ShopBomb GenerateBomb(BombKind kind)
 		{
@@ -33,6 +33,14 @@ namespace Entities
 				default:
 					return null;
 			}
+		}
+		
+		public static BombKind? GetKind(ShopBomb shopBomb)
+		{
+			foreach (BombKind kind in (BombKind[])Enum.GetValues(typeof(BombKind)))
+				if (shopBomb.Equals(ShopBombProcessor.GenerateBomb(kind)))
+					return kind;
+			return null;
 		}
 	}
 }

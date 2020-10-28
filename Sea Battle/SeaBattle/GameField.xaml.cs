@@ -40,6 +40,8 @@ namespace SeaBattle
 		private List<ItemDescription> gunViews;
 		private List<ItemDescription> bulletViews;
 		
+		private ItemDescription selectedBulletPack;
+		
 		public GameField(Player firstPlayer, Player secondPlayer)
 		{
 			InitializeComponent();
@@ -98,7 +100,7 @@ namespace SeaBattle
 			gunViews = new List<ItemDescription>();
 			foreach (var gun in guns)
 			{
-				gunViews.Add(new ItemDescription(gun, Gameplay.ITEM_SIZE, Gameplay.ITEM_DESCRIPTION_SIZE));
+				gunViews.Add(new ItemDescription(gun, Gameplay.ITEM_SIZE, Gameplay.ITEM_DESCRIPTION_SIZE, 0));
 				gunViews.LastOrDefault().PreviewMouseLeftButtonDown += RefreshBullets;
 				spGuns.Children.Add(gunViews.LastOrDefault());
 			}
@@ -119,17 +121,18 @@ namespace SeaBattle
 			bulletViews = new List<ItemDescription>();
 			foreach (var bullet in gun.BulletPacks)
 			{
-				bulletViews.Add(new ItemDescription(bullet, Gameplay.ITEM_SIZE, Gameplay.ITEM_DESCRIPTION_SIZE));
-				var count = GetCount(bullet, gun);
-				var label = new Label();
-				label.Content = "You have: " + count;
-				bulletViews.LastOrDefault().spContent.Children.Add(label);
-				bulletViews.LastOrDefault().PreviewMouseLeftButtonDown += (s, ev) => {
-					var bulletPack = (ItemDescription)s;
-					Select(bulletPack, bulletViews);
-					game.GetCurrentPlayer().SelectBulletPack(bullet);
-				};
-				spBullets.Children.Add(bulletViews.LastOrDefault());
+				var count = BulletPackInGun.GetCount(gun, bullet);
+				var bulletView = new ItemDescription(bullet, Gameplay.ITEM_SIZE, Gameplay.ITEM_DESCRIPTION_SIZE, count);
+				spBullets.Children.Add(bulletView);
+				if (count == 0)
+					bulletView.Disable();
+				else
+					bulletView.PreviewMouseLeftButtonDown += (s, ev) => {
+						var bulletPack = (ItemDescription)s;
+						Select(bulletPack, bulletViews);
+						game.GetCurrentPlayer().SelectBulletPack(bullet);
+					};
+				bulletViews.Add(bulletView);
 			}
 		}
 		
@@ -148,6 +151,7 @@ namespace SeaBattle
 			{
 				item.Deselect();
 			}
+			selectedBulletPack = selected;
 			selected.Select();
 		}
 		
@@ -182,7 +186,6 @@ namespace SeaBattle
 		
 		private void MakeSelected(object sender, MouseEventArgs e)
 		{
-			
 			var field = (Field)sender;
 			if (field != game.GetCurrentField())
 				return;
@@ -213,7 +216,7 @@ namespace SeaBattle
 			int row, column;
 			GetCoords(out row, out column, e);
 			var cell = field.cells[row][column];
-			if (game.MakePlayerMove(field, row, column))
+			if (game.MakeMove(field, row, column))
 			{
 				RefreshDataAfterMove();
 			}

@@ -44,34 +44,31 @@ namespace Entities
 			}
 		}
 		
-		public override void Shot(Field field, Point point, Direction direction)
+		public override int Shot(Field field, Point point, Bonus bonus, Direction direction, ref int opponentMoney)
 		{
 			int x = 0;
 			int y = 0;
+			int money = 0;
 			GetAdditors(ref x, ref y, direction);
-			for (int i = 0; i < Radius; i++)
+			for (int i = 0; i < Radius + bonus.Radius; i++)
 			{
 				if (!field.IsInsideField(point.X + x*i, point.Y + y*i))
 					continue;
 				//int damage = Damage - (i - point.X)*10;
-				int damage = Damage;
+				int damage = Damage + bonus.Damage;
 				if (field.cells[point.X + x*i][point.Y + y*i] is Deck)
 				{
 					var deck = (Deck)field.cells[point.X + x*i][point.Y + y*i];
-					deck.Hurt(damage);
+					money += deck.Hurt(damage);
+				}
+				else if (field.cells[point.X + x*i][point.Y + y*i] is Bomb)
+				{
+					var bomb = (Bomb)field.cells[point.X + x*i][point.Y + y*i];
+					opponentMoney += bomb.Explose(new Bonus{Radius = 0, Damage = 0}, ref money);
 				}
 				field.cells[point.X + x*i][point.Y + y*i].Uncover();
 			}
-		}
-		
-		public override void Sell()
-		{
-			
-		}
-		
-		public override int QuantifySellPrice()
-		{
-			return 0;
+			return money;
 		}
 		
 		public override string ToString()
@@ -79,7 +76,7 @@ namespace Entities
 			return  "Radius: " + Radius + "\n" +
 					"Count: " + Count + "\n" +
 					"Cost: " + CostByOne + "\n" +
-					"Damage: " + Damage;
+					"Damage: " + Damage + "\n";
 		}
 	}
 }

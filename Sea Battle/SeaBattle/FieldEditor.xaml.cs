@@ -46,15 +46,13 @@ namespace SeaBattle
 		private int size;
 		private int rows;
 		private int columns;
-		private Label[][] field;
 		private TextBlock information;
-		private CellStatus[][] status;
 		private bool isFirstPlayerReady;
 		
-		private Field grid;
 		private BombKind bombKind;
 		private Player firstPlayer;
 		private Player secondPlayer;
+		private Dictionary<BombKind, int> shopBombs;
 		
 		public FieldEditor(int rows, int columns)
 		{
@@ -66,25 +64,14 @@ namespace SeaBattle
 			this.isFirstPlayerReady = false;
 			
 			firstPlayer = new Player();
-			secondPlayer = new Player();
+			firstPlayer.Field = new Field(rows, columns);
 			
-			InitializeField();
+			secondPlayer = new Player();
+			secondPlayer.Field = new Field(rows, columns);
 			
 			SetWindowSize();
 			
-			SetGrid();
-		}
-		
-		// Initializes arrays field and status
-		private void InitializeField()
-		{
-			field = new Label[rows][];
-			status = new CellStatus[rows][];
-			for (int i = 0; i < rows; i++)
-			{
-				field[i] = new Label[columns];
-				status[i] = new CellStatus[columns];
-			}
+			SetGrid(firstPlayer.Field);
 		}
 		
 		// Changes the window size
@@ -95,14 +82,16 @@ namespace SeaBattle
 			this.ResizeMode = ResizeMode.NoResize;
 		}
 
-		private void SetGrid()
+		private void SetGrid(Field field)
 		{
+			shopBombs = new Dictionary<BombKind, int>();
+			
 			StackPanel content = new StackPanel();
 			content.Orientation = Orientation.Vertical;
 			InitData();
 			PlayerInfo();
 			content.Children.Add(information);
-			content.Children.Add(FieldComponents());
+			content.Children.Add(FieldComponents(field));
 			//content.Children.Add(Footer());
 			
 			Border border = new Border();
@@ -130,7 +119,7 @@ namespace SeaBattle
 			return "You have " + GetCurrentPlayer().Money + " coins";
 		}
 		
-		private UIElement FieldComponents()
+		private UIElement FieldComponents(Field field)
 		{
 			StackPanel components = new StackPanel();
 			components.Orientation = Orientation.Vertical;
@@ -139,12 +128,11 @@ namespace SeaBattle
 			horizontal.Orientation = Orientation.Horizontal;
 			horizontal.Margin = new Thickness(10);
 			
-			grid = new Field(rows, columns);
-			grid.PreviewMouseLeftButtonDown += TryPasteBomb;
+			field.PreviewMouseLeftButtonDown += TryPasteBomb;
 			
-			horizontal.Children.Add(grid);
+			horizontal.Children.Add(field);
 			
-			grid.PreviewMouseLeftButtonDown += TryPasteShip;
+			field.PreviewMouseLeftButtonDown += TryPasteShip;
 			
 			rightColumn = new StackPanel();
 			rightColumn.Orientation = Orientation.Vertical;
@@ -173,7 +161,7 @@ namespace SeaBattle
 			horizontal.Children.Add(rightColumn);
 			
 			components.Children.Add(horizontal);
-			sizeRadios = new SizeRadios(grid.MaxShipSize, ChangeSize);
+			sizeRadios = new SizeRadios(field.MaxShipSize, ChangeSize);
 			components.Children.Add(sizeRadios);
 			
 			return components;
@@ -196,16 +184,16 @@ namespace SeaBattle
 			var elem = (UIElement)e.Source;
 			var row = Grid.GetRow(elem);
 			var column = Grid.GetColumn(elem);
-			grid.TryPasteShip(row, column, size, orientation);
-			if (grid.AllPasted(size))
+			GetCurrentField().TryPasteShip(row, column, size, orientation);
+			if (GetCurrentField().AllPasted(size))
 				sizeRadios.MakeDisabled(size);
 		}
 		
 		private void TryPasteBomb(object sender, MouseButtonEventArgs e)
 		{
-			if (!grid.IsAllShipsPasted())
+			if (!GetCurrentField().IsAllShipsPasted())
 				return;
-			var kind = grid.BombKind;
+			var kind = GetCurrentField().BombKind;
 			if (!GetCurrentPlayer().ShopBombs.ContainsKey(kind) || GetCurrentPlayer().ShopBombs[kind] == 0)
 				return;
 			GetCurrentPlayer().ShopBombs[kind]--;
@@ -214,7 +202,7 @@ namespace SeaBattle
 			var row = Grid.GetRow(elem);
 			var column = Grid.GetColumn(elem);
 			
-			grid.PasteBomb(row, column);
+			GetCurrentField().PasteBomb(GetAnotherField(), row, column);
 			UpdateBombsRadioGroup();
 		}
 		
@@ -235,7 +223,7 @@ namespace SeaBattle
 					first = false;
 					bombKind = kind;
 				}
-				rb.Checked += (object sender, RoutedEventArgs e) => grid.BombKind = kind;
+				rb.Checked += (sender, e) => GetCurrentField().BombKind = kind;
 				rb.GroupName = BOMBS_GROUP;
 				rb.Tag = kind;
 				rb.Content = kind + "(" + 0 + ")";
@@ -254,20 +242,7 @@ namespace SeaBattle
 			Shop shop = new Shop(GetCurrentPlayer());
 			shop.ShowDialog();
 			information.Text = GetPlayerMoneyInformation();
-			UpdateShopBombs(shop.ShopBombs);
 			UpdateBombsRadioGroup();
-		}
-		
-		private void UpdateShopBombs(Dictionary<BombKind, int> shopBombs)
-		{
-			foreach (BombKind kind in (BombKind[])Enum.GetValues(typeof(BombKind)))
-			{
-				if (!GetCurrentPlayer().ShopBombs.ContainsKey(kind))
-					GetCurrentPlayer().ShopBombs.Add(kind, 0);
-				if (!shopBombs.ContainsKey(kind))
-					continue;
-				GetCurrentPlayer().ShopBombs[kind] += shopBombs[kind];
-			}
 		}
 		
 		private void UpdateBombsRadioGroup()
@@ -280,14 +255,16 @@ namespace SeaBattle
 				}
 				var rb = (RadioButton)elem;
 				var kind = (BombKind)rb.Tag;
-				var count = GetCurrentPlayer().ShopBombs[kind];
+				var count = 0;
+				if (GetCurrentPlayer().ShopBombs.ContainsKey(kind))
+					count = GetCurrentPlayer().ShopBombs[kind];
 				rb.Content = rb.Tag + "(" + count + ")";
 			}
 		}
 		
 		private void NextStep(object sender, RoutedEventArgs e)
 		{
-			if (!grid.IsAllShipsPasted())
+			if (!GetCurrentField().IsAllShipsPasted())
 			{
 				MessageBox.Show(ALL_SHIPS_ARE_NOT_PASTED, ERROR_TITLE);
 				return;
@@ -301,20 +278,19 @@ namespace SeaBattle
 				return;
 			}
 			isFirstPlayerReady = true;
-			firstPlayer.Field = grid;
 			
-			SetGrid();
+			SetGrid(secondPlayer.Field);
 		}
 		
 		private void DisconnectGrid()
 		{
-			var smth = (Panel)grid.Parent;
+			var smth = (Panel)GetCurrentField().Parent;
 			smth.Children.Clear();
 		}
 		
 		private void StartGame(object sender, RoutedEventArgs e)
 		{
-			secondPlayer.Field = grid;
+			secondPlayer.Field = GetCurrentField();
 			
 			GameField gameField = new GameField(firstPlayer, secondPlayer);
 			
@@ -340,6 +316,15 @@ namespace SeaBattle
 			return isFirstPlayerReady ? secondPlayer : firstPlayer;
 		}
 		
+		private Field GetCurrentField()
+		{
+			return isFirstPlayerReady ? secondPlayer.Field : firstPlayer.Field;
+		}
+		
+		private Field GetAnotherField()
+		{
+			return isFirstPlayerReady ? firstPlayer.Field : secondPlayer.Field;
+		}
 	}
 
 }

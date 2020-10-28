@@ -21,6 +21,7 @@ namespace Entities
 		public static List<Ship> ships = new List<Ship>();
 		public static List<Bomb> bombs = new List<Bomb>();
 		public static List<BulletPack> bulletPacks = new List<BulletPack>();
+		public static List<GameProcess> gameProcess = new List<GameProcess>();
 		public static List<BulletPackInGun> bulletPackInGuns = new List<BulletPackInGun>();
 		
 		public static readonly List<BulletPack> shopBulletPacks = new List<BulletPack>()

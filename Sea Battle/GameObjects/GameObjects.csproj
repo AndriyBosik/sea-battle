@@ -61,7 +61,7 @@
     <Compile Include="Direction.cs" />
     <Compile Include="GameMode.cs" />
     <Compile Include="GunKind.cs" />
-    <Compile Include="Move.cs" />
+    <Compile Include="MoveOrder.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

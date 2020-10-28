@@ -17,10 +17,9 @@ namespace Entities
 	/// </summary>
 	public class ShopItem: Cell
 	{
-		public int MaxCount
-		{ get; protected set; }
+		private bool oneTimeBuyable;
 		
-		public int BuyedCount
+		public bool BuyedMaxCount
 		{ get; private set; }
 		
 		public int CostByOne
@@ -29,29 +28,26 @@ namespace Entities
 		public int Damage
 		{ get; protected set; }
 
-		public ShopItem(int costByOne, int damage, string icon, int maxCount = 1)
+		public ShopItem(int costByOne, int damage, string icon, bool oneTimeBuyable = false)
 		{
-			BuyedCount = 0;
-			MaxCount = maxCount;
+			this.BuyedMaxCount = false;
+			this.oneTimeBuyable = oneTimeBuyable;
 			CostByOne = costByOne;
 			Damage = damage;
 			this.icon = icon;
 			Init(icon);
 		}
 		
-		public bool MaxCountBuyed()
+		public virtual void Buy()
 		{
-			return BuyedCount == MaxCount;
+			if (oneTimeBuyable)
+				BuyedMaxCount = true;
 		}
 		
-		public bool TryBuy()
+		public bool MaxCountBuyed()
 		{
-			if (BuyedCount < MaxCount)
-			{
-				BuyedCount++;
-				return true;
-			}
-			return false;
+			return oneTimeBuyable;
 		}
+		
 	}
 }

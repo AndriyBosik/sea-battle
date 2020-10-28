@@ -23,6 +23,8 @@ namespace Entities
 	{
 		private Guid deckId;
 		private Point point;
+		private Field field;
+		private bool explosed;
 		
 		public Deck Deck
 		{
@@ -30,11 +32,13 @@ namespace Entities
 			set { deckId = value.ID; }
 		}
 		
-		public Bomb(Point point, int radius, int cost, int damage, int deactivationPrice, string icon):
+		public Bomb(Field field, Point point, int radius, int cost, int damage, int deactivationPrice, string icon):
 			base(radius, cost, damage, deactivationPrice, icon)
 		{
 			Status = CellStatus.BOMB;
 			this.point = point;
+			this.field = field;
+			this.explosed = false;
 			
 			Database.bombs.Add(this);
 		}
@@ -45,19 +49,18 @@ namespace Entities
 			base.Uncover();
 		}
 		
-		public void Move(Point point)
+		public int Explose(Bonus bonus, ref int opponentMoney)
 		{
-			this.point = point;
-		}
-		
-		public void Explose(Field field)
-		{
+			int money = 0;
 			Cell[][] cells = field.cells;
 			int n = cells.Length;
 			int m = cells[0].Length;
-			for (int i = -Radius + 1; i <= Radius - 1; i++)
+			explosed = true;
+			int newRadius = Radius + bonus.Radius;
+			int newDamage = Damage + bonus.Damage;
+			for (int i = -newRadius + 1; i <= newRadius - 1; i++)
 			{
-				int leftSide = -(Radius - 1 - Math.Abs(i));
+				int leftSide = -(newRadius - 1 - Math.Abs(i));
 				int rightSide = -leftSide;
 				for (int j = leftSide; j <= rightSide; j++)
 				{
@@ -65,16 +68,23 @@ namespace Entities
 					int y = point.Y + j;
 					if (!field.IsInsideField(x, y))
 						continue;
-					var damage = Damage - (Math.Abs(i) + Math.Abs(j))*10;
+					var damage = newDamage - (Math.Abs(i) + Math.Abs(j))*10;
 					if (cells[x][y] is Deck)
 					{
 						var deck = (Deck)cells[x][y];
-						deck.Hurt(damage);
+						money += deck.Hurt(damage);
 						deck.Refresh();
+					}
+					else if (cells[x][y] is Bomb)
+					{
+						var bomb = (Bomb)cells[x][y];
+						if (!bomb.explosed)
+							opponentMoney += bomb.Explose(new Bonus{Radius = 0, Damage = 0}, ref money);
 					}
 					field.cells[x][y].Uncover();
 				}
 			}
+			return money;
 		}
 		
 		public void Deactivate()

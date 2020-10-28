@@ -29,8 +29,7 @@ namespace SeaBattle
 		private const int NUMBER_OF_COLUMNS = 2;
 		
 		private List<BulletPack> bullets;
-		private List<ShopItemView> items = new List<ShopItemView>();
-		private List<Label> countLabels = new List<Label>();
+		private List<DescriptionWrapper> items = new List<DescriptionWrapper>();
 		
 		private Gun gun;
 		private Player player;
@@ -43,14 +42,8 @@ namespace SeaBattle
 			this.player = player;
 			this.gun = gun;
 			bullets = Database.shopBulletPacks.Where(bulletPack => bulletPack.DamageKind == gun.DamageKind).ToList();
-			ShowPlayerInformation();
 			InitGrid();
 			FillWithBulletPacks();
-		}
-		
-		private void ShowPlayerInformation()
-		{
-			lPlayerInformation.Content = "You have " + player.Money + " coins";
 		}
 		
 		private void InitGrid()
@@ -75,19 +68,12 @@ namespace SeaBattle
 			foreach (var bulletPack in bullets)
 			{
 				var count = GetCount(bulletPack);
-				var item = new BulletPackDescription(
-					gun,
+				var item = new DescriptionWrapper(
 					bulletPack,
 					Gameplay.SHOP_ITEM_SIZE,
 					Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
-					BuyMethod,
-					player);
-
-//				Label label = new Label();
-//				label.Content = "You have: " + count;
-//				label.Tag = bulletPack;
-//				countLabels.Add(label);
-//				item.spContent.Children.Add(label);
+					BulletPackInGun.GetCount(gun, bulletPack),
+					new BuyBullets(this));
 				
 				int row = current / NUMBER_OF_COLUMNS;
 				int column = current % NUMBER_OF_COLUMNS;
@@ -114,28 +100,30 @@ namespace SeaBattle
 			var item = (ShopItem)button.Tag;
 			new BulletPackInGun(gun, (BulletPack)item);
 			player.Money -= item.CostByOne;
-			RefreshAll();
-		}
-		
-		private void RefreshAll()
-		{
-			ShowPlayerInformation();
-			foreach (var item in items)
-			{
-				item.Refresh();
-			}
-			foreach (var label in countLabels)
-			{
-				var bulletPack = (BulletPack)label.Tag;
-				var count = GetCount(bulletPack);
-				label.Content = "You have: " + count;
-			}
 		}
 		
 		private void bOKClick(object sender, EventArgs e)
 		{
 			DialogResult = true;
 			Close();
+		}
+		
+		private class BuyBullets: DescriptionWrapper.Buyable
+		{
+			private BulletsShop parent;
+			
+			public BuyBullets(BulletsShop parent)
+			{
+				this.parent = parent;
+			}
+			
+			public void Buy(object sender, RoutedEventArgs e)
+			{
+				var button = (Button)sender;
+				var item = (BulletPack)button.Tag;
+				new BulletPackInGun(parent.gun, (BulletPack)item);
+				parent.player.Money -= item.CostByOne;
+			}
 		}
 	}
 }

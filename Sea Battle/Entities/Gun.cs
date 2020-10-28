@@ -41,11 +41,8 @@ namespace Entities
 			}
 		}
 		
-		public int Deterioration
-		{
-			get;
-			set;
-		}
+		public Bonus Bonus
+		{ get; private set; }
 		
 		public DamageKind DamageKind
 		{
@@ -53,32 +50,18 @@ namespace Entities
 			private set;
 		}
 		
-		public Gun(int costByOne, int deterioration, DamageKind damageKind, string icon): base(costByOne, 0, icon)
+		public Gun(int costByOne, Bonus bonus, DamageKind damageKind, string icon): base(costByOne, 0, icon, true)
 		{
+			this.Bonus = bonus;
 			DamageKind = damageKind;
-			Deterioration = deterioration;
 			
 			Database.guns.Add(this);
 		}
 		
-		public void Shot(Field field, BulletPack bullet, Point point, Direction direction)
+		public int Shot(Field field, BulletPack bullet, Point point, Direction direction, ref int opponentMoney)
 		{
-			bullet.Shot(field, point, direction);
-		}
-		
-//		private void Shot(BulletPack bullet)
-//		{
-//			
-//		}
-		
-		public void Sell()
-		{
-			
-		}
-		
-		private int QuantifySellPrice()
-		{
-			return 0;
+			BulletPackInGun.MakeShot(this, bullet);
+			return bullet.Shot(field, point, Bonus, direction, ref opponentMoney);
 		}
 		
 		public override bool Equals(object obj)
@@ -89,15 +72,15 @@ namespace Entities
 				return false;
 			}
 			return  this.CostByOne == shopGun.CostByOne &&
-					this.Deterioration == shopGun.Deterioration &&
 					this.DamageKind == shopGun.DamageKind;
 		}
 		
 		public override string ToString()
 		{
-			return  "Deterioration: " + Deterioration + "\n" +
-					"Cost: " + CostByOne + "\n" +
-					"King of damage: " + DamageKindExtensions.ToString(DamageKind) + "\n";
+			return  "Cost: " + CostByOne + "\n" +
+					"King of damage: " + DamageKindExtensions.ToString(DamageKind) + "\n" +
+					"Radius: " + Bonus.Radius + "\n" +
+					"Damage: " + Bonus.Damage + "\n";
 		}
  
 	}

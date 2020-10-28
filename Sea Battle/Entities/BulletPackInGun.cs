@@ -51,5 +51,23 @@ namespace Entities
 				bpig.Count++;
 			}
 		}
+		
+		public static int GetCount(Gun gun, BulletPack bulletPack)
+		{
+			var bpig = Database.bulletPackInGuns
+				.Where(item => item.Gun == gun && item.BulletPack.Equals(bulletPack)).FirstOrDefault();
+			if (bpig == null)
+				return 0;
+			return bpig.Count;
+		}
+		
+		public static void MakeShot(Gun gun, BulletPack bulletPack)
+		{
+			var bpig = Database.bulletPackInGuns
+				.Where(item => item.Gun == gun && item.BulletPack.Equals(bulletPack)).FirstOrDefault();
+			if (bpig == null)
+				return;
+			bpig.Count--;
+		}
 	}
 }

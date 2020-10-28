@@ -42,22 +42,13 @@ namespace Entities
 		}
 		
 		public DamageKind DamageKind
-		{
-			get;
-			private set;
-		}
+		{ get; private set; }
 		
 		public int Radius
-		{
-			get;
-			private set;
-		}
+		{ get; private set; }
 		
 		public int Count
-		{
-			get;
-			set;
-		}
+		{ get; set; }
 		
 		public BulletPack(
 			int radius,
@@ -65,7 +56,7 @@ namespace Entities
 			DamageKind damageKind,
 			int costByOne,
 			int damage,
-			string icon): base(costByOne, damage, icon, Gameplay.INFINITY)
+			string icon): base(costByOne, damage, icon)
 		{
 			Radius = radius;
 			Count = count;
@@ -74,11 +65,7 @@ namespace Entities
 			Database.bulletPacks.Add(this);
 		}
 		
-		public abstract void Shot(Field field, Point point, Direction direction);
-		
-		public abstract void Sell();
-		
-		public abstract int QuantifySellPrice();
+		public abstract int Shot(Field field, Point point, Bonus bonus, Direction direction, ref int opponentMoney);
 
 	}
 }

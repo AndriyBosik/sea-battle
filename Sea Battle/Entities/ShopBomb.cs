@@ -40,7 +40,9 @@ namespace Entities
 			ShopBomb other = obj as ShopBomb;
 			if (other == null)
 				return false;
-			return  this.icon == other.icon;
+			return  this.icon == other.icon &&
+					this.Radius == other.Radius &&
+					this.Damage == other.Damage;
 		}
 
 		public static bool operator==(ShopBomb lhs, ShopBomb rhs) {

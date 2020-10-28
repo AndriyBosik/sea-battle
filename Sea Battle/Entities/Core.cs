@@ -36,20 +36,10 @@ namespace Entities
 			Radius = radius;
 		}
 		
-		public override void Shot(Field field, Point point, Direction direction)
+		public override int Shot(Field field, Point point, Bonus bonus, Direction direction, ref int opponentMoney)
 		{
-			var bomb = new Bomb(point, Radius, CostByOne, Damage, 0, icon);
-			bomb.Explose(field);
-		}
-		
-		public override void Sell()
-		{
-			
-		}
-		
-		public override int QuantifySellPrice()
-		{
-			return 0;
+			var bomb = new Bomb(field, point, Radius, CostByOne, Damage, 0, icon);
+			return bomb.Explose(bonus, ref opponentMoney);
 		}
 		
 		#region Equals implementation

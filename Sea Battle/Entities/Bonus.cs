@@ -1,22 +1,24 @@
 ﻿/*
  * Created by SharpDevelop.
  * User: Andriy
- * Date: 09/25/2020
- * Time: 15:21
+ * Date: 10/27/2020
+ * Time: 17:20
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
 
-namespace GameObjects
+namespace Entities
 {
 	/// <summary>
-	/// Description of Move.
+	/// Description of Bonus.
 	/// </summary>
-	public enum Move
+	public class Bonus
 	{
-		FIRST,
-		SECOND,
-		COMPUTER
+		public int Radius
+		{ get; set; }
+		
+		public int Damage
+		{ get; set; }
 	}
 }

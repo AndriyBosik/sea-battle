@@ -31,6 +31,8 @@ namespace Entities
 		private Guid bombId;
 		
 		private Line healthBar;
+		private int prizeForDestroy;
+		private bool destroyed;
 		
 		#region Properties
 		public Ship Ship
@@ -58,12 +60,6 @@ namespace Entities
 		}
 		
 		public int TotalHealth
-		{
-			get;
-			private set;
-		}
-		
-		public int PrizeForDestroy
 		{
 			get;
 			private set;
@@ -97,6 +93,8 @@ namespace Entities
 			Ship = ship;
 			
 			CurrentHealth = TotalHealth = health;
+			destroyed = false;
+			prizeForDestroy = 5*ship.Size;
 			
 			Database.decks.Add(this);
 			Init(deckKind, orientation);
@@ -183,18 +181,17 @@ namespace Entities
 			Refresh();
 		}
 		
-		public void Hurt(int damage)
+		public int Hurt(int damage)
 		{
 			CurrentHealth -= damage;
 			if (CurrentHealth < 0)
 				CurrentHealth = 0;
-		}
-		
-		public void Heal(int health)
-		{
-			CurrentHealth += health;
-			if (CurrentHealth > TotalHealth)
-				CurrentHealth = TotalHealth;
+			if (CurrentHealth == 0 && !destroyed)
+			{
+				destroyed = true;
+				return prizeForDestroy;
+			}
+			return 0;
 		}
 	}
 }

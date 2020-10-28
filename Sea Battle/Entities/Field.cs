@@ -70,12 +70,12 @@ namespace Entities
 			}
 		}
 		
-		public void PasteBomb(int row, int column)
+		public void PasteBomb(Field opponentField, int row, int column)
 		{
 			if (cells[row][column].Status == CellStatus.BOMB)
 				return;
 			Children.Remove(cells[row][column].Image);
-			var bomb = BombGenerator.Generate(row, column, BombKind);
+			var bomb = BombProcessor.Generate(opponentField, row, column, BombKind);
 			
 			cells[row][column] = bomb;
 			Repaint(row, column);

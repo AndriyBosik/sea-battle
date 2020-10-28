@@ -22,19 +22,24 @@ namespace ItemViews
 	/// </summary>
 	public class ItemDescription: Border
 	{
-		public StackPanel spContent;
+		protected StackPanel spContent;
 		protected TextBlock description;
+		
 		protected int iconSize;
 		protected int fontSize;
+		
+		public int Count
+		{ get; private set; }
 		
 		public ShopItem Item
 		{ get; private set; }
 		
-		public ItemDescription(ShopItem item, int iconSize, int fontSize)
+		public ItemDescription(ShopItem item, int iconSize, int fontSize, int count)
 		{
 			this.Item = item;
 			this.iconSize = iconSize;
 			this.fontSize = fontSize;
+			this.Count = count;
 			BorderBrush = Brushes.Green;
 			BorderThickness = new Thickness(0);
 			Child = InitContent();
@@ -54,9 +59,21 @@ namespace ItemViews
 			return sp;
 		}
 		
+		public void IncreaseCount()
+		{
+			Count++;
+			InitInformation();
+		}
+		
+		public void DecreaseCount()
+		{
+			Count--;
+			InitInformation();
+		}
+		
 		protected virtual void InitInformation()
 		{
-			description.Text = Item.ToString();
+			description.Text = Item + "You have: " + Count;
 			description.Margin = new Thickness(10, 0, 0, 0);
 			description.FontFamily = new FontFamily("Comic Sans MS");
 		}
@@ -80,6 +97,16 @@ namespace ItemViews
 			return spContent;
 		}
 		
+		public virtual void Disable()
+		{
+			description.Opacity = 0.5;
+		}
+		
+		public virtual void Enable()
+		{
+			description.Opacity = 1;
+		}
+		
 		public virtual bool Select()
 		{
 			BorderThickness = new Thickness(2);
@@ -93,7 +120,7 @@ namespace ItemViews
 		
 		public bool Equals(object obj)
 		{
-			var other = (ShopItemView)obj;
+			var other = (ItemDescription)obj;
 			if (other == null)
 			{
 				return false;

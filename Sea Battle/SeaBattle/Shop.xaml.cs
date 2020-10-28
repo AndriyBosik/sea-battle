@@ -12,16 +12,14 @@ using System.Collections.Generic;
 
 using System.Windows.Controls;
 
-using System.Windows.Input;
 using GameObjects;
 
 using Entities;
 
-using FieldEditorParts;
-
 using ItemViews;
 
 using Config;
+using Shop;
 
 namespace SeaBattle
 {
@@ -32,12 +30,10 @@ namespace SeaBattle
 	{
 		
 		private Player player;
-		private List<ShopItemView> items;
+		private List<DescriptionWrapper> bombItems;
+		private List<DescriptionWrapper> gunItems;
 		
 		private ShopItem selectedItem;
-		
-		public Dictionary<BombKind, int> ShopBombs
-		{ get; private set; }
 		
 		public List<Gun> Guns
 		{
@@ -49,7 +45,8 @@ namespace SeaBattle
 			InitializeComponent();
 			
 			this.SizeToContent = SizeToContent.WidthAndHeight;
-			this.items = new List<ShopItemView>();
+			this.bombItems = new List<DescriptionWrapper>();
+			this.gunItems = new List<DescriptionWrapper>();
 			this.player = player;
 			
 			ShowPlayerInformation();
@@ -76,28 +73,17 @@ namespace SeaBattle
 		
 		private void GetBombs()
 		{
-			ShopBombs = new Dictionary<BombKind, int>();
-			
 			InitGrid();
-			
+			const int itemSize = Gameplay.SHOP_ITEM_SIZE;
+			const int descriptionSize = Gameplay.SHOP_ITEM_DESCRIPTION_SIZE;
 			int i = 0;
 			foreach (BombKind kind in (BombKind[])Enum.GetValues(typeof(BombKind)))
 			{
-				var bomb = ShopBombGenerator.GenerateBomb(kind);
-				var bombItem = new ShopItemView(
-					bomb,
-					Gameplay.SHOP_ITEM_SIZE,
-					Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
-					(object sender, MouseButtonEventArgs e) => {
-						if (!ShopBombs.ContainsKey(kind))
-							ShopBombs.Add(kind, 0);
-				    	ShopBombs[kind]++;
-				    	player.Money -= bomb.CostByOne;
-				    	Refresh();
-				    },
-					player);
-				bombItem.Tag = kind;
-				items.Add(bombItem);
+				var bomb = ShopBombProcessor.GenerateBomb(kind);
+				var bombsBuyer = new BuyBombs(this);
+				var count = player.ShopBombs.ContainsKey(kind) ? player.ShopBombs[kind] : 0;
+				var bombItem = new DescriptionWrapper(bomb, itemSize, descriptionSize, count, bombsBuyer);
+				bombItems.Add(bombItem);
 				Grid.SetRow(bombItem, i);
 				Grid.SetColumn(bombItem, 0);
 				gItems.Children.Add(bombItem);
@@ -107,48 +93,53 @@ namespace SeaBattle
 			i = 0;
 			foreach (GunKind kind in (GunKind[])Enum.GetValues(typeof(GunKind)))
 			{
-				var gun = new ShopItemView(
-					GunGenerator.GenerateGun(kind),
-					Gameplay.SHOP_ITEM_SIZE,
-					Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
-					Buy,
-					player);
-				gun = TryGetFromPlayer(gun);
-				gun.PreviewMouseLeftButtonUp += Select;
-				items.Add(gun);
-				Grid.SetRow(gun, i);
-				Grid.SetColumn(gun, 1);
-				gItems.Children.Add(gun);
+				var gun = GunProcessor.GenerateGun(kind);
+				var gunItem = TryGetFromPlayer(gun);
+				if (gunItem == null)
+					gunItem = new DescriptionWrapper(gun, itemSize, descriptionSize, 0, new BuyGuns(this));
+				else
+					gunItem.Disable();
+				gunItem.PreviewMouseLeftButtonUp += Select;
+				gunItems.Add(gunItem);
+				Grid.SetRow(gunItem, i);
+				Grid.SetColumn(gunItem, 1);
+				gItems.Children.Add(gunItem);
 				i++;
 			}
 		}
 		
-		private ShopItemView TryGetFromPlayer(ShopItemView item)
+		private DescriptionWrapper TryGetFromPlayer(Gun gun)
 		{
 			foreach (var playerGun in player.Guns)
 			{
-				if (playerGun.Equals(item.Item))
-					return new ShopItemView(
+				if (playerGun.Equals(gun))
+					return new DescriptionWrapper(
 						playerGun,
 						Gameplay.SHOP_ITEM_SIZE,
 						Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
-						Buy,
-						player);
+						1,
+						new BuyGuns(this));
 			}
-			return item;
+			return null;
+		}
+		
+		private void DeselectAll()
+		{
+			foreach (var gun in gunItems)
+				gun.Deselect();
 		}
 		
 		private void Select(object sender, EventArgs e)
 		{
 			bBuyBullets.IsEnabled = false;
 			selectedItem = null;
-			var clicked = (ShopItemView)sender;
-			foreach (var item in items)
+			var clicked = (DescriptionWrapper)sender;
+			DeselectAll();
+			foreach (var gun in player.Guns)
 			{
-				item.Deselect();
-				if (item.Item.Equals(clicked.Item))
+				if (gun.Equals(clicked.Item))
 				{
-					if (item.Select())
+					if (clicked.Select())
 					{
 						selectedItem = (Gun)clicked.Item;
 						bBuyBullets.IsEnabled = true;
@@ -174,25 +165,70 @@ namespace SeaBattle
 			Refresh();
 		}
 		
-		private void Buy(object sender, RoutedEventArgs e)
-		{
-			ShopItem item =  (ShopItem)((Button)sender).Tag;
-			if (!item.TryBuy())
-				return;
-			if (item is Gun)
-			{
-				player.Guns.Add((Gun)item);
-			}
-			player.Money -= item.CostByOne;
-			Refresh();
-		}
-		
 		private void Refresh()
 		{
 			ShowPlayerInformation();
-			foreach (var item in items)
+			RefreshBombs();
+			RefreshGuns();
+		}
+		
+		private void RefreshBombs()
+		{
+			foreach (var bomb in bombItems)
+				if (!player.CanBuy(bomb.Item))
+					bomb.Disable();
+				else
+					bomb.Enable();
+		}
+		
+		private void RefreshGuns()
+		{
+			foreach (var gun in gunItems)
+				if (!player.CanBuy(gun.Item))
+					gun.Disable();
+				else
+					gun.Enable();
+		}
+		
+		private class BuyBombs: DescriptionWrapper.Buyable
+		{
+			private Shop parent;
+			
+			public BuyBombs(Shop parent)
 			{
-				item.Refresh();
+				this.parent = parent;
+			}
+			
+			public void Buy(object sender, RoutedEventArgs e)
+			{
+				var button = (Button)sender;
+				var shopBomb = (ShopBomb)button.Tag;
+				var kind = ShopBombProcessor.GetKind(shopBomb);
+				if (!kind.HasValue)
+					return;
+				parent.player.BuyBomb(kind.Value);
+				parent.Refresh();
+			}
+		}
+		
+		private class BuyGuns: DescriptionWrapper.Buyable
+		{
+			private Shop parent;
+			
+			public BuyGuns(Shop parent)
+			{
+				this.parent = parent;
+			}
+			
+			public void Buy(object sender, RoutedEventArgs e)
+			{
+				var button = (Button)sender;
+				var gun = (Gun)button.Tag;
+				var kind = GunProcessor.GetKind(gun);
+				if (!kind.HasValue)
+					return;
+				parent.player.BuyGun(gun);
+				parent.Refresh();
 			}
 		}
 		
