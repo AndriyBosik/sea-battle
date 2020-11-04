@@ -17,15 +17,19 @@ namespace Entities
 	/// </summary>
 	public class Game
 	{
+		private const string CONGRATULATION_MESSAGE = " has won!!!";
+		
 		private Player firstPlayer;
 		private Player secondPlayer;
 		private MoveOrder move;
+		private Messanger messanger;
 		
-		public Game(Player firstPlayer, Player secondPlayer)
+		public Game(Player firstPlayer, Player secondPlayer, Messanger messanger)
 		{
 			this.firstPlayer = firstPlayer;
 			this.secondPlayer = secondPlayer;
 			this.move = MoveOrder.FIRST;
+			this.messanger = messanger;
 		}
 		
 		public bool IsFirstPlayer(Player player)
@@ -61,7 +65,16 @@ namespace Entities
 				return false;
 			GetAnotherPlayer().Money += GetCurrentPlayer().Shot(field, row, column);
 			ChangeMove();
+			if (GetCurrentPlayer().Field.AreAllShipsDestroyed() || !GetCurrentPlayer().HasBullets())
+				messanger.CongratulatePlayer(GetCurrentPlayerName(GetAnotherPlayer()) + CONGRATULATION_MESSAGE);
 			return true;
+		}
+		
+		private string GetCurrentPlayerName(Player player)
+		{
+			if (firstPlayer == player)
+				return "FIRST PLAYER";
+			return "SECOND PLAYER";
 		}
 		
 		private void ChangeMove()
@@ -70,6 +83,11 @@ namespace Entities
 				move = MoveOrder.SECOND;
 			else
 				move = MoveOrder.FIRST;
+		}
+		
+		public interface Messanger
+		{
+			void CongratulatePlayer(string text);
 		}
 	}
 }

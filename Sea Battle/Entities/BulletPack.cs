@@ -21,7 +21,6 @@ namespace Entities
 	/// </summary>
 	public abstract class BulletPack: ShopItem
 	{
-		
 		private List<BulletPackInGun> BulletPackInGuns
 		{
 			get
@@ -63,6 +62,11 @@ namespace Entities
 			DamageKind = damageKind;
 			
 			Database.bulletPacks.Add(this);
+		}
+		
+		public static int GetTheCheapestPrice(DamageKind kind)
+		{
+			return Database.bulletPacks.Where(bp => bp.DamageKind == kind).Min(bp => bp.CostByOne);
 		}
 		
 		public abstract int Shot(Field field, Point point, Bonus bonus, Direction direction, ref int opponentMoney);

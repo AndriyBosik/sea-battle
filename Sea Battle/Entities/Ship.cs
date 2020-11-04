@@ -17,10 +17,15 @@ namespace Entities
 	/// </summary>
 	public class Ship: Base
 	{
-		public bool isDestroyed
+		public bool IsDestroyed
 		{
-			get;
-			private set;
+			get
+			{
+				foreach (var deck in Decks)
+					if (deck.CurrentHealth > 0)
+						return false;
+				return true;
+			}
 		}
 		
 		public int PrizeForDestroy

@@ -77,6 +77,10 @@
       <DependentUpon>BulletsShop.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CongratulateWindow.xaml.cs">
+      <DependentUpon>CongratulateWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="_BuyBombs.cs" />
     <Compile Include="FieldEditor.xaml.cs">
       <DependentUpon>FieldEditor.xaml</DependentUpon>
@@ -104,6 +108,7 @@
   <ItemGroup>
     <Page Include="About.xaml" />
     <Page Include="BulletsShop.xaml" />
+    <Page Include="CongratulateWindow.xaml" />
     <Page Include="FieldEditor.xaml" />
     <Page Include="FieldSizeWindow.xaml" />
     <Page Include="GameField.xaml" />

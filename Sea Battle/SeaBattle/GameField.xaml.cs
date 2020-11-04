@@ -29,7 +29,7 @@ namespace SeaBattle
 	/// <summary>
 	/// Interaction logic for Game.xaml
 	/// </summary>
-	public partial class GameField: Window
+	public partial class GameField: Window, Game.Messanger
 	{
 		private Game game;
 		
@@ -48,7 +48,7 @@ namespace SeaBattle
 			
 			this.firstPlayer = firstPlayer;
 			this.secondPlayer = secondPlayer;
-			game = new Game(firstPlayer, secondPlayer);
+			game = new Game(firstPlayer, secondPlayer, this);
 			
 			RefreshContent();
 			
@@ -69,8 +69,7 @@ namespace SeaBattle
 		private void RefreshContent()
 		{
 			tbPlayerInformation.Text =  "You have:\n" +
-										game.GetCurrentPlayer().Money + " coins\n" +
-										game.GetCurrentPlayer().HealthPoints + " health points";
+										game.GetCurrentPlayer().Money + " coins\n";
 			if (game.IsFirstPlayer(game.GetCurrentPlayer()))
 			{
 				bSecondPlayer.BorderBrush = Brushes.Blue;
@@ -246,6 +245,21 @@ namespace SeaBattle
 		public void ProcessMove(object sender, RoutedEventArgs e)
 		{
 			RefreshDataAfterMove();
+		}
+		
+		public void CongratulatePlayer(string message)
+		{
+			var congratulateWindow = new CongratulateWindow(message);
+			if (congratulateWindow.ShowDialog() == true)
+			{
+				var menu = new StartMenu();
+				menu.Show();
+				this.Close();
+			}
+			else
+			{
+				Application.Current.Shutdown();
+			}
 		}
 		
 	}

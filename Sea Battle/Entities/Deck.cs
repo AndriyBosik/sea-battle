@@ -161,12 +161,14 @@ namespace Entities
 		{
 			if (CurrentHealth == 0)
 				DrawDeathSign();
-			else
-			{
-				healthBar.X2 = Gameplay.CELL_SIZE*CurrentHealth*1.0/TotalHealth;
-				healthBar.Stroke = GetBrushColor();
-				healthBar.StrokeThickness = HEALTH_BAR_WIDTH;
-			}
+			DrawHealthBar();
+		}
+		
+		private void DrawHealthBar()
+		{
+			healthBar.X2 = Gameplay.CELL_SIZE*CurrentHealth*1.0/TotalHealth;
+			healthBar.Stroke = GetBrushColor();
+			healthBar.StrokeThickness = HEALTH_BAR_WIDTH;
 		}
 		
 		public override void Cover()

@@ -128,6 +128,19 @@ namespace Entities
 			gun.Buy();
 		}
 		
+		public bool HasBullets()
+		{
+			foreach (var gun in Guns)
+			{
+				foreach (var bulletPack in gun.BulletPacks)
+					if (BulletPackInGun.GetCount(gun, bulletPack) != 0)
+						return true;
+				if (Money >= BulletPack.GetTheCheapestPrice(gun.DamageKind))
+					return true;
+			}
+			return false;
+		}
+		
 		public bool CanBuy(ShopItem item)
 		{
 			return Money >= item.CostByOne && !item.BuyedMaxCount;

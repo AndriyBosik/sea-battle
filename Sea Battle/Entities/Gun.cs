@@ -78,7 +78,7 @@ namespace Entities
 		public override string ToString()
 		{
 			return  "Cost: " + CostByOne + "\n" +
-					"King of damage: " + DamageKindExtensions.ToString(DamageKind) + "\n" +
+					"Kind of damage: " + DamageKindExtensions.ToString(DamageKind) + "\n" +
 					"Radius: " + Bonus.Radius + "\n" +
 					"Damage: " + Bonus.Damage + "\n";
 		}

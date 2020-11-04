@@ -38,6 +38,7 @@ namespace Entities
 		private int columns;
 		private int currentShipsCount;
 		private List<Ship>[] ships;
+		private int aliveShips;
 		
 		public int MaxShipSize
 		{ get; set; }
@@ -49,12 +50,17 @@ namespace Entities
 			//this.Margin = new Thickness(10);
 			this.rows = rows;
 			this.columns = columns;
-			this.MaxShipSize = ShipProcessor.GetMaxShipSize(rows, columns);
+			this.aliveShips = this.MaxShipSize = ShipProcessor.GetMaxShipSize(rows, columns);
 			this.ships = new List<Ship>[MaxShipSize + 1];
 			this.currentShipsCount = 0;
 			
 			InitializeGrid(rows, columns);
 			InitializeCells(rows, columns);
+		}
+		
+		public bool AreAllShipsDestroyed()
+		{
+			return aliveShips == 0;
 		}
 		
 		public bool IsAllShipsPasted()

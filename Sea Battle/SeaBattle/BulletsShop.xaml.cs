@@ -83,6 +83,7 @@ namespace SeaBattle
 				items.Add(item);
 				current++;
 			}
+			RefreshBullets();
 		}
 		
 		private int GetCount(BulletPack bulletPack)
@@ -108,6 +109,13 @@ namespace SeaBattle
 			Close();
 		}
 		
+		private void RefreshBullets()
+		{
+			foreach (var item in items)
+				if (player.Money < item.Item.CostByOne)
+					item.Disable();
+		}
+		
 		private class BuyBullets: DescriptionWrapper.Buyable
 		{
 			private BulletsShop parent;
@@ -123,6 +131,7 @@ namespace SeaBattle
 				var item = (BulletPack)button.Tag;
 				new BulletPackInGun(parent.gun, (BulletPack)item);
 				parent.player.Money -= item.CostByOne;
+				parent.RefreshBullets();
 			}
 		}
 	}
