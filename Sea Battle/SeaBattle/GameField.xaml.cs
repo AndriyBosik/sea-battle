@@ -156,9 +156,7 @@ namespace SeaBattle
 		
 		private void InitField(Field field)
 		{
-			foreach (var row in field.cells)
-				foreach (var cell in row)
-					cell.Cover();
+			field.Cover();
 			RefreshDataAfterMove();
 			field.PreviewMouseLeftButtonDown += TryUncover;
 			field.PreviewMouseMove += MakeSelected;
@@ -214,7 +212,7 @@ namespace SeaBattle
 			var field = (Field)sender;
 			int row, column;
 			GetCoords(out row, out column, e);
-			var cell = field.cells[row][column];
+			var cell = field.GetElement(row, column);
 			if (game.MakeMove(field, row, column))
 			{
 				RefreshDataAfterMove();

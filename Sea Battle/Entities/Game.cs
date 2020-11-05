@@ -61,7 +61,7 @@ namespace Entities
 		
 		public bool MakeMove(Field field, int row, int column)
 		{
-			if (field != GetCurrentField())
+			if (field != GetCurrentField() || !GetCurrentPlayer().ReadyToShot())
 				return false;
 			GetAnotherPlayer().Money += GetCurrentPlayer().Shot(field, row, column);
 			ChangeMove();

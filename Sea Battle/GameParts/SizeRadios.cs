@@ -57,7 +57,7 @@ namespace FieldEditorParts
 			this.Orientation = Orientation.Horizontal;
 		}
 		
-		public void MakeDisabled(int number)
+		public void MakeDisabledAndJumpToNext(int number)
 		{
 			int index = number - 1;
 			rbs[index].IsEnabled = false;

@@ -10,8 +10,6 @@
 using System.Windows.Input;
 using FieldEditorParts;
 
-using Shop;
-
 using GameObjects;
 
 using Config;
@@ -46,7 +44,6 @@ namespace SeaBattle
 		private int size;
 		private int rows;
 		private int columns;
-		private TextBlock information;
 		private bool isFirstPlayerReady;
 		
 		private BombKind bombKind;
@@ -57,7 +54,6 @@ namespace SeaBattle
 		public FieldEditor(int rows, int columns)
 		{
 			InitializeComponent();
-			information = new TextBlock();
 			
 			this.rows = rows;
 			this.columns = columns;
@@ -69,9 +65,18 @@ namespace SeaBattle
 			secondPlayer = new Player();
 			secondPlayer.Field = new Field(rows, columns);
 			
+			SetButtonsOnClickListeners();
+			
 			SetWindowSize();
 			
 			SetGrid(firstPlayer.Field);
+		}
+		
+		private void SetButtonsOnClickListeners()
+		{
+			bGoBack.PreviewMouseLeftButtonDown += ShowMainWindow;
+			bShop.PreviewMouseLeftButtonUp += OpenShop;
+			bNext.PreviewMouseLeftButtonUp += NextStep;
 		}
 		
 		// Changes the window size
@@ -86,18 +91,10 @@ namespace SeaBattle
 		{
 			shopBombs = new Dictionary<BombKind, int>();
 			
-			StackPanel content = new StackPanel();
-			content.Orientation = Orientation.Vertical;
 			InitData();
-			PlayerInfo();
-			content.Children.Add(information);
-			content.Children.Add(FieldComponents(field));
-			//content.Children.Add(Footer());
 			
-			Border border = new Border();
-			border.Padding = new Thickness(10);
-			border.Child = content;
-			Content = border;
+			ShowPlayerInfo();
+			InitFieldComponents(field);
 		}
 		
 		private void InitData()
@@ -106,12 +103,9 @@ namespace SeaBattle
 			orientation = Gameplay.HORIZONTAL_ORIENTATION;
 		}
 		
-		private void PlayerInfo()
+		private void ShowPlayerInfo()
 		{
-			information = new TextBlock();
-			information.Text = GetPlayerMoneyInformation();
-			information.FontSize = 22;
-			information.TextWrapping = TextWrapping.Wrap;
+			tbInformation.Text = GetPlayerMoneyInformation();
 		}
 		
 		private string GetPlayerMoneyInformation()
@@ -119,61 +113,33 @@ namespace SeaBattle
 			return "You have " + GetCurrentPlayer().Money + " coins";
 		}
 		
-		private UIElement FieldComponents(Field field)
+		private void InitFieldComponents(Field field)
 		{
-			StackPanel components = new StackPanel();
-			components.Orientation = Orientation.Vertical;
-			
-			StackPanel horizontal = new StackPanel();
-			horizontal.Orientation = Orientation.Horizontal;
-			horizontal.Margin = new Thickness(10);
-			
-			field.PreviewMouseLeftButtonDown += TryPasteBomb;
-			
-			horizontal.Children.Add(field);
-			
 			field.PreviewMouseLeftButtonDown += TryPasteShip;
+			field.PreviewMouseLeftButtonDown += TryPasteBomb;
+			spField.Children.Clear();
+			spField.Children.Add(field);
 			
-			rightColumn = new StackPanel();
-			rightColumn.Orientation = Orientation.Vertical;
-			orientationGroup = new OrientationGroup(ChangeOrientation);
-			rightColumn.Children.Add(orientationGroup);
+			orientationGroup = new OrientationGroup(UpdateOrientation);
+			spOrientationGroup.Children.Clear();
+			spOrientationGroup.Children.Add(orientationGroup);
 			
-			Button goBack = new Button();
-			goBack.Content = "Go back";
-			goBack.PreviewMouseLeftButtonDown += ShowMainWindow;
-			
-			Button shop = new Button();
-			shop.Content = "Shop";
-			shop.PreviewMouseLeftButtonUp += OpenShop;
-			
-			Button next = new Button();
-			next.Content = "Next";
-			next.PreviewMouseLeftButtonUp += NextStep;
-			
-			rightColumn.Children.Add(next);
-			rightColumn.Children.Add(shop);
-			rightColumn.Children.Add(goBack);
 			bombsGroup = GetBombsRadioGroup();
-			rightColumn.Children.Add(bombsGroup);
-			rightColumn.Margin = new Thickness(10, 0, 0, 0);
+			spBombsRadios.Children.Clear();
+			spBombsRadios.Children.Add(bombsGroup);
 			
-			horizontal.Children.Add(rightColumn);
-			
-			components.Children.Add(horizontal);
-			sizeRadios = new SizeRadios(field.MaxShipSize, ChangeSize);
-			components.Children.Add(sizeRadios);
-			
-			return components;
+			sizeRadios = new SizeRadios(field.MaxShipSize, UpdateSize);
+			spSizeRadios.Children.Clear();
+			spSizeRadios.Children.Add(sizeRadios);
 		}
 		
-		private void ChangeSize(object sender, RoutedEventArgs e)
+		private void UpdateSize(object sender, RoutedEventArgs e)
 		{
 			var rb = (RadioButton)sender;
 			size = Int32.Parse(rb.Content.ToString());
 		}
 		
-		private void ChangeOrientation(object sender, RoutedEventArgs e)
+		private void UpdateOrientation(object sender, RoutedEventArgs e)
 		{
 			var rb = (RadioButton)sender;
 			orientation = rb.Content.ToString();
@@ -186,7 +152,7 @@ namespace SeaBattle
 			var column = Grid.GetColumn(elem);
 			GetCurrentField().TryPasteShip(row, column, size, orientation);
 			if (GetCurrentField().AllPasted(size))
-				sizeRadios.MakeDisabled(size);
+				sizeRadios.MakeDisabledAndJumpToNext(size);
 		}
 		
 		private void TryPasteBomb(object sender, MouseButtonEventArgs e)
@@ -241,7 +207,7 @@ namespace SeaBattle
 //			}
 			Shop shop = new Shop(GetCurrentPlayer());
 			shop.ShowDialog();
-			information.Text = GetPlayerMoneyInformation();
+			ShowPlayerInfo();
 			UpdateBombsRadioGroup();
 		}
 		
@@ -284,8 +250,8 @@ namespace SeaBattle
 		
 		private void DisconnectGrid()
 		{
-			var smth = (Panel)GetCurrentField().Parent;
-			smth.Children.Clear();
+			var parent = (Panel)GetCurrentField().Parent;
+			parent.Children.Clear();
 		}
 		
 		private void StartGame(object sender, RoutedEventArgs e)

@@ -56,17 +56,18 @@ namespace Entities
 					continue;
 				//int damage = Damage - (i - point.X)*10;
 				int damage = Damage + bonus.Damage;
-				if (field.cells[point.X + x*i][point.Y + y*i] is Deck)
+				var cell = field.GetElement(point.X + x*i, point.Y + y*i);
+				if (cell is Deck)
 				{
-					var deck = (Deck)field.cells[point.X + x*i][point.Y + y*i];
+					var deck = (Deck)cell;
 					money += deck.Hurt(damage);
 				}
-				else if (field.cells[point.X + x*i][point.Y + y*i] is Bomb)
+				else if (cell is Bomb)
 				{
-					var bomb = (Bomb)field.cells[point.X + x*i][point.Y + y*i];
+					var bomb = (Bomb)cell;
 					opponentMoney += bomb.Explose(new Bonus{Radius = 0, Damage = 0}, ref money);
 				}
-				field.cells[point.X + x*i][point.Y + y*i].Uncover();
+				cell.Uncover();
 			}
 			return money;
 		}

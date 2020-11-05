@@ -18,21 +18,12 @@ namespace Entities
 	public class ShopBomb: Core
 	{
 		
-		public int DeactivationPrice
-		{
-			get;
-			private set;
-		}
-		
 		public ShopBomb(
 			int radius,
 			int costByOne,
 			int damage,
-			int deactivationPrice,
 			string icon): base(radius, costByOne, damage, icon)
-		{
-			DeactivationPrice = deactivationPrice;
-		}
+		{}
 		
 		#region Equals implementation
 		public override bool Equals(object obj)
@@ -63,7 +54,6 @@ namespace Entities
 		{
 			return  "Radius: " + Radius + "\n" +
 					"Damage: " + Damage + "\n" +
-					"Deactivation Price: " + DeactivationPrice + "\n" +
 					"Cost: " + CostByOne + "\n";
 		}
 	}

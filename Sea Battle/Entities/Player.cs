@@ -121,6 +121,11 @@ namespace Entities
 			shopBomb.Buy();
 		}
 		
+		public bool ReadyToShot()
+		{
+			return SelectedGun != null && SelectedBulletPack != null;
+		}
+		
 		public void BuyGun(Gun gun)
 		{
 			Money -= gun.CostByOne;

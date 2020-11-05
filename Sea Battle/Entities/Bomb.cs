@@ -32,8 +32,8 @@ namespace Entities
 			set { deckId = value.ID; }
 		}
 		
-		public Bomb(Field field, Point point, int radius, int cost, int damage, int deactivationPrice, string icon):
-			base(radius, cost, damage, deactivationPrice, icon)
+		public Bomb(Field field, Point point, int radius, int cost, int damage, string icon):
+			base(radius, cost, damage, icon)
 		{
 			Status = CellStatus.BOMB;
 			this.point = point;
@@ -52,9 +52,8 @@ namespace Entities
 		public int Explose(Bonus bonus, ref int opponentMoney)
 		{
 			int money = 0;
-			Cell[][] cells = field.cells;
-			int n = cells.Length;
-			int m = cells[0].Length;
+			int rows = field.Rows;
+			int columns = field.Columns;
 			explosed = true;
 			int newRadius = Radius + bonus.Radius;
 			int newDamage = Damage + bonus.Damage;
@@ -69,28 +68,23 @@ namespace Entities
 					if (!field.IsInsideField(x, y))
 						continue;
 					var damage = newDamage - (Math.Abs(i) + Math.Abs(j))*10;
-					if (cells[x][y] is Deck)
+					var cell = field.GetElement(x, y);
+					if (cell is Deck)
 					{
-						var deck = (Deck)cells[x][y];
+						var deck = (Deck)cell;
 						money += deck.Hurt(damage);
 						deck.Refresh();
 					}
-					else if (cells[x][y] is Bomb)
+					else if (cell is Bomb)
 					{
-						var bomb = (Bomb)cells[x][y];
+						var bomb = (Bomb)cell;
 						if (!bomb.explosed)
 							opponentMoney += bomb.Explose(new Bonus{Radius = 0, Damage = 0}, ref money);
 					}
-					field.cells[x][y].Uncover();
+					cell.Uncover();
 				}
 			}
 			return money;
-		}
-		
-		public void Deactivate()
-		{
-			// Take money
-			Init(Images.EMPTY_CELL);
 		}
 		
 		public override bool Equals(object obj)
@@ -102,8 +96,7 @@ namespace Entities
 					this.CostByOne == other.CostByOne &&
 					this.Damage == other.Damage &&
 					this.DamageKind == other.DamageKind &&
-					this.Radius == other.Radius &&
-					this.DeactivationPrice == other.DeactivationPrice;
+					this.Radius == other.Radius
 		}
 	}
 }

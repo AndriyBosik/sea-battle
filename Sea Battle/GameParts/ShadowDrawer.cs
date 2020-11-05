@@ -51,12 +51,8 @@ namespace FieldEditorParts
 			int y = 0;
 			GetAdditors(ref x, ref y, lastDirection);
 			for (int i = 0; i < lastRadius; i++)
-			{
 				if (field.IsInsideField(lastRow + x*i, lastColumn + y*i))
-				{
-					field.cells[lastRow + x*i][lastColumn + y*i].Deselect();
-				}
-			}
+					field.GetElement(lastRow + x*i, lastColumn + y*i).Deselect();
 		}
 		
 		private void DeselectCircleArea(Field field)
@@ -71,7 +67,7 @@ namespace FieldEditorParts
 					int y = lastColumn + j;
 					if (!field.IsInsideField(x, y))
 						continue;
-					field.cells[x][y].Deselect();
+					field.GetElement(x, y).Deselect();
 				}
 			}
 		}
@@ -118,7 +114,7 @@ namespace FieldEditorParts
 			{
 				if (field.IsInsideField(row + x*i, column + y*i))
 				{
-					field.cells[row + x*i][column + y*i].Select();
+					field.GetElement(row + x*i, column + y*i).Select();
 				}
 			}
 		}
@@ -135,7 +131,7 @@ namespace FieldEditorParts
 					int y = column + j;
 					if (!field.IsInsideField(x, y))
 						continue;
-					field.cells[x][y].Select();
+					field.GetElement(x, y).Select();
 				}
 			}
 		}
