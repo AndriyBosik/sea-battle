@@ -20,7 +20,7 @@ namespace Entities
 		public static Bomb Generate(Field field, int x, int y, BombKind kind)
 		{
 			ShopBomb sb = ShopBombProcessor.GenerateBomb(kind);
-			return new Bomb(field, new Point(x, y), sb.Radius, sb.CostByOne, sb.Damage, sb.DeactivationPrice, sb.icon);
+			return new Bomb(field, new Point(x, y), sb.Radius, sb.CostByOne, sb.Damage, sb.icon);
 		}
 	}
 }

@@ -8,6 +8,7 @@
  */
 using System;
 
+using System.Collections.Generic;
 using GameObjects;
 
 using Config;
@@ -19,28 +20,39 @@ namespace Entities
 	/// </summary>
 	public class Core: BulletPack
 	{
-		private const int COUNT_IN_PACK = 1;
-		
-		public int Radius
-		{
-			get;
-			private set;
-		}
-		
 		public Core(
 			int radius,
 			int costByOne,
 			int damage,
-			string icon): base(radius, COUNT_IN_PACK, DamageKind.SPLASH, costByOne, damage, icon)
+			string icon): base(radius, DamageKind.SPLASH, costByOne, damage, icon)
+		{}
+		
+		protected override List<CellToDestroy> GetCellsToDestroy(Bonus bonus, Point point, Direction direction)
 		{
-			Radius = radius;
+			var list = new List<CellToDestroy>();
+			int newRadius = Radius + bonus.Radius;
+			int newDamage = Damage + bonus.Damage;
+			for (int i = -newRadius + 1; i <= newRadius - 1; i++)
+			{
+				int leftSide = -(newRadius - 1 - Math.Abs(i));
+				int rightSide = -leftSide;
+				for (int j = leftSide; j <= rightSide; j++)
+				{
+					int x = point.X + i;
+					int y = point.Y + j;
+					var defense = (Math.Abs(i) + Math.Abs(j))*10;
+					list.Add(new CellToDestroy(new Point(x, y), defense));
+				}
+			}
+			return list;
 		}
 		
-		public override int Shot(Field field, Point point, Bonus bonus, Direction direction, ref int opponentMoney)
-		{
-			var bomb = new Bomb(field, point, Radius, CostByOne, Damage, 0, icon);
-			return bomb.Explose(bonus, ref opponentMoney);
-		}
+//		public override void Shot(
+//			Field field, Point point, Bonus bonus, Direction direction, ref int money, ref int opponentMoney)
+//		{
+//			var bomb = new Bomb(field, point, Radius, CostByOne, Damage, icon);
+//			bomb.Explose(bonus, ref money, ref opponentMoney);
+//		}
 		
 		#region Equals implementation
 		public override bool Equals(object obj)
@@ -48,7 +60,10 @@ namespace Entities
 			Core other = obj as Core;
 			if (other == null)
 				return false;
-			return  this.icon == other.icon;
+			return  this.Radius == other.Radius &&
+					this.DamageKind == other.DamageKind &&
+					this.CostByOne == other.CostByOne &&
+					this.Damage == other.Damage;
 		}
 
 		public static bool operator==(Core lhs, Core rhs) {

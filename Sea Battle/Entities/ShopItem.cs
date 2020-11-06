@@ -8,16 +8,22 @@
  */
 using System;
 
+using System.Windows.Controls;
 using Config;
+using Processors;
 
 namespace Entities
 {
 	/// <summary>
 	/// Description of BaseBomb.
 	/// </summary>
-	public class ShopItem: Cell
+	public class ShopItem: Base
 	{
 		private bool oneTimeBuyable;
+		public string icon;
+		
+		public Canvas Image
+		{ get; private set; }
 		
 		public bool BuyedMaxCount
 		{ get; private set; }
@@ -36,6 +42,13 @@ namespace Entities
 			Damage = damage;
 			this.icon = icon;
 			Init(icon);
+		}
+		
+		protected void Init(string icon)
+		{
+			this.icon = icon;
+			Image = new Canvas();
+			Image.Background = ImageProcessor.GetBackground(this.icon);
 		}
 		
 		public virtual void Buy()

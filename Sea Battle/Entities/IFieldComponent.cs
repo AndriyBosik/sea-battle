@@ -15,6 +15,6 @@ namespace Entities
 	/// </summary>
 	public interface IFieldComponent
 	{
-		int GetDamage(int damage);
+		void GetDamage(int damage, ref int money, ref int opponentMoney);
 	}
 }

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BombKind.cs" />
+    <Compile Include="BombKindProcessor.cs" />
     <Compile Include="BulletPack.cs" />
     <Compile Include="CellStatus.cs" />
     <Compile Include="DamageKind.cs" />

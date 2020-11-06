@@ -7,7 +7,6 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 using Config;
@@ -19,72 +18,36 @@ namespace Entities
 	/// <summary>
 	/// Description of Bomb.
 	/// </summary>
-	public class Bomb: ShopBomb
+	public class Bomb: ShopBomb, IFieldComponent
 	{
-		private Guid deckId;
 		private Point point;
 		private Field field;
-		private bool explosed;
 		
-		public Deck Deck
-		{
-			get { return Database.decks.Where(deck => deck.ID == deckId).FirstOrDefault(); }
-			set { deckId = value.ID; }
-		}
+		public bool IsExposed
+		{ get; private set; }
 		
 		public Bomb(Field field, Point point, int radius, int cost, int damage, string icon):
 			base(radius, cost, damage, icon)
 		{
-			Status = CellStatus.BOMB;
 			this.point = point;
 			this.field = field;
-			this.explosed = false;
-			
-			Database.bombs.Add(this);
+			this.IsExposed = false;
 		}
 		
-		public override void Uncover()
+		public void Explose(ref int money, ref int opponentMoney)
 		{
-			this.icon = Images.EMPTY_CELL;
-			base.Uncover();
+			if (IsExposed)
+				return;
+			var core = new Core(Radius, CostByOne, Damage, icon);
+			core.Shot(
+				field, point, new Bonus{Radius = 0, Damage = 0}, Direction.NO_DIRECTION, ref money, ref opponentMoney);
 		}
 		
-		public int Explose(Bonus bonus, ref int opponentMoney)
+		public void GetDamage(int damage, ref int money, ref int opponentMoney)
 		{
-			int money = 0;
-			int rows = field.Rows;
-			int columns = field.Columns;
-			explosed = true;
-			int newRadius = Radius + bonus.Radius;
-			int newDamage = Damage + bonus.Damage;
-			for (int i = -newRadius + 1; i <= newRadius - 1; i++)
-			{
-				int leftSide = -(newRadius - 1 - Math.Abs(i));
-				int rightSide = -leftSide;
-				for (int j = leftSide; j <= rightSide; j++)
-				{
-					int x = point.X + i;
-					int y = point.Y + j;
-					if (!field.IsInsideField(x, y))
-						continue;
-					var damage = newDamage - (Math.Abs(i) + Math.Abs(j))*10;
-					var cell = field.GetElement(x, y);
-					if (cell is Deck)
-					{
-						var deck = (Deck)cell;
-						money += deck.Hurt(damage);
-						deck.Refresh();
-					}
-					else if (cell is Bomb)
-					{
-						var bomb = (Bomb)cell;
-						if (!bomb.explosed)
-							opponentMoney += bomb.Explose(new Bonus{Radius = 0, Damage = 0}, ref money);
-					}
-					cell.Uncover();
-				}
-			}
-			return money;
+			if (IsExposed)
+				return;
+			Explose(ref opponentMoney, ref money);
 		}
 		
 		public override bool Equals(object obj)
@@ -96,7 +59,7 @@ namespace Entities
 					this.CostByOne == other.CostByOne &&
 					this.Damage == other.Damage &&
 					this.DamageKind == other.DamageKind &&
-					this.Radius == other.Radius
+					this.Radius == other.Radius;
 		}
 	}
 }

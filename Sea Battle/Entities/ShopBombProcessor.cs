@@ -25,11 +25,11 @@ namespace Entities
 			switch (kind)
 			{
 				case BombKind.SmallBomb:
-					return new ShopBomb(1, 100, 100, 100, icon);
+					return new ShopBomb(1, 100, 100, icon);
 				case BombKind.MediumBomb:
-					return new ShopBomb(2, 400, 100, 300, icon);
+					return new ShopBomb(2, 400, 100, icon);
 				case BombKind.LargeBomb:
-					return new ShopBomb(3, 1000, 60, 1500, icon);
+					return new ShopBomb(3, 1000, 60, icon);
 				default:
 					return null;
 			}

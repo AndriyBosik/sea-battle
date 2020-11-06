@@ -29,7 +29,7 @@ namespace Entities
 		private int currentShipsCount;
 		private List<Ship> ships;
 		private int[] shipsCounter;
-		private Cell[,] cells;
+		private Drawer[,] cells;
 		
 		public BombKind BombKind
 		{ get; set; }
@@ -53,7 +53,7 @@ namespace Entities
 			shipsCounter = new int[MaxShipSize + 1];
 			
 			this.currentShipsCount = 0;
-			cells = new Cell[rows,columns];
+			cells = new Drawer[rows,columns];
 			InitializeGrid(rows, columns);
 			InitializeCells(rows, columns);
 		}
@@ -83,14 +83,14 @@ namespace Entities
 				return;
 			Children.Remove(cells[row,column].Image);
 			var bomb = BombProcessor.Generate(opponentField, row, column, BombKind);
-			
-			cells[row,column] = bomb;
+			var bombDrawer = new BombDrawer(bomb, BombKind);
+			cells[row,column] = bombDrawer;
 			Repaint(row, column);
 		}
 		
 		private void Repaint(int row, int column)
 		{
-			Cell cell = cells[row,column];
+			var cell = cells[row,column];
 			Children.Remove(cell.Image);
 			InitCell(cell.Image, row, column);
 		}
@@ -144,13 +144,11 @@ namespace Entities
 					currentColumn = column + order;
 				}
 				Children.Remove(cells[currentRow,currentColumn].Image);
-				var deck = new Deck(
-					ship,
-					DeckKindProcessor.GetDeckKind(order, size),
-					orientation);
-				cells[currentRow,currentColumn] = deck;
+				var deck = new Deck(ship);
+				var deckDrawer = new DeckDrawer(deck, DeckKindProcessor.GetDeckKind(order, size), orientation);
+				cells[currentRow,currentColumn] = deckDrawer;
 				
-				InitCell(deck.Image, currentRow, currentColumn);
+				InitCell(deckDrawer.Image, currentRow, currentColumn);
 			}
 			
 			ships.Add(ship);
@@ -185,10 +183,12 @@ namespace Entities
 			{
 				for (int j = 0; j < columns; j++)
 				{
-					Cell cell = new Cell();
-					InitCell(cell.Image, i, j);
+					var cell = new Cell();
+					var cellDrawer = new CellDrawer(cell);
+					InitCell(cellDrawer.Image, i, j);
 
-					cells[i,j] = cell;
+					//cells[i,j] = cell;
+					cells[i,j] = cellDrawer;
 				}
 			}
 		}
@@ -200,7 +200,7 @@ namespace Entities
 					cells[i,j].Cover();
 		}
 		
-		public Cell GetElement(int x, int y)
+		public Drawer GetElement(int x, int y)
 		{
 			return cells[x,y];
 		}

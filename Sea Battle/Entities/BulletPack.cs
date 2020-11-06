@@ -19,13 +19,15 @@ namespace Entities
 	/// <summary>
 	/// Description of ShopBullet.
 	/// </summary>
-	public abstract class BulletPack: ShopItem
+	public abstract class BulletPack: Bullet
 	{
 		private List<BulletPackInGun> BulletPackInGuns
 		{
 			get
 			{
-				return Database.bulletPackInGuns.Where(bulletPackInGun => bulletPackInGun.BulletPack == this).ToList();
+				return Database.bulletPackInGuns
+					.Where(bulletPackInGun => bulletPackInGun.BulletPack == this)
+					.ToList();
 			}
 		}
 		
@@ -40,36 +42,52 @@ namespace Entities
 			}
 		}
 		
-		public DamageKind DamageKind
-		{ get; private set; }
-		
-		public int Radius
-		{ get; private set; }
-		
-		public int Count
-		{ get; set; }
-		
 		public BulletPack(
 			int radius,
-			int count,
 			DamageKind damageKind,
 			int costByOne,
 			int damage,
-			string icon): base(costByOne, damage, icon)
+			string icon): base(radius, damageKind, costByOne, damage, icon)
 		{
-			Radius = radius;
-			Count = count;
-			DamageKind = damageKind;
-			
 			Database.bulletPacks.Add(this);
 		}
+		
+		protected abstract List<CellToDestroy> GetCellsToDestroy(Bonus bonus, Point point, Direction direction);
 		
 		public static int GetTheCheapestPrice(DamageKind kind)
 		{
 			return Database.bulletPacks.Where(bp => bp.DamageKind == kind).Min(bp => bp.CostByOne);
 		}
 		
-		public abstract int Shot(Field field, Point point, Bonus bonus, Direction direction, ref int opponentMoney);
+		public void Shot(
+			Field field, Point point, Bonus bonus, Direction direction, ref int money, ref int opponentMoney)
+		{
+			var cells = GetCellsToDestroy(bonus, point, direction);
+			foreach (var cell in cells)
+			{
+				if (!field.IsInsideField(cell.Point.X, cell.Point.Y))
+					continue;
+				var cellDrawer = field.GetElement(cell.Point.X, cell.Point.Y);
+				var damage = Math.Max(0, Damage - cell.Defense);
+				cellDrawer.GetDamage(damage, ref money, ref opponentMoney);
+				cellDrawer.Uncover();
+			}
+		}
+		
+		protected class CellToDestroy
+		{
+			public Point Point
+			{ get; private set; }
+			
+			public int Defense
+			{ get; private set; }
+			
+			public CellToDestroy(Point point, int defense)
+			{
+				Point = point;
+				Defense = defense;
+			}
+		}
 
 	}
 }

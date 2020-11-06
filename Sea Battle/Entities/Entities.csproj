@@ -69,12 +69,17 @@
     </Compile>
     <Compile Include="Base.cs" />
     <Compile Include="Bomb.cs" />
+    <Compile Include="BombDrawer.cs" />
     <Compile Include="BombProcessor.cs" />
     <Compile Include="Bonus.cs" />
+    <Compile Include="Bullet.cs" />
     <Compile Include="BulletPackInGun.cs" />
+    <Compile Include="CellDrawer.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Core.cs" />
+    <Compile Include="DeckDrawer.cs" />
+    <Compile Include="Drawer.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameProcess.cs" />

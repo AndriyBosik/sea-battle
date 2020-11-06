@@ -60,8 +60,10 @@ namespace Entities
 		
 		public int Shot(Field field, BulletPack bullet, Point point, Direction direction, ref int opponentMoney)
 		{
+			int money = 0;
 			BulletPackInGun.MakeShot(this, bullet);
-			return bullet.Shot(field, point, Bonus, direction, ref opponentMoney);
+			bullet.Shot(field, point, Bonus, direction, ref money, ref opponentMoney);
+			return money;
 		}
 		
 		public override bool Equals(object obj)

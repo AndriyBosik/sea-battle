@@ -8,21 +8,21 @@
  */
 using System;
 
-using Config;
+using GameObjects;
 
 namespace Entities
 {
 	/// <summary>
 	/// Description of ShopBomb.
 	/// </summary>
-	public class ShopBomb: Core
+	public class ShopBomb: Bullet
 	{
 		
 		public ShopBomb(
 			int radius,
 			int costByOne,
 			int damage,
-			string icon): base(radius, costByOne, damage, icon)
+			string icon): base(radius, DamageKind.SPLASH, costByOne, damage, icon)
 		{}
 		
 		#region Equals implementation

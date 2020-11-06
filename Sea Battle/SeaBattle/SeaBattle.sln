@@ -16,8 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "..\Entities\Ent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemViews", "..\Shop\ItemViews.csproj", "{4CD74D5A-E118-4A6B-9CF4-69B603C30BC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FieldDrawers", "..\FieldDrawers\FieldDrawers.csproj", "{B282CCB9-4FB9-4D6D-9B62-3EE07D659FDA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,9 +50,5 @@ Global
 		{4CD74D5A-E118-4A6B-9CF4-69B603C30BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CD74D5A-E118-4A6B-9CF4-69B603C30BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CD74D5A-E118-4A6B-9CF4-69B603C30BC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B282CCB9-4FB9-4D6D-9B62-3EE07D659FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B282CCB9-4FB9-4D6D-9B62-3EE07D659FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B282CCB9-4FB9-4D6D-9B62-3EE07D659FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B282CCB9-4FB9-4D6D-9B62-3EE07D659FDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

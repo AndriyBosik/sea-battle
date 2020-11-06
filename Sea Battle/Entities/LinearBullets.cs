@@ -8,6 +8,7 @@
  */
 using System;
 
+using System.Collections.Generic;
 using GameObjects;
 
 namespace Entities
@@ -19,10 +20,10 @@ namespace Entities
 	{
 		public LinearBullets(
 			int radius,
-			int count,
 			int costByOne,
 			int damage,
-			string icon): base(radius, count, DamageKind.LINEAR, costByOne, damage, icon) {}
+			string icon): base(radius, DamageKind.LINEAR, costByOne, damage, icon)
+		{}
 		
 		private void GetAdditors(ref int x, ref int y, Direction direction)
 		{
@@ -44,38 +45,23 @@ namespace Entities
 			}
 		}
 		
-		public override int Shot(Field field, Point point, Bonus bonus, Direction direction, ref int opponentMoney)
+		protected override List<CellToDestroy> GetCellsToDestroy(Bonus bonus, Point point, Direction direction)
 		{
 			int x = 0;
 			int y = 0;
-			int money = 0;
 			GetAdditors(ref x, ref y, direction);
+			var list = new List<CellToDestroy>();
 			for (int i = 0; i < Radius + bonus.Radius; i++)
 			{
-				if (!field.IsInsideField(point.X + x*i, point.Y + y*i))
-					continue;
-				//int damage = Damage - (i - point.X)*10;
-				int damage = Damage + bonus.Damage;
-				var cell = field.GetElement(point.X + x*i, point.Y + y*i);
-				if (cell is Deck)
-				{
-					var deck = (Deck)cell;
-					money += deck.Hurt(damage);
-				}
-				else if (cell is Bomb)
-				{
-					var bomb = (Bomb)cell;
-					opponentMoney += bomb.Explose(new Bonus{Radius = 0, Damage = 0}, ref money);
-				}
-				cell.Uncover();
+				int defense = 0;
+				list.Add(new CellToDestroy(new Point(point.X + x*i, point.Y + y*i), defense));
 			}
-			return money;
+			return list;
 		}
 		
 		public override string ToString()
 		{
 			return  "Radius: " + Radius + "\n" +
-					"Count: " + Count + "\n" +
 					"Cost: " + CostByOne + "\n" +
 					"Damage: " + Damage + "\n";
 		}
