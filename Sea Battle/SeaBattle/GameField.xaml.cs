@@ -99,7 +99,10 @@ namespace SeaBattle
 			gunViews = new List<ItemDescription>();
 			foreach (var gun in guns)
 			{
-				gunViews.Add(new ItemDescription(gun, Gameplay.ITEM_SIZE, Gameplay.ITEM_DESCRIPTION_SIZE, 0));
+				var picture = new Picture<ShopItem>(
+					gun, GunProcessor.GetGunIcon(GunProcessor.GetKind(gun).Value));
+				gunViews.Add(new ItemDescription(
+					picture, Gameplay.ITEM_SIZE, Gameplay.ITEM_DESCRIPTION_SIZE, 0));
 				gunViews.LastOrDefault().PreviewMouseLeftButtonDown += RefreshBullets;
 				spGuns.Children.Add(gunViews.LastOrDefault());
 			}
@@ -109,7 +112,7 @@ namespace SeaBattle
 		{
 			var item = (ItemDescription)sender;
 			Select(item, gunViews);
-			var gun = (Gun)item.Item;
+			var gun = (Gun)item.Picture.Item;
 			RefreshBulletsList(gun);
 		}
 		
@@ -121,7 +124,10 @@ namespace SeaBattle
 			foreach (var bullet in gun.BulletPacks)
 			{
 				var count = BulletPackInGun.GetCount(gun, bullet);
-				var bulletView = new ItemDescription(bullet, Gameplay.ITEM_SIZE, Gameplay.ITEM_DESCRIPTION_SIZE, count);
+				var bulletIcon = BulletPackProcessor.GetBulletPackIcon(BulletPackProcessor.GetKind(bullet).Value);
+				var bulletPicture = new Picture<ShopItem>(bullet, bulletIcon);
+				var bulletView = new ItemDescription(
+					bulletPicture, Gameplay.ITEM_SIZE, Gameplay.ITEM_DESCRIPTION_SIZE, count);
 				spBullets.Children.Add(bulletView);
 				if (count == 0)
 					bulletView.Disable();

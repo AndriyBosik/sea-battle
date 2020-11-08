@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using Config;
 using GameObjects;
@@ -20,52 +19,27 @@ namespace Entities
 	/// <summary>
 	/// Description of Drawer.
 	/// </summary>
-	public abstract class Drawer: Base
+	public abstract class Drawer: Picture<IFieldComponent>
 	{
-		private string icon;
 		private bool isCovered;
-		private Canvas image;
-		
-		protected IFieldComponent fieldComponent;
-		
-		public Canvas Image
-		{
-			get
-			{
-				if (image == null)
-				{
-					image = new Canvas();
-					this.icon = GetIcon();
-					InitImage();
-				}
-				return image;
-			}
-			private set
-			{
-				image = value;
-			}
-		}
 		
 		public CellStatus Status
 		{ get; private set; }
 		
-		protected Drawer() {}
-		
-		public Drawer(IFieldComponent fieldComponent)
+		public Drawer(IFieldComponent fieldComponent, string icon): base(fieldComponent, icon)
 		{
-			this.fieldComponent = fieldComponent;
 			this.Status = GetStatus();
 			this.isCovered = false;
+			//ChangeImageCharacteristics();
 		}
 		
-		protected abstract string GetIcon();
 		protected abstract CellStatus GetStatus();
 		protected abstract List<UIElement> GetChildren();
 		protected abstract void TransformImage();
 		
-		private void InitImage()
+		protected override void InitImage()
 		{
-			Image.Background = GetImage(this.icon);
+			base.InitImage();
 			TransformImage();
 			RefreshChildren();
 		}
@@ -94,12 +68,12 @@ namespace Entities
 		{
 			isCovered = false;
 			RefreshChildren();
-			Image.Background = GetImage(this.icon);
+			Image.Background = GetImage(this.Icon);
 		}
 		
 		public void GetDamage(int damage, ref int money, ref int opponentMoney)
 		{
-			fieldComponent.GetDamage(damage, ref money, ref opponentMoney);
+			Item.GetDamage(damage, ref money, ref opponentMoney);
 			RefreshChildren();
 		}
 		

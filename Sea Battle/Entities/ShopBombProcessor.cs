@@ -21,18 +21,22 @@ namespace Entities
 	{
 		public static ShopBomb GenerateBomb(BombKind kind)
 		{
-			string icon = kind.ToString();
 			switch (kind)
 			{
 				case BombKind.SmallBomb:
-					return new ShopBomb(1, 100, 100, icon);
+					return new ShopBomb(1, 100, 100);
 				case BombKind.MediumBomb:
-					return new ShopBomb(2, 400, 100, icon);
+					return new ShopBomb(2, 400, 100);
 				case BombKind.LargeBomb:
-					return new ShopBomb(3, 1000, 60, icon);
+					return new ShopBomb(3, 1000, 60);
 				default:
 					return null;
 			}
+		}
+		
+		public static string GetBombIcon(BombKind kind)
+		{
+			return kind.ToString();;
 		}
 		
 		public static BombKind? GetKind(ShopBomb shopBomb)

@@ -23,8 +23,7 @@ namespace Entities
 		public Core(
 			int radius,
 			int costByOne,
-			int damage,
-			string icon): base(radius, DamageKind.SPLASH, costByOne, damage, icon)
+			int damage): base(radius, DamageKind.SPLASH, costByOne, damage)
 		{}
 		
 		protected override List<CellToDestroy> GetCellsToDestroy(Bonus bonus, Point point, Direction direction)
@@ -46,13 +45,6 @@ namespace Entities
 			}
 			return list;
 		}
-		
-//		public override void Shot(
-//			Field field, Point point, Bonus bonus, Direction direction, ref int money, ref int opponentMoney)
-//		{
-//			var bomb = new Bomb(field, point, Radius, CostByOne, Damage, icon);
-//			bomb.Explose(bonus, ref money, ref opponentMoney);
-//		}
 		
 		#region Equals implementation
 		public override bool Equals(object obj)

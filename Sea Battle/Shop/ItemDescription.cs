@@ -31,12 +31,12 @@ namespace ItemViews
 		public int Count
 		{ get; private set; }
 		
-		public ShopItem Item
+		public Picture<ShopItem> Picture
 		{ get; private set; }
 		
-		public ItemDescription(ShopItem item, int iconSize, int fontSize, int count)
+		public ItemDescription(Picture<ShopItem> picture, int iconSize, int fontSize, int count)
 		{
-			this.Item = item;
+			this.Picture = picture;
 			this.iconSize = iconSize;
 			this.fontSize = fontSize;
 			this.Count = count;
@@ -51,7 +51,7 @@ namespace ItemViews
 			sp.Orientation = Orientation.Horizontal;
 			sp.VerticalAlignment = VerticalAlignment.Bottom;
 			
-			sp.Children.Add(ImageProcessor.GetImage(Item.icon, iconSize, iconSize));
+			sp.Children.Add(ImageProcessor.GetImage(Picture.Icon, iconSize, iconSize));
 			description = new TextBlock();
 			InitInformation();
 			sp.Children.Add(description);
@@ -73,14 +73,14 @@ namespace ItemViews
 		
 		protected virtual void InitInformation()
 		{
-			description.Text = Item + "You have: " + Count;
+			description.Text = Picture + "You have: " + Count;
 			description.Margin = new Thickness(10, 0, 0, 0);
 			description.FontFamily = new FontFamily("Comic Sans MS");
 		}
 		
 		private Image GetImage()
 		{
-			Image im = ImageProcessor.GetImage(Item.icon, iconSize, iconSize);
+			Image im = ImageProcessor.GetImage(Picture.Icon, iconSize, iconSize);
 			im.Margin = new Thickness(0, 0, 10, 0);
 			return im;
 		}
@@ -125,7 +125,7 @@ namespace ItemViews
 			{
 				return false;
 			}
-			return other.Item == Item;
+			return other.Picture == Picture;
 		}
 		
 	}

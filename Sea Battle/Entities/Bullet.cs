@@ -22,8 +22,8 @@ namespace Entities
 		public DamageKind DamageKind
 		{ get; private set; }
 		
-		public Bullet(int radius, DamageKind damageKind, int costByOne, int damage, string icon):
-			base(costByOne, damage, icon)
+		public Bullet(int radius, DamageKind damageKind, int costByOne, int damage):
+			base(costByOne, damage)
 		{
 			Radius = radius;
 			DamageKind = damageKind;

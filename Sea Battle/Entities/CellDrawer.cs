@@ -19,13 +19,13 @@ namespace Entities
 	/// </summary>
 	public class CellDrawer: Drawer
 	{
-		public CellDrawer(Cell cell): base(cell)
+		public CellDrawer(Cell cell): base(cell, Images.EMPTY_CELL)
 		{}
 		
-		protected override string GetIcon()
-		{
-			return Images.EMPTY_CELL;
-		}
+//		protected override string GetIcon()
+//		{
+//			return Images.EMPTY_CELL;
+//		}
 		
 		protected override CellStatus GetStatus()
 		{

@@ -28,7 +28,8 @@ namespace Entities
 		private DeckKind kind;
 		private string orientation;
 		
-		public DeckDrawer(Deck fieldComponent, DeckKind kind, string orientation): base(fieldComponent)
+		public DeckDrawer(Deck fieldComponent, DeckKind kind, string orientation):
+			base(fieldComponent, DeckKindProcessor.GetIcon(kind))
 		{
 			this.kind = kind;
 			this.orientation = orientation;
@@ -50,8 +51,7 @@ namespace Entities
 			healthBar.Stroke = GetBrushColor();
 			healthBar.X1 = 0;
 			healthBar.Y1 = 2;
-			//healthBar.X2 = Gameplay.CELL_SIZE;
-			var deck = fieldComponent as Deck;
+			var deck = Item as Deck;
 			healthBar.X2 = Gameplay.CELL_SIZE*deck.PercentageHealthValue;
 			healthBar.Y2 = 2;
 			healthBar.StrokeThickness = HEALTH_BAR_WIDTH;
@@ -60,7 +60,7 @@ namespace Entities
 		
 		private Brush GetBrushColor()
 		{
-			var deck = (Deck)fieldComponent;
+			var deck = (Deck)Item;
 			var currentHealth = deck.CurrentHealth;
 			var totalHealth = deck.TotalHealth;
 			if (currentHealth <= totalHealth/3.0)
@@ -70,10 +70,10 @@ namespace Entities
 			return Brushes.Green;
 		}
 		
-		protected override string GetIcon()
-		{
-			return DeckKindProcessor.GetIcon(kind);
-		}
+//		protected override string GetIcon()
+//		{
+//			return DeckKindProcessor.GetIcon(kind);
+//		}
 		
 		protected override CellStatus GetStatus()
 		{
@@ -83,7 +83,7 @@ namespace Entities
 		protected override List<UIElement> GetChildren()
 		{
 			var children = new List<UIElement>();
-			if ((fieldComponent as Deck).CurrentHealth == 0)
+			if ((Item as Deck).CurrentHealth == 0)
 				children.Add(DeathSign());
 			else
 				children.Add(HealthBar());

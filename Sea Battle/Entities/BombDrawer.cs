@@ -21,18 +21,16 @@ namespace Entities
 	{
 		private BombKind kind;
 		
-		private BombDrawer(Bomb fieldComponent): base(fieldComponent)
-		{}
-		
-		public BombDrawer(Bomb fieldComponent, BombKind kind): base(fieldComponent)
+		public BombDrawer(Bomb item, BombKind kind):
+			base(item, BombKindProcessor.GetIcon(kind))
 		{
 			this.kind = kind;
 		}
 		
-		protected override string GetIcon()
-		{
-			return BombKindProcessor.GetIcon(kind);
-		}
+//		protected override string GetIcon()
+//		{
+//			return BombKindProcessor.GetIcon(kind);
+//		}
 		
 		protected override CellStatus GetStatus()
 		{

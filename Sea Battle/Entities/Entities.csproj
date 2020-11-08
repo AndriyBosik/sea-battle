@@ -74,6 +74,7 @@
     <Compile Include="Bonus.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="BulletPackInGun.cs" />
+    <Compile Include="BulletPackProcessor.cs" />
     <Compile Include="CellDrawer.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Deck.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Gun.cs" />
     <Compile Include="GunProcessor.cs" />
     <Compile Include="IFieldComponent.cs" />
+    <Compile Include="Picture.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="ShopBomb.cs" />

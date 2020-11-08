@@ -162,13 +162,15 @@ namespace SeaBattle
 			var kind = GetCurrentField().BombKind;
 			if (!GetCurrentPlayer().ShopBombs.ContainsKey(kind) || GetCurrentPlayer().ShopBombs[kind] == 0)
 				return;
-			GetCurrentPlayer().ShopBombs[kind]--;
-			
 			var elem = (UIElement)e.Source;
 			var row = Grid.GetRow(elem);
 			var column = Grid.GetColumn(elem);
 			
-			GetCurrentField().PasteBomb(GetAnotherField(), row, column);
+			if (!GetCurrentField().PasteBomb(GetAnotherField(), row, column))
+				return;
+			
+			GetCurrentPlayer().ShopBombs[kind]--;
+			
 			UpdateBombsRadioGroup();
 		}
 		
@@ -237,6 +239,7 @@ namespace SeaBattle
 			}
 			
 			DisconnectGrid();
+			PrepareFieldToGame(GetCurrentField());
 			
 			if (isFirstPlayerReady)
 			{
@@ -246,6 +249,11 @@ namespace SeaBattle
 			isFirstPlayerReady = true;
 			
 			SetGrid(secondPlayer.Field);
+		}
+		
+		private void PrepareFieldToGame(Field field)
+		{
+			field.PreviewMouseLeftButtonDown -= TryPasteBomb;
 		}
 		
 		private void DisconnectGrid()

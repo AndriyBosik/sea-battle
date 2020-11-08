@@ -35,16 +35,16 @@
 							Orientation="Horizontal"></StackPanel>
 					
 						<Button
-							Content="Go back"
-							x:Name="bGoBack"></Button>
-					
-						<Button
 							Content="Shop"
 							x:Name="bShop"></Button>
 					
 						<Button
 							Content="Next"
 							x:Name="bNext"></Button>
+						
+						<Button
+							Content="Go back"
+							x:Name="bGoBack"></Button>
 					
 						<StackPanel
 							x:Name="spBombsRadios"

@@ -26,8 +26,8 @@ namespace Entities
 		public bool IsExposed
 		{ get; private set; }
 		
-		public Bomb(Field field, Point point, int radius, int cost, int damage, string icon):
-			base(radius, cost, damage, icon)
+		public Bomb(Field field, Point point, int radius, int cost, int damage):
+			base(radius, cost, damage)
 		{
 			this.point = point;
 			this.field = field;
@@ -38,9 +38,12 @@ namespace Entities
 		{
 			if (IsExposed)
 				return;
-			var core = new Core(Radius, CostByOne, Damage, icon);
+			IsExposed = true;
+			var core = new Core(Radius, CostByOne, Damage);
 			core.Shot(
-				field, point, new Bonus{Radius = 0, Damage = 0}, Direction.NO_DIRECTION, ref money, ref opponentMoney);
+				field, point,
+				new Bonus{Radius = 0, Damage = 0}, Direction.NO_DIRECTION,
+				ref money, ref opponentMoney);
 		}
 		
 		public void GetDamage(int damage, ref int money, ref int opponentMoney)
@@ -55,8 +58,7 @@ namespace Entities
 			Bomb other = obj as Bomb;
 			if (other == null)
 				return false;
-			return  this.icon == other.icon &&
-					this.CostByOne == other.CostByOne &&
+			return  this.CostByOne == other.CostByOne &&
 					this.Damage == other.Damage &&
 					this.DamageKind == other.DamageKind &&
 					this.Radius == other.Radius;

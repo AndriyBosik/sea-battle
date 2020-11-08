@@ -17,10 +17,12 @@ namespace Entities
 	/// </summary>
 	public class BombProcessor
 	{
-		public static Bomb Generate(Field field, int x, int y, BombKind kind)
+		public static Picture<Bomb> Generate(Field field, int x, int y, BombKind kind)
 		{
 			ShopBomb sb = ShopBombProcessor.GenerateBomb(kind);
-			return new Bomb(field, new Point(x, y), sb.Radius, sb.CostByOne, sb.Damage, sb.icon);
+			string icon = ShopBombProcessor.GetBombIcon(kind);
+			return new Picture<Bomb>(
+				new Bomb(field, new Point(x, y), sb.Radius, sb.CostByOne, sb.Damage), icon);
 		}
 	}
 }

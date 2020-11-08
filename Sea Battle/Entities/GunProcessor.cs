@@ -17,26 +17,34 @@ namespace Entities
 	/// </summary>
 	public class GunProcessor
 	{
-		public static Gun GenerateGun(GunKind kind)
+		public static Picture<Gun> GenerateGunPicture(GunKind kind)
 		{
 			string icon = kind.ToString();
 			switch (kind)
 			{
 				case GunKind.SmallGun:
-					return new Gun(200, new Bonus{Radius = 0, Damage = 10}, DamageKind.SPLASH, icon);
+					return new Picture<Gun>(
+						new Gun(200, new Bonus{Radius = 0, Damage = 10}, DamageKind.SPLASH), icon);
 				case GunKind.MediumGun:
-					return new Gun(300, new Bonus{Radius = 2, Damage = 20}, DamageKind.LINEAR, icon);
+					return new Picture<Gun>(
+						new Gun(300, new Bonus{Radius = 2, Damage = 20}, DamageKind.LINEAR), icon);
 				case GunKind.LargeGun:
-					return new Gun(500, new Bonus{Radius = 1, Damage = 5}, DamageKind.SPLASH, icon);
+					return new Picture<Gun>(
+						new Gun(500, new Bonus{Radius = 1, Damage = 5}, DamageKind.SPLASH), icon);
 				default:
 					return null;
 			}
 		}
 		
+		public static string GetGunIcon(GunKind kind)
+		{
+			return kind.ToString();
+		}
+		
 		public static GunKind? GetKind(Gun gun)
 		{
 			foreach (GunKind kind in (GunKind[])Enum.GetValues(typeof(GunKind)))
-				if (gun.Equals(GunProcessor.GenerateGun(kind)))
+				if (gun.Equals(GunProcessor.GenerateGunPicture(kind).Item))
 					return kind;
 			return null;
 		}

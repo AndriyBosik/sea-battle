@@ -37,6 +37,7 @@ namespace Entities
 				return Database.bulletPackInGuns
 					.Where(bulletPackInGun => bulletPackInGun.Gun == this)
 					.Select(bulletPackInGun => bulletPackInGun.BulletPack)
+					.OrderBy(bpig => bpig.Radius)
 					.ToList();
 			}
 		}
@@ -50,7 +51,7 @@ namespace Entities
 			private set;
 		}
 		
-		public Gun(int costByOne, Bonus bonus, DamageKind damageKind, string icon): base(costByOne, 0, icon, true)
+		public Gun(int costByOne, Bonus bonus, DamageKind damageKind): base(costByOne, 0, true)
 		{
 			this.Bonus = bonus;
 			DamageKind = damageKind;

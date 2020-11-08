@@ -77,15 +77,16 @@ namespace Entities
 				PasteShip(row, column, size, orientation);
 		}
 		
-		public void PasteBomb(Field opponentField, int row, int column)
+		public bool PasteBomb(Field opponentField, int row, int column)
 		{
-			if (cells[row,column].Status == CellStatus.BOMB)
-				return;
+			if (cells[row,column].Status != CellStatus.EMPTY)
+				return false;
 			Children.Remove(cells[row,column].Image);
-			var bomb = BombProcessor.Generate(opponentField, row, column, BombKind);
-			var bombDrawer = new BombDrawer(bomb, BombKind);
+			var pictureBomb = BombProcessor.Generate(opponentField, row, column, BombKind);
+			var bombDrawer = new BombDrawer(pictureBomb.Item, BombKind);
 			cells[row,column] = bombDrawer;
 			Repaint(row, column);
+			return true;
 		}
 		
 		private void Repaint(int row, int column)

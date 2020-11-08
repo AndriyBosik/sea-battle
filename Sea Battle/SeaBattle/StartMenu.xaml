@@ -14,9 +14,9 @@
 					Header="_New">
 					<MenuItem
 						Header="Start Game">
-						<MenuItem
+						<!--<MenuItem
 							Header="Single Mode"
-							Click="AskSizeForSingleMode" />
+							Click="AskSizeForSingleMode" />-->
 						<MenuItem
 							Header="Two Players Mode"
 							Click="AskSizeForTwoPlayersMode" />
@@ -37,12 +37,12 @@
 				DockPanel.Dock="Bottom"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Center">
-				<Button
+				<!--<Button
 					Content="Single Mode"
 					FontSize="30"
 					x:Name="bSingleMode"
 					Click="AskSizeForSingleMode"
-					Margin="0, 0, 0, 10" />
+					Margin="0, 0, 0, 10" />-->
 				<Button
 					Content="Two Players Mode"
 					FontSize="30"

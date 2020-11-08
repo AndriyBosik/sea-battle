@@ -46,8 +46,7 @@ namespace Entities
 			int radius,
 			DamageKind damageKind,
 			int costByOne,
-			int damage,
-			string icon): base(radius, damageKind, costByOne, damage, icon)
+			int damage): base(radius, damageKind, costByOne, damage)
 		{
 			Database.bulletPacks.Add(this);
 		}
@@ -72,6 +71,17 @@ namespace Entities
 				cellDrawer.GetDamage(damage, ref money, ref opponentMoney);
 				cellDrawer.Uncover();
 			}
+		}
+		
+		public override bool Equals(object obj)
+		{
+			var other = obj as BulletPack;
+			if (other == null)
+				return false;
+			return  this.Radius == other.Radius &&
+					this.DamageKind == other.DamageKind &&
+					this.CostByOne == other.CostByOne &&
+					this.Damage == other.Damage;
 		}
 		
 		protected class CellToDestroy

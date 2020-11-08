@@ -21,8 +21,7 @@ namespace Entities
 		public LinearBullets(
 			int radius,
 			int costByOne,
-			int damage,
-			string icon): base(radius, DamageKind.LINEAR, costByOne, damage, icon)
+			int damage): base(radius, DamageKind.LINEAR, costByOne, damage)
 		{}
 		
 		private void GetAdditors(ref int x, ref int y, Direction direction)

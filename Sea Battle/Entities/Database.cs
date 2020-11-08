@@ -23,14 +23,14 @@ namespace Entities
 		public static List<GameProcess> gameProcess = new List<GameProcess>();
 		public static List<BulletPackInGun> bulletPackInGuns = new List<BulletPackInGun>();
 		
-		public static readonly List<BulletPack> shopBulletPacks = new List<BulletPack>()
+		public static readonly List<Picture<BulletPack>> shopBulletPacks = new List<Picture<BulletPack>>()
 		{
-			new LinearBullets(2, 1, 10, GameObjects.BulletPack.SmallBullet.ToString()),
-			new LinearBullets(3, 1, 10, GameObjects.BulletPack.MediumBullet.ToString()),
-			new LinearBullets(4, 1, 10, GameObjects.BulletPack.LargeBullet.ToString()),
-			new Core(1, 10, 10, GameObjects.BulletPack.SmallCore.ToString()),
-			new Core(2, 20, 30, GameObjects.BulletPack.MediumCore.ToString()),
-			new Core(3, 30, 50, GameObjects.BulletPack.LargeCore.ToString())
+			BulletPackProcessor.GenerateBulletPackPicture(GameObjects.BulletPack.SmallBullet),
+			BulletPackProcessor.GenerateBulletPackPicture(GameObjects.BulletPack.MediumBullet),
+			BulletPackProcessor.GenerateBulletPackPicture(GameObjects.BulletPack.LargeBullet),
+			BulletPackProcessor.GenerateBulletPackPicture(GameObjects.BulletPack.SmallCore),
+			BulletPackProcessor.GenerateBulletPackPicture(GameObjects.BulletPack.MediumCore),
+			BulletPackProcessor.GenerateBulletPackPicture(GameObjects.BulletPack.LargeCore),
 		};
 	}
 }

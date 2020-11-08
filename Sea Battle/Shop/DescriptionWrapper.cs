@@ -24,8 +24,8 @@ namespace Shop
 		protected Button buyButton;
 		protected Buyable buyable;
 		
-		public DescriptionWrapper(ShopItem item, int iconSize, int fontSize, int count, Buyable buyable): 
-			base(item, iconSize, fontSize, count)
+		public DescriptionWrapper(Picture<ShopItem> picture, int iconSize, int fontSize, int count, Buyable buyable): 
+			base(picture, iconSize, fontSize, count)
 		{
 			this.buyable = buyable;
 			CreateBuyButton();
@@ -36,7 +36,7 @@ namespace Shop
 		{
 			buyButton = new Button();
 			buyButton.Content = "BUY";
-			buyButton.Tag = Item;
+			buyButton.Tag = Picture;
 			buyButton.PreviewMouseLeftButtonDown += Buy;
 		}
 		

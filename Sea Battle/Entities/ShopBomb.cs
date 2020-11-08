@@ -17,12 +17,10 @@ namespace Entities
 	/// </summary>
 	public class ShopBomb: Bullet
 	{
-		
 		public ShopBomb(
 			int radius,
 			int costByOne,
-			int damage,
-			string icon): base(radius, DamageKind.SPLASH, costByOne, damage, icon)
+			int damage): base(radius, DamageKind.SPLASH, costByOne, damage)
 		{}
 		
 		#region Equals implementation
@@ -31,8 +29,7 @@ namespace Entities
 			ShopBomb other = obj as ShopBomb;
 			if (other == null)
 				return false;
-			return  this.icon == other.icon &&
-					this.Radius == other.Radius &&
+			return  this.Radius == other.Radius &&
 					this.Damage == other.Damage;
 		}
 

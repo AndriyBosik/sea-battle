@@ -52,6 +52,7 @@ namespace SeaBattle
 			ShowPlayerInformation();
 			
 			GetBombs();
+			Refresh();
 		}
 		
 		private void ShowPlayerInformation()
@@ -80,9 +81,11 @@ namespace SeaBattle
 			foreach (BombKind kind in (BombKind[])Enum.GetValues(typeof(BombKind)))
 			{
 				var bomb = ShopBombProcessor.GenerateBomb(kind);
+				var bombIcon = ShopBombProcessor.GetBombIcon(kind);
+				var bombPicture = new Picture<ShopItem>(bomb, bombIcon);
 				var bombsBuyer = new BuyBombs(this);
 				var count = player.ShopBombs.ContainsKey(kind) ? player.ShopBombs[kind] : 0;
-				var bombItem = new DescriptionWrapper(bomb, itemSize, descriptionSize, count, bombsBuyer);
+				var bombItem = new DescriptionWrapper(bombPicture, itemSize, descriptionSize, count, bombsBuyer);
 				bombItems.Add(bombItem);
 				Grid.SetRow(bombItem, i);
 				Grid.SetColumn(bombItem, 0);
@@ -93,10 +96,11 @@ namespace SeaBattle
 			i = 0;
 			foreach (GunKind kind in (GunKind[])Enum.GetValues(typeof(GunKind)))
 			{
-				var gun = GunProcessor.GenerateGun(kind);
-				var gunItem = TryGetFromPlayer(gun);
+				var gunPicture = GunProcessor.GenerateGunPicture(kind);
+				var gunItem = TryGetFromPlayer(gunPicture.Item);
+				var shopItemPicture = new Picture<ShopItem>(gunPicture.Item, gunPicture.Icon);
 				if (gunItem == null)
-					gunItem = new DescriptionWrapper(gun, itemSize, descriptionSize, 0, new BuyGuns(this));
+					gunItem = new DescriptionWrapper(shopItemPicture, itemSize, descriptionSize, 0, new BuyGuns(this));
 				else
 					gunItem.Disable();
 				gunItem.PreviewMouseLeftButtonUp += Select;
@@ -112,13 +116,16 @@ namespace SeaBattle
 		{
 			foreach (var playerGun in player.Guns)
 			{
-				if (playerGun.Equals(gun))
+				if (playerGun.Equals(gun)) {
+					var gunIcon = GunProcessor.GetGunIcon(GunProcessor.GetKind(playerGun).Value);
+					var gunPicture = new Picture<ShopItem>(playerGun, gunIcon);
 					return new DescriptionWrapper(
-						playerGun,
+						gunPicture,
 						Gameplay.SHOP_ITEM_SIZE,
 						Gameplay.SHOP_ITEM_DESCRIPTION_SIZE,
 						1,
 						new BuyGuns(this));
+				}
 			}
 			return null;
 		}
@@ -137,13 +144,13 @@ namespace SeaBattle
 			DeselectAll();
 			foreach (var gun in player.Guns)
 			{
-				if (gun.Equals(clicked.Item))
+				if (gun.Equals(clicked.Picture.Item))
 				{
 					if (clicked.Select())
 					{
-						selectedItem = (Gun)clicked.Item;
+						selectedItem = (Gun)clicked.Picture.Item;
 						bBuyBullets.IsEnabled = true;
-						bBuyBullets.Tag = (Gun)clicked.Item;
+						bBuyBullets.Tag = (Gun)clicked.Picture.Item;
 					}
 				}
 			}
@@ -175,7 +182,7 @@ namespace SeaBattle
 		private void RefreshBombs()
 		{
 			foreach (var bomb in bombItems)
-				if (!player.CanBuy(bomb.Item))
+				if (!player.CanBuy(bomb.Picture.Item))
 					bomb.Disable();
 				else
 					bomb.Enable();
@@ -184,7 +191,7 @@ namespace SeaBattle
 		private void RefreshGuns()
 		{
 			foreach (var gun in gunItems)
-				if (!player.CanBuy(gun.Item))
+				if (!player.CanBuy(gun.Picture.Item))
 					gun.Disable();
 				else
 					gun.Enable();
@@ -202,7 +209,8 @@ namespace SeaBattle
 			public void Buy(object sender, RoutedEventArgs e)
 			{
 				var button = (Button)sender;
-				var shopBomb = (ShopBomb)button.Tag;
+				var shopBombPicture = (Picture<ShopItem>)button.Tag;
+				var shopBomb = (ShopBomb)shopBombPicture.Item;
 				var kind = ShopBombProcessor.GetKind(shopBomb);
 				if (!kind.HasValue)
 					return;
@@ -223,7 +231,8 @@ namespace SeaBattle
 			public void Buy(object sender, RoutedEventArgs e)
 			{
 				var button = (Button)sender;
-				var gun = (Gun)button.Tag;
+				var gunPicture = (Picture<ShopItem>)button.Tag;
+				var gun = (Gun)gunPicture.Item;
 				var kind = GunProcessor.GetKind(gun);
 				if (!kind.HasValue)
 					return;

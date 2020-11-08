@@ -20,10 +20,6 @@ namespace Entities
 	public class ShopItem: Base
 	{
 		private bool oneTimeBuyable;
-		public string icon;
-		
-		public Canvas Image
-		{ get; private set; }
 		
 		public bool BuyedMaxCount
 		{ get; private set; }
@@ -34,21 +30,12 @@ namespace Entities
 		public int Damage
 		{ get; protected set; }
 
-		public ShopItem(int costByOne, int damage, string icon, bool oneTimeBuyable = false)
+		public ShopItem(int costByOne, int damage, bool oneTimeBuyable = false)
 		{
 			this.BuyedMaxCount = false;
 			this.oneTimeBuyable = oneTimeBuyable;
 			CostByOne = costByOne;
 			Damage = damage;
-			this.icon = icon;
-			Init(icon);
-		}
-		
-		protected void Init(string icon)
-		{
-			this.icon = icon;
-			Image = new Canvas();
-			Image.Background = ImageProcessor.GetBackground(this.icon);
 		}
 		
 		public virtual void Buy()
