@@ -93,6 +93,10 @@
       <DependentUpon>GameField.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GameLoader.xaml.cs">
+      <DependentUpon>GameLoader.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\WPFAssemblyInfo.cs" />
     <Compile Include="Shop.xaml.cs">
@@ -111,6 +115,7 @@
     <Page Include="FieldEditor.xaml" />
     <Page Include="FieldSizeWindow.xaml" />
     <Page Include="GameField.xaml" />
+    <Page Include="GameLoader.xaml" />
     <Page Include="Shop.xaml" />
     <Page Include="StartMenu.xaml" />
   </ItemGroup>

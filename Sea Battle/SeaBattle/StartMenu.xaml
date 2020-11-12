@@ -37,17 +37,17 @@
 				DockPanel.Dock="Bottom"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Center">
-				<!--<Button
-					Content="Single Mode"
-					FontSize="30"
-					x:Name="bSingleMode"
-					Click="AskSizeForSingleMode"
-					Margin="0, 0, 0, 10" />-->
 				<Button
 					Content="Two Players Mode"
 					FontSize="30"
 					x:Name="bTwoPlayersMode"
 					Click="AskSizeForTwoPlayersMode"
+					Margin="0, 0, 0, 10" />
+				<Button
+					Content="Load Game"
+					FontSize="30"
+					x:Name="bLoadGame"
+					Click="StartGameLoaderWindow"
 					Margin="0, 0, 0, 10" />
 				<Button
 					Content="About Us"
@@ -64,4 +64,5 @@
 			</StackPanel>
 		</DockPanel>
 	</Grid>
+
 </Window>

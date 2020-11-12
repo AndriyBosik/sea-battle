@@ -188,7 +188,6 @@ namespace Entities
 					var cellDrawer = new CellDrawer(cell);
 					InitCell(cellDrawer.Image, i, j);
 
-					//cells[i,j] = cell;
 					cells[i,j] = cellDrawer;
 				}
 			}

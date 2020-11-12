@@ -54,4 +54,5 @@ namespace Entities
 					"Cost: " + CostByOne + "\n";
 		}
 	}
+	
 }

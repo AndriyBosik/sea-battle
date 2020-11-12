@@ -58,9 +58,17 @@ namespace SeaBattle
 			}
 		}
 		
-		private void AskSizeForSingleMode(object sender, RoutedEventArgs e)
+		private void StartGameLoaderWindow(object sender, RoutedEventArgs e)
 		{
-			AskSizeForTwoPlayersMode(sender, e);
+			var gl = new GameLoader();
+			if (gl.ShowDialog().Value)
+			{
+				MessageBox.Show("Ok was pressed");
+			}
+			else
+			{
+				MessageBox.Show("Window was closed(");
+			}
 		}
 		
 		private void OpenFieldEditor()

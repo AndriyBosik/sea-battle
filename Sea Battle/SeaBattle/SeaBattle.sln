@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "..\Entities\Ent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemViews", "..\Shop\ItemViews.csproj", "{4CD74D5A-E118-4A6B-9CF4-69B603C30BC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "..\Models\Models.csproj", "{93A4000F-FB4C-4FFF-ACD0-88333BDF82A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLGameLoader", "..\XMLGameLoader\XMLGameLoader.csproj", "{A2590B68-B8C0-4BC9-A65A-89B83938DE4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,5 +54,13 @@ Global
 		{4CD74D5A-E118-4A6B-9CF4-69B603C30BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CD74D5A-E118-4A6B-9CF4-69B603C30BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CD74D5A-E118-4A6B-9CF4-69B603C30BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93A4000F-FB4C-4FFF-ACD0-88333BDF82A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A4000F-FB4C-4FFF-ACD0-88333BDF82A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93A4000F-FB4C-4FFF-ACD0-88333BDF82A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93A4000F-FB4C-4FFF-ACD0-88333BDF82A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2590B68-B8C0-4BC9-A65A-89B83938DE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2590B68-B8C0-4BC9-A65A-89B83938DE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2590B68-B8C0-4BC9-A65A-89B83938DE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2590B68-B8C0-4BC9-A65A-89B83938DE4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
