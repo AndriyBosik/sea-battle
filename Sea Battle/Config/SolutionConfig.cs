@@ -17,5 +17,7 @@ namespace Config
 	{
 		public static string PROJECT_DIRECTORY = Environment.CurrentDirectory + "/../../";
 		public static string IMAGES_DIRECTORY = PROJECT_DIRECTORY + "Icons/";
+		public static string FIELDS_DIRECTORY = PROJECT_DIRECTORY + "Fields/";
+		public static string XML_FIELDS_LIST_FILENAME = FIELDS_DIRECTORY + "fields_list.xml";
 	}
 }

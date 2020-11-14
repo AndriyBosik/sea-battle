@@ -82,6 +82,7 @@
     <Compile Include="DeckDrawer.cs" />
     <Compile Include="Drawer.cs" />
     <Compile Include="Field.cs" />
+    <Compile Include="FieldList.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameProcess.cs" />
     <Compile Include="Gun.cs" />
@@ -89,6 +90,8 @@
     <Compile Include="IFieldComponent.cs" />
     <Compile Include="Picture.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="SerializableField.cs" />
+    <Compile Include="SerializableShip.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="ShopBomb.cs" />
     <Compile Include="BulletPack.cs" />

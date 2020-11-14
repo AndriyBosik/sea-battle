@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemViews", "..\Shop\ItemVi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "..\Models\Models.csproj", "{93A4000F-FB4C-4FFF-ACD0-88333BDF82A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLGameLoader", "..\XMLGameLoader\XMLGameLoader.csproj", "{A2590B68-B8C0-4BC9-A65A-89B83938DE4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serializators", "..\Serializators\Serializators.csproj", "{CC82D66F-F1AF-490A-859A-1002F8ACBFCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,9 +58,9 @@ Global
 		{93A4000F-FB4C-4FFF-ACD0-88333BDF82A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93A4000F-FB4C-4FFF-ACD0-88333BDF82A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93A4000F-FB4C-4FFF-ACD0-88333BDF82A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2590B68-B8C0-4BC9-A65A-89B83938DE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2590B68-B8C0-4BC9-A65A-89B83938DE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2590B68-B8C0-4BC9-A65A-89B83938DE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2590B68-B8C0-4BC9-A65A-89B83938DE4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC82D66F-F1AF-490A-859A-1002F8ACBFCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC82D66F-F1AF-490A-859A-1002F8ACBFCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC82D66F-F1AF-490A-859A-1002F8ACBFCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC82D66F-F1AF-490A-859A-1002F8ACBFCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

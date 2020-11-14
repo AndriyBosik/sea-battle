@@ -16,6 +16,8 @@ using Config;
 
 using Entities;
 
+using Serializators;
+
 using System;
 using System.Linq;
 using System.Windows;
@@ -77,6 +79,8 @@ namespace SeaBattle
 			bGoBack.PreviewMouseLeftButtonDown += ShowMainWindow;
 			bShop.PreviewMouseLeftButtonUp += OpenShop;
 			bNext.PreviewMouseLeftButtonUp += NextStep;
+			bSaveField.PreviewMouseLeftButtonDown += SaveField;
+			bLoadField.PreviewMouseLeftButtonDown += LoadField;
 		}
 		
 		// Changes the window size
@@ -150,6 +154,11 @@ namespace SeaBattle
 			var elem = (UIElement)e.Source;
 			var row = Grid.GetRow(elem);
 			var column = Grid.GetColumn(elem);
+			TryPasteShip(row, column, size, orientation);
+		}
+		
+		private void TryPasteShip(int row, int column, int size, string orientation)
+		{
 			GetCurrentField().TryPasteShip(row, column, size, orientation);
 			if (GetCurrentField().AllPasted(size))
 				sizeRadios.MakeDisabledAndJumpToNext(size);
@@ -202,11 +211,6 @@ namespace SeaBattle
 		
 		private void OpenShop(object sender, RoutedEventArgs e)
 		{
-//			if (!grid.AllShipsPasted)
-//			{
-//				MessageBox.Show(ALL_SHIPS_ARE_NOT_PASTED, ERROR_TITLE);
-//				return;
-//			}
 			Shop shop = new Shop(GetCurrentPlayer());
 			shop.ShowDialog();
 			ShowPlayerInfo();
@@ -249,6 +253,54 @@ namespace SeaBattle
 			isFirstPlayerReady = true;
 			
 			SetGrid(secondPlayer.Field);
+		}
+		
+		private void SaveField(object sender, EventArgs e)
+		{
+			var fieldNameWindow = new AskForFieldName();
+			if (fieldNameWindow.ShowDialog().Value)
+			{
+				var filename = fieldNameWindow.tbFieldName.Text.Trim();
+				if (filename.Equals(""))
+				{
+					MessageBox.Show("Incorrect field name", "Error");
+					return;
+				}
+				var serializableField = GetCurrentField().GetSerializable();
+				XMLSerializator ser = new XMLSerializator(filename);
+				ser.Serialize(serializableField);
+			}
+		}
+		
+		private void LoadField(object sender, EventArgs e)
+		{
+			var fl = new FieldLoader();
+			if (fl.ShowDialog().Value)
+			{
+				var filename = fl.Filename;
+				if (filename == null)
+					return;
+				XMLSerializator ser = new XMLSerializator(filename);
+				var serializableField = ser.Deserialize();
+				if (serializableField == null || !Field.CanReplaceWith(
+					rows, columns, 
+					serializableField.Rows, serializableField.Columns))
+				{
+					MessageBox.Show("Unable to load field", "Error");
+					return;
+				}
+				DisconnectGrid();
+				GetCurrentPlayer().Money += GetCurrentPlayer().Field.GetPastedBombsCost();
+				GetCurrentPlayer().SellUnpastedBombs();
+				GetCurrentPlayer().Field = new Field(rows, columns);
+				SetGrid(GetCurrentPlayer().Field);
+				foreach (var serShip in serializableField.Ships)
+				{
+					int row = serShip.Point.X;
+					int column = serShip.Point.Y;
+					TryPasteShip(row, column, serShip.Size, serShip.Orientation);
+				}
+			}
 		}
 		
 		private void PrepareFieldToGame(Field field)

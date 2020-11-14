@@ -58,19 +58,6 @@ namespace SeaBattle
 			}
 		}
 		
-		private void StartGameLoaderWindow(object sender, RoutedEventArgs e)
-		{
-			var gl = new GameLoader();
-			if (gl.ShowDialog().Value)
-			{
-				MessageBox.Show("Ok was pressed");
-			}
-			else
-			{
-				MessageBox.Show("Window was closed(");
-			}
-		}
-		
 		private void OpenFieldEditor()
 		{
 			FieldEditor fieldEditor = new FieldEditor(rows, columns);

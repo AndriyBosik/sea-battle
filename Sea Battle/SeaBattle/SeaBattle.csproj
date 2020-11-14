@@ -73,6 +73,10 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AskForFieldName.xaml.cs">
+      <DependentUpon>AskForFieldName.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="BulletsShop.xaml.cs">
       <DependentUpon>BulletsShop.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -93,8 +97,8 @@
       <DependentUpon>GameField.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GameLoader.xaml.cs">
-      <DependentUpon>GameLoader.xaml</DependentUpon>
+    <Compile Include="FieldLoader.xaml.cs">
+      <DependentUpon>FieldLoader.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,12 +114,13 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="About.xaml" />
+    <Page Include="AskForFieldName.xaml" />
     <Page Include="BulletsShop.xaml" />
     <Page Include="CongratulateWindow.xaml" />
     <Page Include="FieldEditor.xaml" />
     <Page Include="FieldSizeWindow.xaml" />
     <Page Include="GameField.xaml" />
-    <Page Include="GameLoader.xaml" />
+    <Page Include="FieldLoader.xaml" />
     <Page Include="Shop.xaml" />
     <Page Include="StartMenu.xaml" />
   </ItemGroup>
@@ -146,6 +151,10 @@
     <ProjectReference Include="..\Processors\Processors.csproj">
       <Project>{e0a28059-5430-41ed-b008-031003979e2f}</Project>
       <Name>Processors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Serializators\Serializators.csproj">
+      <Project>{cc82d66f-f1af-490a-859a-1002f8acbfcb}</Project>
+      <Name>Serializators</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shop\ItemViews.csproj">
       <Project>{4cd74d5a-e118-4a6b-9cf4-69b603c30bc8}</Project>

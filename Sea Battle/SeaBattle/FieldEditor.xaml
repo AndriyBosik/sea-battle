@@ -36,15 +36,23 @@
 					
 						<Button
 							Content="Shop"
-							x:Name="bShop"></Button>
+							x:Name="bShop" />
 					
 						<Button
 							Content="Next"
-							x:Name="bNext"></Button>
+							x:Name="bNext" />
+						
+						<Button
+							Content="Save Field"
+							x:Name="bSaveField" />
+						
+						<Button
+							Content="Load Field"
+							x:Name="bLoadField"/>
 						
 						<Button
 							Content="Go back"
-							x:Name="bGoBack"></Button>
+							x:Name="bGoBack" />
 					
 						<StackPanel
 							x:Name="spBombsRadios"

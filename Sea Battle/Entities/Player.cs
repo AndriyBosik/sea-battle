@@ -151,5 +151,17 @@ namespace Entities
 			return Money >= item.CostByOne && !item.BuyedMaxCount;
 		}
 		
+		public void SellUnpastedBombs()
+		{
+			foreach (BombKind kind in (BombKind[])Enum.GetValues(typeof(BombKind)))
+			{
+				if (!ShopBombs.ContainsKey(kind))
+					continue;
+				var count = ShopBombs[kind];
+				Money += ShopBombProcessor.GenerateBomb(kind).CostByOne*count;
+				ShopBombs.Remove(kind);
+			}
+		}
+		
 	}
 }

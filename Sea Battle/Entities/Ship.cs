@@ -9,6 +9,8 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Xml.Serialization;
+using GameObjects;
 
 namespace Entities
 {
@@ -28,37 +30,26 @@ namespace Entities
 			}
 		}
 		
+		public Point Point
+		{ get; private set; }
+		
 		public int PrizeForDestroy
-		{
-			get;
-			private set;
-		}
+		{ get; private set; }
 		
 		public int Size
-		{
-			get;
-			private set;
-		}
+		{ get; private set; }
 		
 		public string Orientation
-		{
-			get;
-			private set;
-		}
+		{ get; private set; }
 		
 		public List<Deck> Decks
-		{
-			get
-			{
-				return Database.decks.Where(deck => deck.Ship == this).ToList();
-			}
-		}
+		{ get { return Database.decks.Where(deck => deck.Ship == this).ToList(); } }
 		
-		public Ship(int size, string orientation)
+		public Ship(int size, string orientation, Point point)
 		{
 			Size = size;
 			Orientation = orientation;
-			
+			Point = point;
 			Database.ships.Add(this);
 		}
 		
@@ -70,6 +61,11 @@ namespace Entities
 		public Deck getDeck(int number)
 		{
 			return Decks.ElementAt(number);
+		}
+		
+		public SerializableShip GetSerializable()
+		{
+			return new SerializableShip(Size, Orientation, Point);
 		}
 	}
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<FieldList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <List>
+    <string>oneSizedDecks</string>
+    <string>twoSizedDecks</string>
+    <string>threeSizedDecks</string>
+    <string>fourSizedDecks</string>
+    <string>BigField</string>
+    <string>SmallField</string>
+  </List>
+</FieldList>

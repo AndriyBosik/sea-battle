@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+	x:Class="SeaBattle.AskForFieldName" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Title="Type Field Name"
+	Width="300"
+	SizeToContent="WidthAndHeight"
+	Height="185">
+	<StackPanel
+		Orientation="Vertical"
+		MinWidth="250"
+		Margin="10,20,10,20">
+		<TextBlock
+			FontSize="13"
+			Padding="0,0,0,10">
+			Type field name:
+		</TextBlock>
+		<TextBox
+			FontSize="13"
+			Margin="0,10,0,10"
+			x:Name="tbFieldName" />
+		<StackPanel
+			Orientation="Horizontal"
+			HorizontalAlignment="Right">
+			<Button
+				Content="OK"
+				Click="OK"
+				x:Name="bOK"
+				Margin="10,5,10,5"
+				Padding="10,0,10,0" />
+			<Button
+				Content="Cancel"
+				Click="Cancel"
+				x:Name="bCancel"
+				Margin="10,5,10,5"
+				Padding="10,0,10,0" />
+		</StackPanel>
+	</StackPanel>
+</Window>

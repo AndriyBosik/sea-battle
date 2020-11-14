@@ -13,37 +13,18 @@ namespace GameObjects
 	/// <summary>
 	/// Description of Point.
 	/// </summary>
+	[Serializable]
 	public class Point
 	{
-		
-		private int x;
-		private int y;
-		
 		public int X
-		{
-			get
-			{
-				return x;
-			}
-			set
-			{
-				x = value;
-			}
-		}
+		{ get; set; }
 		
 		public int Y
-		{
-			get
-			{
-				return y;
-			}
-			set
-			{
-				y = value;
-			}
-		}
+		{ get; set; }
 		
-		public Point(int x, int y)
+		public Point() {}
+		
+		public Point(int x, int y): this()
 		{
 			X = x;
 			Y = y;

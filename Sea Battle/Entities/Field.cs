@@ -28,6 +28,7 @@ namespace Entities
 	{
 		private int currentShipsCount;
 		private List<Ship> ships;
+		private List<Bomb> bombs;
 		private int[] shipsCounter;
 		private Drawer[,] cells;
 		
@@ -51,6 +52,8 @@ namespace Entities
 			
 			this.ships = new List<Ship>();
 			shipsCounter = new int[MaxShipSize + 1];
+			
+			this.bombs = new List<Bomb>();
 			
 			this.currentShipsCount = 0;
 			cells = new Drawer[rows,columns];
@@ -83,6 +86,7 @@ namespace Entities
 				return false;
 			Children.Remove(cells[row,column].Image);
 			var pictureBomb = BombProcessor.Generate(opponentField, row, column, BombKind);
+			bombs.Add(pictureBomb.Item);
 			var bombDrawer = new BombDrawer(pictureBomb.Item, BombKind);
 			cells[row,column] = bombDrawer;
 			Repaint(row, column);
@@ -133,7 +137,7 @@ namespace Entities
 			if (!ShipProcessor.CanPasteShip(size, shipsCounter[size], MaxShipSize))
 				return;
 			
-			Ship ship = new Ship(size, orientation);
+			Ship ship = new Ship(size, orientation, new GameObjects.Point(row, column));
 			
 			for (int order = 0; order < size; order++)
 			{
@@ -203,6 +207,39 @@ namespace Entities
 		public Drawer GetElement(int x, int y)
 		{
 			return cells[x,y];
+		}
+		
+		public int GetPastedBombsCost()
+		{
+			int cost = 0;
+			foreach (var bomb in bombs)
+			{
+				cost += bomb.CostByOne;
+			}
+			return cost;
+		}
+		
+		public SerializableField GetSerializable()
+		{
+			return new SerializableField(Rows, Columns, ships);
+		}
+		
+		public static Field LoadSerializable(SerializableField ser)
+		{
+			var field = new Field(ser.Rows, ser.Columns);
+			foreach (var serShip in ser.Ships)
+			{
+				var row = serShip.Point.X;
+				var column = serShip.Point.Y;
+				field.TryPasteShip(row, column, serShip.Size, serShip.Orientation);
+			}
+			return field;
+		}
+		
+		public static bool CanReplaceWith(int firstFieldRows, int firstFieldColumns,
+		                                  int secondFieldRows, int secondFiedColumns)
+		{
+			return (secondFieldRows <= firstFieldRows && secondFiedColumns <= firstFieldColumns);
 		}
 	}
 }

@@ -35,5 +35,9 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\ItemViews.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\ItemViews.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\CongratulateWindow.baml
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\CongratulateWindow.g.cs
-D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\GameLoader.baml
-D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\GameLoader.g.cs
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\FieldLoader.baml
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\FieldLoader.g.cs
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Serializators.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Serializators.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\AskForFieldName.baml
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\AskForFieldName.g.cs

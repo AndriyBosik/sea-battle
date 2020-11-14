@@ -44,12 +44,6 @@
 					Click="AskSizeForTwoPlayersMode"
 					Margin="0, 0, 0, 10" />
 				<Button
-					Content="Load Game"
-					FontSize="30"
-					x:Name="bLoadGame"
-					Click="StartGameLoaderWindow"
-					Margin="0, 0, 0, 10" />
-				<Button
 					Content="About Us"
 					FontSize="30"
 					x:Name="bAbout"

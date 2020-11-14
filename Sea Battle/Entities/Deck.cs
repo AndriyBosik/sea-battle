@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Media;
 
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 using Config;
 
 using GameObjects;
@@ -21,14 +22,16 @@ namespace Entities
 	/// <summary>
 	/// Description of Deck.
 	/// </summary>
+	[Serializable]
 	public class Deck: Base, IFieldComponent
 	{
-		private Guid shipId;
+		public Guid shipId;
 		
-		private int prizeForDestroy;
-		private bool destroyed;
+		public int prizeForDestroy;
+		public bool destroyed;
 		
 		#region Properties
+		[XmlIgnoreAttribute]
 		public Ship Ship
 		{
 			get
@@ -37,41 +40,37 @@ namespace Entities
 			{ shipId = value.ID; }
 		}
 		
+		[XmlIgnoreAttribute]
 		public double PercentageHealthValue
 		{
 			get { return CurrentHealth*1.0/TotalHealth; }
 		}
 		
 		public int CurrentHealth
-		{ get; private set; }
+		{ get; set; }
 		
 		public int TotalHealth
-		{ get; private set; }
+		{ get; set; }
 		
-		private DeckKind Kind
+		public DeckKind Kind
 		{ get; set; }
 		
 		public string Orientation
-		{ get; private set; }
+		{ get; set; }
 		#endregion
 		
-		public Deck(Ship ship):
-			this(ship, 100)
+		public Deck()
 		{
 			Database.decks.Add(this);
 		}
 		
-		public Deck(
-			Ship ship,
-			int health)
+		public Deck(Ship ship, int health = 100): this()
 		{
 			Ship = ship;
 			
 			CurrentHealth = TotalHealth = health;
 			destroyed = false;
 			prizeForDestroy = 5*ship.Size;
-			
-			Database.decks.Add(this);
 		}
 		
 		public void GetDamage(int damage, ref int money, ref int opponentMoney)

@@ -1,8 +1,8 @@
 ﻿/*
  * Created by SharpDevelop.
  * User: Andriy
- * Date: 12.11.2020
- * Time: 12:23
+ * Date: 11/14/2020
+ * Time: 21:07
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
@@ -12,25 +12,25 @@ using System.Windows;
 namespace SeaBattle
 {
 	/// <summary>
-	/// Interaction logic for GameLoader.xaml
+	/// Interaction logic for AskForFieldName.xaml
 	/// </summary>
-	public partial class GameLoader : Window
+	public partial class AskForFieldName : Window
 	{
-		public GameLoader()
+		public AskForFieldName()
 		{
 			InitializeComponent();
 		}
 		
-		private void LoadGame(object sender, RoutedEventArgs e)
+		private void OK(object sender, EventArgs e)
 		{
 			DialogResult = true;
-			this.Close();
+			Close();
 		}
 		
-		private void CancelLoading(object sender, RoutedEventArgs e)
+		private void Cancel(object sender, EventArgs e)
 		{
 			DialogResult = false;
-			this.Close();
+			Close();
 		}
 	}
 }
