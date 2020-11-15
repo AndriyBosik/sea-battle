@@ -14,7 +14,7 @@
     <SerializableShip>
       <Point>
         <X>0</X>
-        <Y>2</Y>
+        <Y>3</Y>
       </Point>
       <Orientation>Horizontal</Orientation>
       <Size>1</Size>
@@ -22,7 +22,7 @@
     <SerializableShip>
       <Point>
         <X>0</X>
-        <Y>7</Y>
+        <Y>6</Y>
       </Point>
       <Orientation>Horizontal</Orientation>
       <Size>1</Size>
@@ -46,7 +46,7 @@
     <SerializableShip>
       <Point>
         <X>2</X>
-        <Y>7</Y>
+        <Y>4</Y>
       </Point>
       <Orientation>Horizontal</Orientation>
       <Size>2</Size>
@@ -54,7 +54,7 @@
     <SerializableShip>
       <Point>
         <X>2</X>
-        <Y>4</Y>
+        <Y>7</Y>
       </Point>
       <Orientation>Horizontal</Orientation>
       <Size>2</Size>

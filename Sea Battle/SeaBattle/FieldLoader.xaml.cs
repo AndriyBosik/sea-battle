@@ -30,12 +30,12 @@ namespace SeaBattle
 		{
 			var xmlFieldNames = new XMLFieldListSerializator();
 			var fieldList = xmlFieldNames.Deserialize();
-			lbFieldNames.ItemsSource = fieldList.List;
+			lbFieldNames.ItemsSource = fieldList.Descriptions;
 		}
 		
 		private void LoadField(object sender, RoutedEventArgs e)
 		{
-			Filename = (string)lbFieldNames.SelectedItem;
+			Filename = ((FieldList.FieldDescription)lbFieldNames.SelectedItem).Name;
 			DialogResult = true;
 			this.Close();
 		}
@@ -45,6 +45,13 @@ namespace SeaBattle
 			var filename = (string)lbFieldNames.SelectedItem;
 			var xmlField = new XMLSerializator(filename);
 			xmlField.Remove();
+			RefreshListBox();
+		}
+		
+		private void RemoveAll(object sender, EventArgs e)
+		{
+			var xmlFieldList = new XMLFieldListSerializator();
+			xmlFieldList.Remove();
 			RefreshListBox();
 		}
 		

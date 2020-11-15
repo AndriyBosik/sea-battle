@@ -82,7 +82,7 @@
     <Compile Include="DeckDrawer.cs" />
     <Compile Include="Drawer.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="FieldList.cs" />
+    <Compile Include="_FieldList.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameProcess.cs" />
     <Compile Include="Gun.cs" />

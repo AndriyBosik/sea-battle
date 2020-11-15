@@ -13,18 +13,18 @@
     </SerializableShip>
     <SerializableShip>
       <Point>
-        <X>2</X>
-        <Y>2</Y>
+        <X>0</X>
+        <Y>4</Y>
       </Point>
       <Orientation>Horizontal</Orientation>
       <Size>1</Size>
     </SerializableShip>
     <SerializableShip>
       <Point>
-        <X>4</X>
-        <Y>3</Y>
+        <X>1</X>
+        <Y>2</Y>
       </Point>
-      <Orientation>Horizontal</Orientation>
+      <Orientation>Vertical</Orientation>
       <Size>2</Size>
     </SerializableShip>
   </Ships>

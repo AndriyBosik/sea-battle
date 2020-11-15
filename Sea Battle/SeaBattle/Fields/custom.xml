@@ -13,7 +13,7 @@
     </SerializableShip>
     <SerializableShip>
       <Point>
-        <X>0</X>
+        <X>2</X>
         <Y>2</Y>
       </Point>
       <Orientation>Horizontal</Orientation>
@@ -21,8 +21,16 @@
     </SerializableShip>
     <SerializableShip>
       <Point>
-        <X>0</X>
-        <Y>7</Y>
+        <X>4</X>
+        <Y>4</Y>
+      </Point>
+      <Orientation>Horizontal</Orientation>
+      <Size>1</Size>
+    </SerializableShip>
+    <SerializableShip>
+      <Point>
+        <X>6</X>
+        <Y>6</Y>
       </Point>
       <Orientation>Horizontal</Orientation>
       <Size>1</Size>
@@ -30,23 +38,7 @@
     <SerializableShip>
       <Point>
         <X>0</X>
-        <Y>9</Y>
-      </Point>
-      <Orientation>Horizontal</Orientation>
-      <Size>1</Size>
-    </SerializableShip>
-    <SerializableShip>
-      <Point>
-        <X>2</X>
-        <Y>1</Y>
-      </Point>
-      <Orientation>Horizontal</Orientation>
-      <Size>2</Size>
-    </SerializableShip>
-    <SerializableShip>
-      <Point>
-        <X>2</X>
-        <Y>7</Y>
+        <Y>2</Y>
       </Point>
       <Orientation>Horizontal</Orientation>
       <Size>2</Size>
@@ -62,18 +54,34 @@
     <SerializableShip>
       <Point>
         <X>4</X>
-        <Y>1</Y>
+        <Y>6</Y>
+      </Point>
+      <Orientation>Horizontal</Orientation>
+      <Size>2</Size>
+    </SerializableShip>
+    <SerializableShip>
+      <Point>
+        <X>0</X>
+        <Y>5</Y>
       </Point>
       <Orientation>Horizontal</Orientation>
       <Size>3</Size>
     </SerializableShip>
     <SerializableShip>
       <Point>
-        <X>4</X>
-        <Y>6</Y>
+        <X>2</X>
+        <Y>7</Y>
       </Point>
       <Orientation>Horizontal</Orientation>
       <Size>3</Size>
+    </SerializableShip>
+    <SerializableShip>
+      <Point>
+        <X>6</X>
+        <Y>0</Y>
+      </Point>
+      <Orientation>Horizontal</Orientation>
+      <Size>4</Size>
     </SerializableShip>
   </Ships>
 </SerializableField>

@@ -36,7 +36,7 @@ namespace Serializators
 		{
 			var xmlFieldList = new XMLFieldListSerializator();
 			var fieldList = xmlFieldList.Deserialize();
-			fieldList.List.Add(filename);
+			fieldList.Descriptions.Add(new FieldList.FieldDescription(filename, obj.Rows, obj.Columns));
 			xmlFieldList.Serialize(fieldList);
 			using (FileStream fs = new FileStream(filepath, FileMode.OpenOrCreate))
 			{
@@ -60,10 +60,11 @@ namespace Serializators
 		{
 			var xmlFieldNames = new XMLFieldListSerializator();
 			var fieldNames = xmlFieldNames.Deserialize();
-			if (!fieldNames.List.Contains(filename))
+			var fictitious = new FieldList.FieldDescription(filename, 0, 0);
+			if (!fieldNames.Descriptions.Contains(fictitious))
 				return;
 			File.Delete(filepath);
-			fieldNames.List.Remove(filename);
+			fieldNames.Descriptions.Remove(fictitious);
 			xmlFieldNames.Serialize(fieldNames);
 		}
 		

@@ -10,7 +10,6 @@ using System;
 using System.IO;
 using System.Xml.Serialization;
 using Config;
-using Entities;
 
 namespace Serializators
 {
@@ -42,8 +41,7 @@ namespace Serializators
 			FieldList fieldList;
 			if (!File.Exists(filepath))
 				Serialize(new FieldList
-				          { List = new System.Collections.Generic.List<string>() }
-				         );
+				          { Descriptions = new System.Collections.Generic.List<FieldList.FieldDescription>() });
 			using (FileStream fs = new FileStream(filepath, FileMode.OpenOrCreate))
 			{
 				fieldList = (FieldList)serializer.Deserialize(fs);
@@ -51,7 +49,15 @@ namespace Serializators
 			return fieldList;
 		}
 		
-		public void Remove() {}
+		public void Remove()
+		{
+			var fieldList = Deserialize();
+			foreach (var description in fieldList.Descriptions)
+			{
+				var serializator = new XMLSerializator(description.Name);
+				serializator.Remove();
+			}
+		}
 		
 	}
 }

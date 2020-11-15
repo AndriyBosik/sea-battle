@@ -15,11 +15,11 @@ namespace Entities
 	/// Description of FieldList.
 	/// </summary>
 	[Serializable]
-	public class FieldList
+	public class _FieldList
 	{
 		public List<string> List
 		{ get; set; }
 		
-		public FieldList() {}
+		public _FieldList() {}
 	}
 }
