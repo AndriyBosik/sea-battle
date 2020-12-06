@@ -27,7 +27,7 @@ namespace Entities
 	public class Field: Grid
 	{
 		private int currentShipsCount;
-		private List<Ship> ships;
+		private int optimization = -1;
 		private List<Bomb> bombs;
 		private int[] shipsCounter;
 		private Drawer[,] cells;
@@ -44,13 +44,26 @@ namespace Entities
 		public int MaxShipSize
 		{ get; set; }
 		
+		public List<Ship> Ships
+		{ get; private set; }
+		
+		public int Optimization
+		{
+			get
+			{
+				if (optimization < 0 && IsAllShipsPasted())
+					optimization = CalculateOptimization();
+				return optimization;
+			}
+		}
+		
 		public Field(int rows, int columns)
 		{
 			this.Rows = rows;
 			this.Columns = columns;
 			this.MaxShipSize = ShipProcessor.GetMaxShipSize(rows, columns);
 			
-			this.ships = new List<Ship>();
+			this.Ships = new List<Ship>();
 			shipsCounter = new int[MaxShipSize + 1];
 			
 			this.bombs = new List<Bomb>();
@@ -63,7 +76,7 @@ namespace Entities
 		
 		public bool AreAllShipsDestroyed()
 		{
-			foreach (var ship in ships)
+			foreach (var ship in Ships)
 				if (!ship.IsDestroyed)
 					return false;
 			return true;
@@ -72,6 +85,43 @@ namespace Entities
 		public bool IsAllShipsPasted()
 		{
 			return ShipProcessor.ShipsCount(MaxShipSize) == currentShipsCount;
+		}
+		
+		private int CalculateOptimization()
+		{
+			int[,] a = new int[Rows,Columns];
+			int result = 0;
+			for (int i = 0; i < Rows; i++)
+			{
+				for (int j = 0; j < Columns; j++)
+				{
+					if (cells[i, j].Status == CellStatus.DECK)
+					{
+						result += IncreaseAround(a, i, j);
+					}
+				}
+			}
+			return result;
+		}
+		
+		private int IncreaseAround(int[,] a, int x, int y)
+		{
+			int result = 0;
+			for (int i = -1; i <= 1; i++)
+			{
+				for (int j = -1; j <= 1; j++)
+				{
+					var _x = x + i;
+					var _y = y + j;
+					if (!IsInsideField(_x, _y))
+						continue;
+					if (cells[_x,_y].Status != CellStatus.DECK)
+						a[_x,_y]++;
+					if (a[_x,_y] == 1)
+						result++;
+				}
+			}
+			return result;
 		}
 		
 		public void TryPasteShip(int row, int column, int size, string orientation)
@@ -156,7 +206,7 @@ namespace Entities
 				InitCell(deckDrawer.Image, currentRow, currentColumn);
 			}
 			
-			ships.Add(ship);
+			Ships.Add(ship);
 			shipsCounter[ship.Size]++;
 			currentShipsCount++;
 		}
@@ -221,7 +271,7 @@ namespace Entities
 		
 		public SerializableField GetSerializable()
 		{
-			return new SerializableField(Rows, Columns, ships);
+			return new SerializableField(Rows, Columns, Ships);
 		}
 		
 		public static Field LoadSerializable(SerializableField ser)

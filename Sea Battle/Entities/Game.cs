@@ -17,12 +17,19 @@ namespace Entities
 	/// </summary>
 	public class Game
 	{
+		public const string FIRST_PLAYER_WON = "firstPlayerWon";
+		public const string SECOND_PLAYER_WON = "secondPlayerWon";
+		
 		private const string CONGRATULATION_MESSAGE = " has won!!!";
 		
 		private Player firstPlayer;
 		private Player secondPlayer;
 		private MoveOrder move;
 		private Messanger messanger;
+		private string winner;
+		
+		public bool IsEnded
+		{ get; private set; }
 		
 		public Game(Player firstPlayer, Player secondPlayer, Messanger messanger)
 		{
@@ -30,6 +37,8 @@ namespace Entities
 			this.secondPlayer = secondPlayer;
 			this.move = MoveOrder.FIRST;
 			this.messanger = messanger;
+			this.winner = "";
+			this.IsEnded = false;
 		}
 		
 		public bool IsFirstPlayer(Player player)
@@ -66,15 +75,35 @@ namespace Entities
 			GetAnotherPlayer().Money += GetCurrentPlayer().Shot(field, row, column);
 			ChangeMove();
 			if (GetCurrentPlayer().Field.AreAllShipsDestroyed() || !GetCurrentPlayer().HasBullets())
-				messanger.CongratulatePlayer(GetCurrentPlayerName(GetAnotherPlayer()) + CONGRATULATION_MESSAGE);
+			{
+				FindWinner(GetAnotherPlayer());
+				messanger.CongratulatePlayer(GetAnotherPlayer().Name + CONGRATULATION_MESSAGE);
+			}
 			return true;
 		}
 		
-		private string GetCurrentPlayerName(Player player)
+		private void FindWinner(Player player)
 		{
-			if (firstPlayer == player)
-				return "FIRST PLAYER";
-			return "SECOND PLAYER";
+			IsEnded = true;
+			winner = SECOND_PLAYER_WON;
+			if (player == firstPlayer)
+				winner = FIRST_PLAYER_WON;
+		}
+		
+		public Player GetWinner()
+		{
+			if (!IsEnded)
+				return null;
+			if (winner.Equals(FIRST_PLAYER_WON))
+				return firstPlayer;
+			return secondPlayer;
+		}
+		
+		public void PlayerGiveUp()
+		{
+			IsEnded = true;
+			FindWinner(GetAnotherPlayer());
+			messanger.CongratulatePlayer(GetAnotherPlayer().Name + CONGRATULATION_MESSAGE);
 		}
 		
 		private void ChangeMove()

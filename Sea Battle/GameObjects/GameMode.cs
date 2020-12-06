@@ -15,7 +15,7 @@ namespace GameObjects
 	/// </summary>
 	public enum GameMode
 	{
-		TWO_PLAYERS,
-		COMPUTER
+		ONLINE,
+		OFFLINE
 	}
 }

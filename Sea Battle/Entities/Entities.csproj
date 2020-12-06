@@ -121,6 +121,10 @@
       <Project>{ae342253-ebbb-43b0-8bd6-53e35a2173f2}</Project>
       <Name>GameObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{83ccedd7-a88f-4ef9-942b-1850aecf3381}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Processors\Processors.csproj">
       <Project>{7d392411-0d1b-49a1-aef2-86cb09ff7b31}</Project>
       <Name>Processors</Name>

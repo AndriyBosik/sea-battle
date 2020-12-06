@@ -31,7 +31,6 @@ namespace Entities
 		public bool destroyed;
 		
 		#region Properties
-		[XmlIgnoreAttribute]
 		public Ship Ship
 		{
 			get
@@ -40,7 +39,6 @@ namespace Entities
 			{ shipId = value.ID; }
 		}
 		
-		[XmlIgnoreAttribute]
 		public double PercentageHealthValue
 		{
 			get { return CurrentHealth*1.0/TotalHealth; }

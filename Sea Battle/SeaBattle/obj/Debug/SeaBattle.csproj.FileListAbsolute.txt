@@ -41,3 +41,17 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Serializators.
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Serializators.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\AskForFieldName.baml
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\AskForFieldName.g.cs
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\Register.baml
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\Register.g.cs
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Database.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Models.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Validators.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Database.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Models.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\bin\Debug\Validators.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\Settings.baml
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\Settings.g.cs
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\Statistics.baml
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\Statistics.g.cs
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\TopFields.baml
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\SeaBattle\obj\Debug\TopFields.g.cs

@@ -2,29 +2,14 @@
 <FieldList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Descriptions>
     <FieldDescription>
-      <Name>custom</Name>
+      <Name>field</Name>
       <Rows>10</Rows>
       <Columns>10</Columns>
     </FieldDescription>
     <FieldDescription>
-      <Name>RectangleBased</Name>
+      <Name>another</Name>
       <Rows>10</Rows>
       <Columns>10</Columns>
-    </FieldDescription>
-    <FieldDescription>
-      <Name>TriangleBased</Name>
-      <Rows>10</Rows>
-      <Columns>10</Columns>
-    </FieldDescription>
-    <FieldDescription>
-      <Name>BigField</Name>
-      <Rows>13</Rows>
-      <Columns>13</Columns>
-    </FieldDescription>
-    <FieldDescription>
-      <Name>SmallField</Name>
-      <Rows>5</Rows>
-      <Columns>5</Columns>
     </FieldDescription>
   </Descriptions>
 </FieldList>

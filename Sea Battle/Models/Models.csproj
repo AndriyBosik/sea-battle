@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
-    <ProjectGuid>{93A4000F-FB4C-4FFF-ACD0-88333BDF82A7}</ProjectGuid>
+    <ProjectGuid>{83CCEDD7-A88F-4EF9-942B-1850AECF3381}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -69,7 +69,7 @@
     </Compile>
     <Compile Include="Base.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="Model.cs" />
+    <Compile Include="OnlineGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\WPFAssemblyInfo.cs" />
     <Compile Include="Ship.cs" />

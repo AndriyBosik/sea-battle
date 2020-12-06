@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+	x:Class="SeaBattle.TopFields" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Title="TopField"
+	Height="300"
+	ResizeMode="NoResize"
+	SizeToContent="WidthAndHeight"
+	Width="506">
+	<StackPanel
+		Orientation="Vertical"
+		Margin="20,10,20,10">
+		<StackPanel
+			Orientation="Horizontal"
+			Margin="0,0,0,10">
+			
+			<TextBlock
+				Text="Rows: "
+				FontSize="15" />
+			<TextBox
+				x:Name="tbRows"
+				Width="50"
+				Margin="0,0,20,0"
+				FontSize="15" />
+			<TextBlock
+				Text="Columns: "
+				FontSize="15" />
+			<TextBox
+				x:Name="tbColumns"
+				Width="50"
+				Margin="0,0,20,0"
+				FontSize="15" />
+			<TextBlock
+				Text="Count: "
+				FontSize="15" />
+			<TextBox
+				x:Name="tbCount"
+				Width="50"
+				Margin="0,0,20,0"
+				FontSize="15" />
+			<Button
+				Content="Get"
+				x:Name="bGet"
+				Click="Get"
+				Padding="10,0,10,0"
+				FontSize="15"/>
+		
+		</StackPanel>
+		
+		<TextBlock
+			x:Name="tblOptimization"
+			FontSize="15"
+			Margin="0,10,0,10" />
+		
+		<StackPanel
+			x:Name="spField"
+			Margin="0,0,0,10"
+			Orientation="Horizontal" />
+		
+		<StackPanel
+			Orientation="Horizontal"
+			HorizontalAlignment="Left"
+			Margin="0,0,0,10"
+			VerticalAlignment="Center">
+		
+			<Button
+				x:Name="bBack"
+				FontSize="15"
+				Click="Back"
+				Content="Back"
+				Padding="10,0,10,0"
+				Margin="0,0,10,0" />
+		
+			<Button
+				x:Name="bNext"
+				FontSize="15"
+				Click="Next"
+				Content="Next"
+				Padding="10,0,10,0"
+				Margin="10,0,0,0" />
+		
+		</StackPanel>
+		
+		<StackPanel
+			Orientation="Horizontal"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Center">
+			
+			<Button
+				Content="OK"
+				FontSize="15"
+				Click="OK"
+				Padding="10,0,10,0"
+				x:Name="bOK"/>
+		
+		</StackPanel>
+	
+	</StackPanel>
+</Window>

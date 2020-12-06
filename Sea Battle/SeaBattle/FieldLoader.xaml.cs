@@ -42,7 +42,7 @@ namespace SeaBattle
 		
 		private void RemoveLoad(object sender, RoutedEventArgs e)
 		{
-			var filename = (string)lbFieldNames.SelectedItem;
+			var filename = ((FieldList.FieldDescription)lbFieldNames.SelectedItem).Name;
 			var xmlField = new XMLSerializator(filename);
 			xmlField.Remove();
 			RefreshListBox();

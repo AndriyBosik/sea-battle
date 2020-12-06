@@ -7,7 +7,7 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Models\obj\Debug\Models.g.resource
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Models\bin\Debug\Models.exe.config
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Models\bin\Debug\Models.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Models\bin\Debug\Models.pdb
-D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Models\bin\Debug\GameObjects.exe
-D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Models\bin\Debug\GameObjects.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Models\obj\Debug\Models.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Models\obj\Debug\Models.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Models\bin\Debug\GameObjects.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Models\bin\Debug\GameObjects.pdb

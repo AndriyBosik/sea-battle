@@ -39,7 +39,7 @@ namespace SeaBattle
 			
 			this.player = player;
 			this.gun = gun;
-			pictureBullets = Database.shopBulletPacks.Where(bulletPackPicture =>
+			pictureBullets = Entities.Database.shopBulletPacks.Where(bulletPackPicture =>
 				bulletPackPicture.Item.DamageKind == gun.DamageKind).ToList();
 			ShowPlayerInformation();
 			InitGrid();
@@ -99,7 +99,7 @@ namespace SeaBattle
 		
 		private int GetCount(BulletPack bulletPack)
 		{
-			var bullets = Database.bulletPackInGuns.Where(bpig => bpig.Gun == gun && bpig.BulletPack.Equals(bulletPack))
+			var bullets = Entities.Database.bulletPackInGuns.Where(bpig => bpig.Gun == gun && bpig.BulletPack.Equals(bulletPack))
 				.FirstOrDefault();
 			if (bullets == null)
 				return 0;

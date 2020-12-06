@@ -17,3 +17,5 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Shop\bin\Debug\GameObjects.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Shop\bin\Debug\Processors.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Shop\obj\Debug\ItemViews.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Shop\obj\Debug\ItemViews.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Shop\bin\Debug\Models.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Shop\bin\Debug\Models.pdb

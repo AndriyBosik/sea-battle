@@ -3,7 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	Title="SeaBattle" Height="300" Width="300"
 	ResizeMode="NoResize"
-	SizeToContent="WidthAndHeight">
+	SizeToContent="WidthAndHeight"
+	Closed="FinishGame">
 	<StackPanel
 		Orientation="Vertical"
 		x:Name="spWrapper" >
@@ -19,7 +20,13 @@
 					FontSize="14"></TextBlock>
 				<Button
 					x:Name="bBuyBullets"
-					FontSize="14">Buy bullets</Button>
+					FontSize="14"
+					Margin="0,0,0,10">Buy bullets</Button>
+				<Button
+					Content="Give up"
+					x:Name="bGiveUp"
+					Click="GiveUp"
+					FontSize="14" />
 			</StackPanel>
 			<StackPanel
 				x:Name="spGuns"

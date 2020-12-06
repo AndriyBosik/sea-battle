@@ -103,6 +103,14 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\WPFAssemblyInfo.cs" />
+    <Compile Include="Register.xaml.cs">
+      <DependentUpon>Register.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Shop.xaml.cs">
       <DependentUpon>Shop.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -110,6 +118,14 @@
     <Compile Include="StartMenu.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>StartMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics.xaml.cs">
+      <DependentUpon>Statistics.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TopFields.xaml.cs">
+      <DependentUpon>TopFields.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -121,8 +137,12 @@
     <Page Include="FieldSizeWindow.xaml" />
     <Page Include="GameField.xaml" />
     <Page Include="FieldLoader.xaml" />
+    <Page Include="Register.xaml" />
+    <Page Include="Settings.xaml" />
     <Page Include="Shop.xaml" />
     <Page Include="StartMenu.xaml" />
+    <Page Include="Statistics.xaml" />
+    <Page Include="TopFields.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -136,6 +156,10 @@
       <Project>{385c340b-d94b-455f-963d-c869f0bc92e9}</Project>
       <Name>Config</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Database\Database.csproj">
+      <Project>{68e82bee-c288-4832-b752-db336bc006cc}</Project>
+      <Name>Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{a3bf9d9d-410e-45b9-92ef-5bfd63272d91}</Project>
       <Name>Entities</Name>
@@ -148,6 +172,10 @@
       <Project>{2e77eefa-99d2-41f4-8370-b2580c4ae84f}</Project>
       <Name>FieldEditorParts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{83ccedd7-a88f-4ef9-942b-1850aecf3381}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Processors\Processors.csproj">
       <Project>{e0a28059-5430-41ed-b008-031003979e2f}</Project>
       <Name>Processors</Name>
@@ -159,6 +187,10 @@
     <ProjectReference Include="..\Shop\ItemViews.csproj">
       <Project>{4cd74d5a-e118-4a6b-9cf4-69b603c30bc8}</Project>
       <Name>ItemViews</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Validators\Validators.csproj">
+      <Project>{f825b8b3-22a3-4b07-a8be-6c2c8ff733d9}</Project>
+      <Name>Validators</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -17,3 +17,5 @@ D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Serializators\bin\Debug\Processors
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Serializators\bin\Debug\Config.pdb
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Serializators\obj\Debug\Serializators.exe
 D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Serializators\obj\Debug\Serializators.pdb
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Serializators\bin\Debug\Models.exe
+D:\Study\II Course(I term)\OOP\Lab\Sea Battle\Serializators\bin\Debug\Models.pdb

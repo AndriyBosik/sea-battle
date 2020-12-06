@@ -1,13 +1,12 @@
 ﻿/*
  * Created by SharpDevelop.
  * User: Andriy
- * Date: 11.11.2020
- * Time: 12:12
+ * Date: 28.11.2020
+ * Time: 0:11
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using System.Linq;
 using GameObjects;
 
 namespace Models
@@ -15,26 +14,40 @@ namespace Models
 	/// <summary>
 	/// Description of Ship.
 	/// </summary>
-	public class Ship: Model<Ship>
+	public class Ship: Base<Ship>
 	{
-		private Guid fieldId;
+		public Point Point
+		{ get; private set; }
 		
-		public readonly int Size;
+		public int Size
+		{ get; private set; }
 		
-		public readonly string Orientation;
+		public string Orientation
+		{ get; private set; }
 		
-		public readonly Point Point;
+		public Guid FieldID
+		{ get; private set; }
 		
 		public Field Field
+		{ get; private set; }
+		
+		public Ship(Point point, int size, string orientation, Field field)
 		{
-			get { return Field.Items.Where(field => field.ID == fieldId).FirstOrDefault(); }
+			Init(point, size, orientation, field);
 		}
 		
-		public Ship(int size, string orientation, Point point)
+		public Ship(Guid id, Point point, int size, string orientation, Field field): base(id)
 		{
+			Init(point, size, orientation, field);
+		}
+		
+		private void Init(Point point, int size, string orientation, Field field)
+		{
+			Point = point;
 			Size = size;
 			Orientation = orientation;
-			Point = point;
+			Field = field;
 		}
+		
 	}
 }

@@ -1,62 +1,75 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Window
 	x:Class="SeaBattle.StartMenu" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	Title="Sea Battle"
-	Width="600"
 	Height="525"
-	WindowStartupLocation="CenterScreen">
-	<Grid
-		x:Name="gWrapper">
-		<DockPanel>
-			<Menu
-				DockPanel.Dock="Top">
-				<MenuItem
-					Header="_New">
-					<MenuItem
-						Header="Start Game">
-						<!--<MenuItem
-							Header="Single Mode"
-							Click="AskSizeForSingleMode" />-->
-						<MenuItem
-							Header="Two Players Mode"
-							Click="AskSizeForTwoPlayersMode" />
-					</MenuItem>
-					<Separator />
-					<MenuItem
-						Header="_Exit"
-						Click="ExitApplication" />
-				</MenuItem>
-				<MenuItem
-					Header="Help">
-					<MenuItem
-						Header="About"
-						Click="ShowAbout" />
-				</MenuItem>
-			</Menu>
+	ResizeMode="NoResize"
+	SizeToContent="Width"
+	WindowStartupLocation="CenterScreen"
+	Width="808">
+	<DockPanel
+		x:Name="mainPanel">
+		<StackPanel
+			Orientation="Horizontal"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center">
 			<StackPanel
-				DockPanel.Dock="Bottom"
+				Orientation="Vertical"
+				Margin="20,0,0,0"
+				x:Name="spFirstUser"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center">
+				
+			</StackPanel>
+			<StackPanel
 				VerticalAlignment="Center"
-				HorizontalAlignment="Center">
+				HorizontalAlignment="Center"
+				Margin="70,0,70,0">
 				<Button
-					Content="Two Players Mode"
+					Content="Play Offline"
 					FontSize="30"
-					x:Name="bTwoPlayersMode"
-					Click="AskSizeForTwoPlayersMode"
+					x:Name="bPlayOffline"
+					Click="StartOfflineGame"
+					Padding="30,0,30,0"
 					Margin="0, 0, 0, 10" />
+				<Button
+					Content="Play Online"
+					FontSize="30"
+					IsEnabled="False"
+					x:Name="bPlayOnline"
+					Click="StartOnlineGame"
+					Padding="30,0,30,0"
+					Margin="0,0,0,10"/>
+				<Button
+					Content="Register"
+					FontSize="30"
+					x:Name="bRegister"
+					Click="ShowRegisterWindow"
+					Padding="30,0,30,0"
+					Margin="0,0,0,10" />
 				<Button
 					Content="About Us"
 					FontSize="30"
 					x:Name="bAbout"
 					Click="ShowAbout"
+					Padding="30,0,30,0"
 					Margin="0, 0, 0, 10" />
 				<Button
 					Content="Exit :("
 					FontSize="30"
 					x:Name="bExit"
 					Click="ExitApplication"
+					Padding="30,0,30,0"
 					Margin="0, 0, 0, 10" />
 			</StackPanel>
-		</DockPanel>
-	</Grid>
-
+			<StackPanel
+				Orientation="Vertical"
+				Margin="0,0,20,0"
+				x:Name="spSecondUser"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center">
+				
+			</StackPanel>
+		</StackPanel>
+	</DockPanel>
 </Window>

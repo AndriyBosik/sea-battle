@@ -51,6 +51,10 @@
 							x:Name="bLoadField"/>
 						
 						<Button
+							Content="ShowTop"
+							x:Name="bShowTop" />
+						
+						<Button
 							Content="Go back"
 							x:Name="bGoBack" />
 					

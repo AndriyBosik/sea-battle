@@ -8,6 +8,7 @@
  */
  
 using System.Windows.Input;
+using Database;
 using FieldEditorParts;
 
 using GameObjects;
@@ -16,6 +17,7 @@ using Config;
 
 using Entities;
 
+using Models;
 using Serializators;
 
 using System;
@@ -47,25 +49,30 @@ namespace SeaBattle
 		private int rows;
 		private int columns;
 		private bool isFirstPlayerReady;
+		private GameMode gameMode;
 		
 		private BombKind bombKind;
 		private Player firstPlayer;
 		private Player secondPlayer;
 		private Dictionary<BombKind, int> shopBombs;
 		
-		public FieldEditor(int rows, int columns)
+		public FieldEditor(int rows, int columns, GameMode gameMode):
+			this(rows, columns, gameMode, new User("FIRST PLAYER", ""), new User("SECOND PLAYER", "")) {}
+		
+		public FieldEditor(int rows, int columns, GameMode gameMode, User firstUser, User secondUser)
 		{
 			InitializeComponent();
 			
 			this.rows = rows;
 			this.columns = columns;
 			this.isFirstPlayerReady = false;
+			this.gameMode = gameMode;
 			
-			firstPlayer = new Player();
-			firstPlayer.Field = new Field(rows, columns);
+			firstPlayer = new Player(firstUser);
+			firstPlayer.Field = new Entities.Field(rows, columns);
 			
-			secondPlayer = new Player();
-			secondPlayer.Field = new Field(rows, columns);
+			secondPlayer = new Player(secondUser);
+			secondPlayer.Field = new Entities.Field(rows, columns);
 			
 			SetButtonsOnClickListeners();
 			
@@ -81,6 +88,7 @@ namespace SeaBattle
 			bNext.PreviewMouseLeftButtonUp += NextStep;
 			bSaveField.PreviewMouseLeftButtonDown += SaveField;
 			bLoadField.PreviewMouseLeftButtonDown += LoadField;
+			bShowTop.PreviewMouseLeftButtonDown += ShowTop;
 		}
 		
 		// Changes the window size
@@ -91,7 +99,7 @@ namespace SeaBattle
 			this.ResizeMode = ResizeMode.NoResize;
 		}
 
-		private void SetGrid(Field field)
+		private void SetGrid(Entities.Field field)
 		{
 			shopBombs = new Dictionary<BombKind, int>();
 			
@@ -114,10 +122,10 @@ namespace SeaBattle
 		
 		private string GetPlayerMoneyInformation()
 		{
-			return "You have " + GetCurrentPlayer().Money + " coins";
+			return GetCurrentPlayer().Name + "\nYou have " + GetCurrentPlayer().Money + " coins";
 		}
 		
-		private void InitFieldComponents(Field field)
+		private void InitFieldComponents(Entities.Field field)
 		{
 			field.PreviewMouseLeftButtonDown += TryPasteShip;
 			field.PreviewMouseLeftButtonDown += TryPasteBomb;
@@ -244,10 +252,11 @@ namespace SeaBattle
 			
 			DisconnectGrid();
 			PrepareFieldToGame(GetCurrentField());
+			WriteFieldToDatabase(GetCurrentField());
 			
 			if (isFirstPlayerReady)
 			{
-				StartGame(sender, e);
+				StartGame();
 				return;
 			}
 			isFirstPlayerReady = true;
@@ -282,7 +291,7 @@ namespace SeaBattle
 					return;
 				XMLSerializator ser = new XMLSerializator(filename);
 				var serializableField = ser.Deserialize();
-				if (serializableField == null || !Field.CanReplaceWith(
+				if (serializableField == null || !Entities.Field.CanReplaceWith(
 					rows, columns, 
 					serializableField.Rows, serializableField.Columns))
 				{
@@ -292,7 +301,7 @@ namespace SeaBattle
 				DisconnectGrid();
 				GetCurrentPlayer().Money += GetCurrentPlayer().Field.GetPastedBombsCost();
 				GetCurrentPlayer().SellUnpastedBombs();
-				GetCurrentPlayer().Field = new Field(rows, columns);
+				GetCurrentPlayer().Field = new Entities.Field(rows, columns);
 				SetGrid(GetCurrentPlayer().Field);
 				foreach (var serShip in serializableField.Ships)
 				{
@@ -303,9 +312,32 @@ namespace SeaBattle
 			}
 		}
 		
-		private void PrepareFieldToGame(Field field)
+		private void ShowTop(object sender, EventArgs e)
+		{
+			var topFields = new TopFields(rows, columns);
+			topFields.ShowDialog();
+		}
+		
+		private void PrepareFieldToGame(Entities.Field field)
 		{
 			field.PreviewMouseLeftButtonDown -= TryPasteBomb;
+		}
+		
+		private void WriteFieldToDatabase(Entities.Field field)
+		{
+			var fieldDAO = new FieldDAO();
+			if (fieldDAO.SelectFirstByQuery("[" + FieldDAO.OPTIMIZATION + "]='" + field.Optimization + "'" +
+			                                " and [" + FieldDAO.ROWS + "]='" + field.Rows + "'" +
+			                               	" and [" + FieldDAO.COLUMNS + "]='" + field.Columns + "'") != null)
+				return;
+			var databaseField = new Models.Field(field.Rows, field.Columns, field.Optimization);
+			fieldDAO.InsertData(databaseField);
+			var shipDAO = new ShipDAO();
+			foreach (var ship in field.Ships)
+			{
+				var databaseShip = new Models.Ship(ship.Point, ship.Size, ship.Orientation, databaseField);
+				shipDAO.InsertData(databaseShip);
+			}
 		}
 		
 		private void DisconnectGrid()
@@ -314,11 +346,11 @@ namespace SeaBattle
 			parent.Children.Clear();
 		}
 		
-		private void StartGame(object sender, RoutedEventArgs e)
+		private void StartGame()
 		{
 			secondPlayer.Field = GetCurrentField();
 			
-			GameField gameField = new GameField(firstPlayer, secondPlayer);
+			GameField gameField = new GameField(firstPlayer, secondPlayer, gameMode);
 			
 			this.Close();
 			gameField.Show();
@@ -342,12 +374,12 @@ namespace SeaBattle
 			return isFirstPlayerReady ? secondPlayer : firstPlayer;
 		}
 		
-		private Field GetCurrentField()
+		private Entities.Field GetCurrentField()
 		{
 			return isFirstPlayerReady ? secondPlayer.Field : firstPlayer.Field;
 		}
 		
-		private Field GetAnotherField()
+		private Entities.Field GetAnotherField()
 		{
 			return isFirstPlayerReady ? firstPlayer.Field : secondPlayer.Field;
 		}

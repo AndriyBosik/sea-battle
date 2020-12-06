@@ -15,6 +15,7 @@ using Entities;
 
 using Config;
 using GameObjects;
+using Models;
 using Processors;
 
 namespace Entities
@@ -24,8 +25,10 @@ namespace Entities
 	/// </summary>
 	public class Player
 	{
-		
 		private Field field;
+		
+		public User User
+		{ get; private set; }
 		
 		public Gun SelectedGun
 		{ get; private set; }
@@ -64,10 +67,14 @@ namespace Entities
 		public List<Gun> Guns
 		{ get; private set; }
 		
+		public string Name
+		{ get { return User.Username; } }
+		
 		public List<BulletPack> BulletPacks;
 		
-		public Player()
+		public Player(User user)
 		{
+			this.User = user;
 			this.Money = Gameplay.INITIAL_MONEY;
 			
 			this.ShotDirection = Direction.UP;

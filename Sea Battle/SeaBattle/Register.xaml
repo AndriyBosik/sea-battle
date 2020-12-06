@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window
+	x:Class="SeaBattle.Register" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Title="Register"
+	Width="300"
+	ResizeMode="NoResize"
+	SizeToContent="WidthAndHeight"
+	Height="412">
+	<StackPanel
+		Orientation="Vertical"
+		VerticalAlignment="Center"
+		HorizontalAlignment="Center"
+		Margin="10">
+		<TextBlock
+			Text="Type your nickname:"
+			Margin="10"
+			FontSize="22" />
+		<TextBox
+			x:Name="tbUsername"
+			Margin="10"
+			FontSize="22" />
+		<TextBlock
+			Text="Type your password:"
+			Margin="10"
+			FontSize="22" />
+		<PasswordBox
+			x:Name="pbPassword"
+			Margin="10"
+			FontSize="22" />
+		<TextBlock
+			Text="Confirm password:"
+			Margin="10"
+			FontSize="22" />
+		<PasswordBox
+			x:Name="pbConfirmPassword"
+			Margin="10"
+			FontSize="22" />
+		<StackPanel
+			Orientation="Horizontal"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Right">
+			<Button
+				Content="Cancel"
+				x:Name="bCancel"
+				Margin="10"
+				Padding="10,0,10,0"
+				FontSize="18"
+				Click="Cancel" />
+			<Button
+				Content="OK"
+				x:Name="bOK"
+				Margin="10"
+				Padding="10,0,10,0"
+				FontSize="18"
+				Click="OK" />
+		</StackPanel>
+	</StackPanel>
+</Window>

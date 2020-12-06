@@ -10,6 +10,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media;
+using Database;
 using Entities;
 using FieldEditorParts;
 
@@ -23,6 +24,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Models;
 
 namespace SeaBattle
 {
@@ -35,6 +37,7 @@ namespace SeaBattle
 		
 		private Player firstPlayer;
 		private Player secondPlayer;
+		private GameMode gameMode;
 		private ShadowDrawer drawer;
 		
 		private List<ItemDescription> gunViews;
@@ -42,12 +45,13 @@ namespace SeaBattle
 		
 		private ItemDescription selectedBulletPack;
 		
-		public GameField(Player firstPlayer, Player secondPlayer)
+		public GameField(Player firstPlayer, Player secondPlayer, GameMode gameMode)
 		{
 			InitializeComponent();
 			
 			this.firstPlayer = firstPlayer;
 			this.secondPlayer = secondPlayer;
+			this.gameMode = gameMode;
 			game = new Game(firstPlayer, secondPlayer, this);
 			
 			RefreshContent();
@@ -68,7 +72,7 @@ namespace SeaBattle
 		
 		private void RefreshContent()
 		{
-			tbPlayerInformation.Text =  "You have:\n" +
+			tbPlayerInformation.Text =  game.GetCurrentPlayer().Name + "'s move\nYou have:\n" +
 										game.GetCurrentPlayer().Money + " coins\n";
 			if (game.IsFirstPlayer(game.GetCurrentPlayer()))
 			{
@@ -143,7 +147,7 @@ namespace SeaBattle
 		
 		private int GetCount(Entities.BulletPack bulletPack, Gun gun)
 		{
-			var bullets = Database.bulletPackInGuns.Where(bpig => bpig.Gun == gun && bpig.BulletPack.Equals(bulletPack))
+			var bullets = Entities.Database.bulletPackInGuns.Where(bpig => bpig.Gun == gun && bpig.BulletPack.Equals(bulletPack))
 				.FirstOrDefault();
 			if (bullets == null)
 				return 0;
@@ -160,7 +164,7 @@ namespace SeaBattle
 			selected.Select();
 		}
 		
-		private void InitField(Field field)
+		private void InitField(Entities.Field field)
 		{
 			field.Cover();
 			RefreshDataAfterMove();
@@ -174,7 +178,7 @@ namespace SeaBattle
 		
 		private void ChangeDirection(object sender, MouseWheelEventArgs e)
 		{
-			var field = (Field)sender;
+			var field = (Entities.Field)sender;
 			if (field != game.GetCurrentField())
 				return;
 			int row, column;
@@ -189,7 +193,7 @@ namespace SeaBattle
 		
 		private void MakeSelected(object sender, MouseEventArgs e)
 		{
-			var field = (Field)sender;
+			var field = (Entities.Field)sender;
 			if (field != game.GetCurrentField())
 				return;
 			int row, column;
@@ -215,7 +219,7 @@ namespace SeaBattle
 			drawer.DrawSelectedArea(
 				-1, -1, game.GetCurrentPlayer().DamageKind, game.GetCurrentPlayer().Radius, Direction.NO_DIRECTION);
 			
-			var field = (Field)sender;
+			var field = (Entities.Field)sender;
 			int row, column;
 			GetCoords(out row, out column, e);
 			var cell = field.GetElement(row, column);
@@ -249,6 +253,25 @@ namespace SeaBattle
 		public void ProcessMove(object sender, RoutedEventArgs e)
 		{
 			RefreshDataAfterMove();
+		}
+		
+		public void GiveUp(object sender, EventArgs e)
+		{
+			game.PlayerGiveUp();
+		}
+		
+		public void FinishGame(object sender, EventArgs e)
+		{
+			if (!game.IsEnded) {
+				game.PlayerGiveUp();
+			}
+			if (gameMode != GameMode.ONLINE)
+				return;
+			var gameResult = OnlineGame.GameResult.LOSE;
+			if (game.GetWinner() == firstPlayer)
+				gameResult = OnlineGame.GameResult.WIN;
+			var onlineGameDAO = new OnlineGameDAO();
+			onlineGameDAO.InsertData(new OnlineGame(firstPlayer.User, secondPlayer.User, gameResult));
 		}
 		
 		public void CongratulatePlayer(string message)
